@@ -27,7 +27,7 @@
         <div class="divider"></div>
         <h4>Iniciar Sesión</h4>
         <div class="row">
-        <form class="col s12">
+        <form action="app/logic/session.php" class="col s12"  method="POST">
         <div class="row">
             <div class="input-field col s12">
             <i class="material-icons prefix">account_circle</i>
@@ -36,7 +36,7 @@
             </div>
             <div class="input-field col s12">
             <i class="material-icons prefix">vpn_key</i>
-            <input id="password" type="password" class="validate" required>
+            <input id="password" type="password" name="password" class="validate" required>
             <label for="password">Password</label>
             </div>
             <div class="col s12">
@@ -63,8 +63,6 @@
         <br>
         </div>
         </div>
-        
     </div>
-    
 </body>
 </html>
