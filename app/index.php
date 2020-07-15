@@ -1,12 +1,15 @@
 <?php 
 session_start();
-if (!isset($_SESSION['id']) OR $_SESSION['nivel']!= 7) {
-    header('Location: ../');
+if (!isset($_SESSION['id'])) {
+    header('Location: ../index.php');
     exit();
-} else {
-    $id_session = $_SESSION['id'];
-    $user_active = $_SESSION['usuario'];
-    $nivel_acceso = $_SESSION['nivel'];
-}
-echo $id_session,'<br>',$user_active,'<br>',$nivel_acceso;
+}elseif($_SESSION['nivel'] == 7){
+            $id_user = $_SESSION['id'];
+            $usuario = $_SESSION['name_usuario'];
+            $nivel = $_SESSION['nivel'];
+}else{
+    header('Location: ../index.php');
+    exit();
+}   
+echo $id_user,'<br>',$usuario,'<br>',$nivel;
 ?>

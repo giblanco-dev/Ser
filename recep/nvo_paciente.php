@@ -1,4 +1,16 @@
-<?php 
+<?php
+session_start();
+if (!isset($_SESSION['id'])) {
+    header('Location: ../index.php');
+    exit();
+}elseif($_SESSION['nivel'] == 1 OR $_SESSION['nivel'] == 7){
+            $id_user = $_SESSION['id'];
+            $usuario = $_SESSION['name_usuario'];
+            $nivel = $_SESSION['nivel'];
+}else{
+    header('Location: ../index.php');
+    exit();
+}  
 include_once 'recep_sections.php';
 ?>
 <!DOCTYPE html>
@@ -7,9 +19,10 @@ include_once 'recep_sections.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuevo Paciente</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/materialize.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="../js/materialize.js"></script>
 </head>
 <body>
@@ -23,29 +36,29 @@ include_once 'recep_sections.php';
     </div>
 </div>
 <div class="row">
-    <form class="col s12">
+    <form action="save_paciente.php" method="POST" class="col s12">
       <div class="row">
         <div class="input-field col s4">
-          <input placeholder="Nombres" id="first_name" type="text" class="validate">
+          <input placeholder="Nombres" id="first_name" name="nombres" type="text" class="validate" required>
           <label for="first_name">Nombre(s)</label>
         </div>
         <div class="input-field col s4">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Apellido Paterno</label>
+          <input id="inputs_pac" type="text" name="a_paterno" class="validate" required>
+          <label for="inputs_pac">Apellido Paterno</label>
         </div>
         <div class="input-field col s4">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Apellido Materno</label>
+          <input id="inputs_pac" type="text" name="a_materno" class="validate" name="a_materno">
+          <label for="inputs_pac">Apellido Materno</label>
         </div>
         
       </div>
       <div class="row">
       <div class="input-field col s3">
-          <input id="last_name" type="date" class="validate">
-          <label for="last_name">Fecha de Nacimiento</label>
+          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate" required>
+          <label for="inputs_pac">Fecha de Nacimiento</label>
         </div>
         <div class="input-field col s3">
-    <select>
+    <select name="genero" required>
       <option value="" disabled selected>Género</option>
       <option value="Femenino">Femenino</option>
       <option value="Masculino">Masculino</option>
@@ -60,35 +73,64 @@ include_once 'recep_sections.php';
       </div>
       <div class="row">
       <div class="input-field col s4">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Calle</label>
+          <input id="inputs_pac" type="text" name="calle" class="validate" required>
+          <label for="inputs_pac">Calle</label>
         </div>
         <div class="input-field col s2">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Número</label>
+          <input id="inputs_pac" type="text" name="num_domicilio" class="validate" required>
+          <label for="inputs_pac">Número</label>
         </div>
         <div class="input-field col s4">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Colonia</label>
+          <input id="inputs_pac" type="text" name="colonia" class="validate" required>
+          <label for="inputs_pac">Colonia</label>
         </div>
         <div class="input-field col s2">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Código Postal</label>
+          <input id="inputs_pac" type="text" name="cod_postal" class="validate" maxlength="6" minlength="6">
+          <label for="inputs_pac">Código Postal</label>
         </div>
       </div>
       
       
       <div class="row">
       <div class="input-field col s4">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Alcaldía o Municipio</label>
+          <input id="inputs_pac" type="text" name="muni_alcaldia" class="validate" required>
+          <label for="inputs_pac">Alcaldía o Municipio</label>
         </div>
       <div class="input-field col s4">
-    <select>
+    <select name="estado" required>
       <option value="" disabled selected>Estado</option>
-      <option value="CDMX">Ciudad de México</option>
-      <option value="Estado de México">Estado de México</option>
+      <option value="Baja California">Baja California</option>
+      <option value="Baja California Sur">Baja California Sur</option>
+      <option value="Campeche">Campeche</option>
+      <option value="Coahuila">Coahuila</option>
+      <option value="Colima">Colima</option>
+      <option value="Chiapas">Chiapas</option>
+      <option value="Chihuahua">Chihuahua</option>
+      <option value="Ciudad de México">CDMX</option>
+      <option value="Durango">Durango</option>
+      <option value="Guanajuato">Guanajuato</option>
+      <option value="Guerrero">Guerrero</option>
+      <option value="Hidalgo">Hidalgo</option>
+      <option value="Jalisco">Jalisco</option>
+      <option value="México">México</option>
+      <option value="Michoacán de Ocampo">Michoacán de Ocampo</option>
+      <option value="Morelos">Morelos</option>
+      <option value="Nayarit">Nayarit</option>
+      <option value="Nuevo León">Nuevo León</option>
+      <option value="Oaxaca">Oaxaca</option>
       <option value="Puebla">Puebla</option>
+      <option value="Querétaro">Querétaro</option>
+      <option value="Quintana Roo">Quintana Roo</option>
+      <option value="San Luis Potosí">San Luis Potosí</option>
+      <option value="Sinaloa">Sinaloa</option>
+      <option value="Sonora">Sonora</option>
+      <option value="Tabasco">Tabasco</option>
+      <option value="Tamaulipas">Tamaulipas</option>
+      <option value="Tlaxcala">Tlaxcala</option>
+      <option value="Veracruz">Veracruz</option>
+      <option value="Yucatán">Yucatán</option>
+      <option value="Zacatecas">Zacatecas</option>
+
     </select>
     <label>Selecciona el estado</label>
   </div>
@@ -101,30 +143,34 @@ include_once 'recep_sections.php';
       <div class="row">
         <div class="input-field col s3">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" class="validate">
+          <input id="icon_telephone" type="tel" name="tel_casa" class="validate" minlength="10">
           <label for="icon_telephone">Telefóno de Casa</label>
         </div>
         <div class="input-field col s3">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" class="validate">
+          <input id="icon_telephone" type="tel" name="tel_movil" class="validate" minlength="10">
           <label for="icon_telephone">Telefóno Móvil</label>
         </div>
         <div class="input-field col s3">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" class="validate">
+          <input id="icon_telephone" type="tel" name="tel_oficina" class="validate" minlength="10">
           <label for="icon_telephone">Telefóno Oficina</label>
         </div>
         <div class="input-field col s3">
-          <input id="last_name" type="number" class="validate">
-          <label for="last_name">Extensión</label>
+          <input id="inputs_pac" type="number" name="ext_tel" class="validate">
+          <label for="inputs_pac">Extensión</label>
         </div>
       </div>
       <div class="row">
-      
+      <div class="input-field col s3">
+          <i class="material-icons prefix">phone</i>
+          <input id="icon_telephone" type="tel" name="tel_recados" class="validate">
+          <label for="icon_telephone">Telefóno de recados</label>
+        </div>
         
         <div class="input-field col s4">
           <i class="material-icons prefix">email</i>
-          <input id="icon_telephone" type="email" class="validate">
+          <input id="icon_telephone" type="email" name="email" class="validate">
           <label for="icon_telephone">Correo Electrónico</label>
         </div>
       </div>
@@ -135,8 +181,8 @@ include_once 'recep_sections.php';
       </div>
       <div class="row">
       <div class="input-field col s3">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Ocupación</label>
+          <input id="inputs_pac" type="text" name="ocupacion" class="validate">
+          <label for="inputs_pac">Ocupación</label>
         </div>
         <div class="col s4">
             <p>
@@ -145,13 +191,18 @@ include_once 'recep_sections.php';
             </p>
         </div>
         <div class="input-field col s5">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Nombre del Titular</label>
+          <input id="inputs_pac" type="text" name="nombre_titular" class="validate">
+          <label for="inputs_pac">Nombre del Titular</label>
         </div>
-        
       </div>
+      <div class="row">
+        <div class="input-field col s3">
+          <input id="inputs_pac" type="date" name="fecha_alta" class="validate" required>
+          <label for="inputs_pac">Fecha de original de Alta</label>
+        </div>
+        </div>
       <div class="row center center-align">
-          <div class="col s6">
+          <div class="col s4 offset-s4">
               <div class="divider"></div>
               <br>
               <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
@@ -159,15 +210,8 @@ include_once 'recep_sections.php';
             </button>
             <br>
           </div>
-          <div class="col s6">
-              <div class="divider"></div>
-              <br>
-              <button class="btn waves-effect waves-light" type="submit" name="action">Guardar y capturar nuevo paciente
-                <i class="material-icons right">save</i>
-            </button>
-            <br>
-          </div>
       </div>
+      <input type="hidden" name='usuario_captura' value="<?php echo $id_user; ?>">
     </form>
   </div>
 

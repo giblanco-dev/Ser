@@ -24,10 +24,10 @@ if(!empty($_POST))
       }else{
             session_start();
             $_SESSION['id'] = $row['id'];
-            $_SESSION['usuario'] = $row['nombre_completo'];
+            $_SESSION['name_usuario'] = $row['nombre_completo'];
             $_SESSION['nivel'] = $row['nivel_id'];
             $ruta = $row['ruta'];
-            echo "La ruta es", $ruta;
+            //echo "La ruta es", $ruta;
             header('Location: '.$ruta.'');
           }
     

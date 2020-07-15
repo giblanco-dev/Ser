@@ -1,6 +1,17 @@
 <?php
-
-
+$message_error = '';
+if(isset($_GET['error'])){
+    $error = $_GET['error'];
+    switch($error){
+      case 1:
+        $message_error = '<p style="color: red; font-weight:bold;">Datos incorrectos, verifique sus credenciales<br>
+        Si no cuenta con sus datos de acceso pongase en contacto con el administrador del sistema</b></p>';
+      break;
+      case 2:
+        $message_error = 'Usted no ha iniciado sesión';
+      break;
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -9,11 +20,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenidos</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/materialize.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="icons/iconfont/material-icons.css">
     <script src="js/materialize.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 </head>
 <body style="background-image: url('img/background_login.png'); background-size: cover;">
     <div class="container">
@@ -43,6 +54,7 @@
                 <button class="btn" style="background-color: #2d83a0;" type="submit" name="action">Acceder
                     <i class="material-icons right">send</i>
                 </button>
+                <?php echo $message_error; ?>
             </div>
         </div>
         </form>

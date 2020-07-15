@@ -9,7 +9,7 @@ $nav_recep = '
       <li><a href="index.php"><i class="material-icons right">home</i>Inicio</a></li>
       <li><a href="nvo_paciente.php"><i class="material-icons right">add_box</i>Nuevo Paciente</a></li>
       <li><a href="badges.html"><i class="material-icons right">assignment_turned_in</i>Nueva Cita</a></li>
-      <li><a href="badges.html"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
+      <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
     </div>
   </nav>
@@ -22,7 +22,7 @@ $footer_recep = '
           <div class="container">
             <div class="row">
               <div class="col l6 s12 center-align">
-                <h5 class="white-text">Usuario Activo <br>Usuario</h5>
+                <h5 class="white-text">Usuario Activo <br>'.$usuario.'</h5>
               </div>
               <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Contacto</h5>

@@ -1,4 +1,16 @@
-<?php 
+<?php
+session_start();
+if (!isset($_SESSION['id'])) {
+    header('Location: ../index.php');
+    exit();
+}elseif($_SESSION['nivel'] == 1 OR $_SESSION['nivel'] == 7){
+            $id_user = $_SESSION['id'];
+            $usuario = $_SESSION['name_usuario'];
+            $nivel = $_SESSION['nivel'];
+}else{
+    header('Location: ../index.php');
+    exit();
+}   
 include_once 'recep_sections.php';
 ?>
 <!DOCTYPE html>
@@ -6,11 +18,12 @@ include_once 'recep_sections.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio Recepción</title>
+    <title>Recepción</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/materialize.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
     <script src="../js/materialize.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 <?php echo $nav_recep;  ?>

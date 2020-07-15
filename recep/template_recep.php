@@ -8,9 +8,9 @@ include_once 'recep_sections.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/materialize.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
     <script src="../js/materialize.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 <?php echo $nav_recep;  ?>
