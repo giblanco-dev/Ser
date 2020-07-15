@@ -85,7 +85,7 @@ include_once 'recep_sections.php';
           <label for="inputs_pac">Colonia</label>
         </div>
         <div class="input-field col s2">
-          <input id="inputs_pac" type="text" name="cod_postal" class="validate" maxlength="6" minlength="6">
+          <input id="inputs_pac" type="text" name="cod_postal" class="validate" maxlength="6" minlength="5">
           <label for="inputs_pac">Código Postal</label>
         </div>
       </div>
@@ -143,12 +143,12 @@ include_once 'recep_sections.php';
       <div class="row">
         <div class="input-field col s3">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" name="tel_casa" class="validate" minlength="10">
+          <input id="icon_telephone" type="tel" name="tel_casa" class="validate" minlength="10" maxlength="10">
           <label for="icon_telephone">Telefóno de Casa</label>
         </div>
         <div class="input-field col s3">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" name="tel_movil" class="validate" minlength="10">
+          <input id="icon_telephone" type="tel" name="tel_movil" class="validate" minlength="10" maxlength="10" required>
           <label for="icon_telephone">Telefóno Móvil</label>
         </div>
         <div class="input-field col s3">
