@@ -12,6 +12,11 @@ if (!isset($_SESSION['id'])) {
     exit();
 }   
 include_once 'recep_sections.php';
+include_once '../app/logic/conn.php';
+
+//$sql_pacientes = "SELECT id_paciente, concat(nombres,' ',a_paterno,' ',a_materno) nombre_com FROM paciente";
+$sql_pacientes = "SELECT id,nombre from t_paises";
+$result_sql_pacientes = $mysqli -> query($sql_pacientes);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,8 +27,8 @@ include_once 'recep_sections.php';
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/materialize.css">
     <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
-    <script src="../js/materialize.js"></script>
     <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/materialize.js"></script>
 </head>
 <body>
 <?php echo $nav_recep;  ?>
@@ -73,6 +78,27 @@ include_once 'recep_sections.php';
 
 
 <!-- ***************************** TERMINA CONTENIDO ****************************** -->
+
+<!-- ***************************** Modal de creación de Citas ****************************** -->    
+
+  <!-- Modal Nueva Cita -->
+  <div id="modal1" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <h4>Nueva Cita</h4>
+        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 300px;"></iframe>
+        
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+      </div>
+    </div>
+
 <?php echo $footer_recep;  ?>
+
+<script>
+    $(document).ready(function(){
+    $('.modal').modal();
+  });
+</script>
 </body>
 </html>

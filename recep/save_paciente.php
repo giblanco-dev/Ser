@@ -52,7 +52,7 @@ if(!empty($_POST)){
             if ($mysqli->query($sql_save_paciente) === TRUE) {
                 //echo '<script type="text/javascript" async="async">alert("El paciente registro correctamente");window.location.href="../"</script>';
                 $continua = 1;
-                $titulo = 'Usuario registrado';
+                $titulo = 'Paciente registrado';
             } else {
                 //echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="../"</script>';
                 $continua = 0;
@@ -97,7 +97,7 @@ if(!empty($_POST)){
         ?>
         <div class="row">
             <div class="col s12">
-                <p>Listo! usuario registrado</p>
+                <p>Listo! Paciente dado de alta correctamente</p>
             </div>
         </div>
         <div class="row center-align">
@@ -111,6 +111,8 @@ if(!empty($_POST)){
                 <i class="material-icons right">accessibility</i>
                 </button>
             </form>
+            <br>
+            <p>De lo contrario clic en Inicio</p>
             </div>
         </div>
     <?php
@@ -127,7 +129,7 @@ if(!empty($_POST)){
         <?php    }
         ?>
     </div>
-    <div style="margin-top: 40%;"></div>
+    <div style="margin-top: 30%;"></div>
 <?php echo $footer_recep;  ?>
 </body>
 </html>

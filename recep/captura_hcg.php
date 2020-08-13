@@ -12,15 +12,21 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+require '../app/logic/conn.php';
+
+if(isset($_GET['id_paciente'])){
+    $id_paciente = $_GET['id_paciente'];
+    $sql_paciente = "SELECT id_paciente, CONCAT(nombres,' ',a_paterno,' ',a_materno) nombre_completo FROM paciente WHERE id_paciente = '$id_paciente'";
+}else{
 $nombres = $_POST['nombres'];
 $a_paterno = $_POST['a_paterno'];
 $tel_movil = $_POST['tel_movil'];
 $fecha_nacimiento = $_POST['fecha_nacimiento'];
-
-require '../app/logic/conn.php';
-
 $sql_paciente = "SELECT id_paciente, CONCAT(nombres,' ',a_paterno,' ',a_materno) nombre_completo FROM paciente WHERE nombres= '$nombres' AND a_paterno = '$a_paterno' 
                 AND tel_movil = '$tel_movil' AND fecha_nacimiento = '$fecha_nacimiento'";
+}
+
+
 $result_sql_paciente = $mysqli->query($sql_paciente);
 $pacientes = $result_sql_paciente -> num_rows;
 
@@ -290,9 +296,9 @@ include_once 'recep_sections.php';
             <div class="input-field col s12">
                 <select name="medico">
                 <option value="" disabled selected>Selecciona el médico</option>
-                <option value="Dr. Enrique Mtz">Option 1</option>
-                <option value="Dr. León">Option 2</option>
-                <option value="Dr. 3">Option 3</option>
+                <option value="emartinez">Dr. Enrique Mtz</option>
+                <option value="gleon">Dr. Guillermo León</option>
+                <option value="amosqueda">Dra. Angélica Mosqueda</option>
                 </select>
                 <label>Médico que realizo la Historia Clínica</label>
                 <input type="hidden" name="usuario_captura" value="<?php echo $id_user?>">

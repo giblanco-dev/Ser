@@ -40,7 +40,7 @@ if(!empty($_POST)){
     $sql_validacion = "SELECT id_paciente FROM his_clinica_gen WHERE id_paciente = '$id_paciente'";
     $result_sql_validacion = $mysqli -> query($sql_validacion);
     $registros = $result_sql_validacion -> num_rows;
-    echo $registros;
+    //echo $registros;
     
     if($registros == 0){
         $sql_save_historia = "INSERT INTO his_clinica_gen(id_paciente, fecha_captura, hcg2, hcg3, hcg4, hcg5, hcg6, hcg7, hcg8,
@@ -51,7 +51,7 @@ if(!empty($_POST)){
             '$hcg29','$hcg30','$hcg31','$hcg32','$medico', '$usuario_captura');";
             
             if ($mysqli->query($sql_save_historia) === TRUE) {
-                echo '<script type="text/javascript" async="async">alert("Se ha registrado correctamente la Historia Clinica del Paciente CSA"'.$id_paciente.');window.location.href="../"</script>';
+                echo '<script type="text/javascript" async="async">alert("Se ha registrado correctamente la Historia Clinica del Paciente CSA'.$id_paciente.'");window.location.href="../"</script>';
             } else {
                 echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="../"</script>';
             }
