@@ -24,7 +24,17 @@ $result_sql_medico = $mysqli -> query($sql_medico);
 if(!empty($_POST))
 {
 $paciente = $_POST['paciente'];
-$mensaje = 'Ha sido enviado correctamente los datos de'.$paciente;
+$fecha_cita = $_POST['fecha_cita'];
+$horario = $_POST['horario'];
+$medico = $_POST['medico'];
+
+$paciente;
+$fecha_cita;
+$horario;
+$medico;
+
+$sql_val_cita = 'SELECT id_cita FROM citas where ';
+
 }
 ?>
 <!DOCTYPE html>
@@ -50,18 +60,18 @@ $mensaje = 'Ha sido enviado correctamente los datos de'.$paciente;
         <select id="pacientes" name="paciente" style="width: 100%;">
 			<?php while ($pacientes=mysqli_fetch_assoc($result_sql_pacientes)) {?>
 			<option value="<?php echo $pacientes['id_paciente']; ?>">
-				<?php echo $pacientes['nombre_com']; ?>
+				<?php echo $pacientes['nombre_com'];?>
 			</option>
 			<?php  }?>
         </select>
         </div>
         <div class="col s3">
         <label for="inputs_cita">Fecha de la Cita</label>
-        <input id="inputs_cita" type="date" name="fecha_nacimiento" class="validate" required>
+        <input id="inputs_cita" type="date" name="fecha_cita" class="validate" required>
         </div>
         <div class="col s3">
         <label for="inputs_cita">Horario</label>
-        <input id="inputs_cita" type="time" name="fecha_nacimiento" class="validate" required>
+        <input id="inputs_cita" type="time" name="horario" class="validate" required>
         </div>
         
     </div>
