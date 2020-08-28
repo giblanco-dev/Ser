@@ -48,11 +48,13 @@ $result_sql_pacientes = $mysqli -> query($sql_pacientes);
         <div class="row">
             <div class="col s12">
             <ul class="collection with-header">
-                <li class="collection-header"><h5>Citas</h5></li>
-                <li class="collection-item">Dr. 1</li>
-                <li class="collection-item">Dr. 2</li>
-                <li class="collection-item">Dr. 3</li>
-                <li class="collection-item">Dr. 4</li>
+                <li class="collection-item">Todas las citas</li>
+                <li class="collection-item">
+                    <form action="">
+                        <input type="hidden" name="agenda" value="7" >
+                        <input type="submit" value="Dra. Angélica Mosqueda" style="border: navajowhite; background-color: #fff; ">
+                    </form>
+                </li>
             </ul>
             </div>
         </div>
@@ -82,10 +84,10 @@ $result_sql_pacientes = $mysqli -> query($sql_pacientes);
 <!-- ***************************** Modal de creación de Citas ****************************** -->    
 
   <!-- Modal Nueva Cita -->
-  <div id="modal1" class="modal modal-fixed-footer">
+  <div id="modal1" class="modal modal-fixed-footer" style="height: 620px;">
       <div class="modal-content">
         <h4>Nueva Cita</h4>
-        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 300px;"></iframe>
+        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 340px;"></iframe>
         
       </div>
       <div class="modal-footer">
