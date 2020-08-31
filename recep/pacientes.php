@@ -86,7 +86,7 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
                 ?>
                  <tr>
                     <td><?php echo $nombre_com ?></td>
-                    <td><?php echo $fecha_nac ?></td>
+                    <td><?php echo date("d/m/Y", strtotime($fecha_nac)); ?></td>
                     <td><?php echo $municipio ?></td>
                     <td><?php echo $his ?></td>
                     <td><a href="detalle_paciente.php?id_paciente=<?php echo $id_paciente ?>" class="btn">Detalle Paciente</a></td>

@@ -48,7 +48,8 @@ $result_sql_citas = $mysqli->query($sql_citas);
 <div class="container">
 <div class="row center-align">
     <div class="col s12">
-    <h4 style="color: #2d83a0; font-weight:bold;">Información de <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']; ?></h4>
+    <h4 style="color: #2d83a0; font-weight:bold;">Información del paciente: 
+        <span style="text-transform: capitalize;"><?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']; ?></span></h4>
                 <div class="divider"></div>
     </div>
 </div>
@@ -56,11 +57,11 @@ $result_sql_citas = $mysqli->query($sql_citas);
 <div class="row">
 <div class="col s6 offset-s1">
     <blockquote>Datos Generales</blockquote>
-    <p>Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
+    <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
     <blockquote>Domicilio</blockquote>
-    <p>Calle <?php echo $datos_paciente['calle']; ?>
+    <p style="text-transform: capitalize;">Calle <?php echo $datos_paciente['calle']; ?>
     No. <?php echo $datos_paciente['num_domicilio']; ?>
     Colonia <?php echo $datos_paciente['colonia']; ?>
     CP. <?php echo $datos_paciente['cod_postal']; ?>, <?php echo $datos_paciente['muni_alcaldia']; ?>.
@@ -73,19 +74,32 @@ $result_sql_citas = $mysqli->query($sql_citas);
     <p>Telefóno de Recados: <?php echo $datos_paciente['tel_recados']; ?></p>
     <p>Correo electrónico: <?php echo $datos_paciente['email']; ?></p>
     <blockquote>Otros</blockquote>
-    <p>Ocupación: <?php echo $datos_paciente['ocupacion']; ?></p>
-    <p>Titular: <?php echo $datos_paciente['nombre_titular']; ?></p>
+    <p style="text-transform: capitalize;">Ocupación: <?php echo $datos_paciente['ocupacion']; ?></p>
+    <p style="text-transform: capitalize;">Titular: <?php echo $datos_paciente['nombre_titular']; ?></p>
 </div>
-<div class="col s5">
+<div class="col s4">
     <blockquote>Citas</blockquote>
     <table>
         <thead>
             <tr>
                 <th>Fecha</th>
                 <th>Médico</th>
+                <th></th>
                 <th>Detalle</th>
             </tr>
         </thead>
+        <tbody>
+            <?php   while($citas_pac = mysqli_fetch_assoc($result_sql_citas)){ ?>
+                <tr>
+                    <td><?php echo date("d/m/Y", strtotime($citas_pac['fecha'])); ?></td>
+                    <td><?php echo $citas_pac['medico_cita'];   ?></td>
+                    <td><?php echo $citas_pac['descrip_cita']; ?></td>
+                    <td><a href="#?vercita=<?php echo $citas_pac['id_cita']; ?>">Ir al detalle</a></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
     </table>
 </div>
 </div>

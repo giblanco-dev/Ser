@@ -78,7 +78,7 @@ if($val_cita > 0){
         <select id="pacientes" name="paciente" style="width: 100%;" required>
 			<?php while ($pacientes=mysqli_fetch_assoc($result_sql_pacientes)) {?>
 			<option value="<?php echo $pacientes['id_paciente']; ?>">
-				<?php echo $pacientes['nombre_com'];?>
+				<p style="text-transform:capitalize;"><?php echo $pacientes['nombre_com'];?></p>
 			</option>
 			<?php  }?>
         </select>
