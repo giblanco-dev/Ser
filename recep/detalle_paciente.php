@@ -24,6 +24,12 @@ if($paciente_val == 1){
 }else {
     echo "Hay un error";
 }
+
+$sql_citas = "SELECT cita.id_cita, cita.id_paciente, CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.tipo, tipos_cita.descrip_cita 
+FROM cita INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita 
+LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' ORDER BY cita.fecha DESC";
+$result_sql_citas = $mysqli->query($sql_citas);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -72,6 +78,15 @@ if($paciente_val == 1){
 </div>
 <div class="col s5">
     <blockquote>Citas</blockquote>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Médico</th>
+                <th>Detalle</th>
+            </tr>
+        </thead>
+    </table>
 </div>
 </div>
 
