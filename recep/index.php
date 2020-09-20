@@ -14,11 +14,7 @@ if (!isset($_SESSION['id'])) {
 include_once 'recep_sections.php';
 include_once '../app/logic/conn.php';
 
-//$sql_pacientes = "SELECT id_paciente, concat(nombres,' ',a_paterno,' ',a_materno) nombre_com FROM paciente";
-$sql_pacientes = "SELECT id,nombre from t_paises";
-$result_sql_pacientes = $mysqli -> query($sql_pacientes);
-
-$sql_medico = "SELECT id, concat(nombre,' ',apellido) medico FROM user WHERE nivel = 'medico' ORDER BY medico";
+$sql_medico = "SELECT id, concat(nombre,' ',apellido) medico FROM user WHERE nivel = 'medico' OR id = 2  ORDER BY medico";
 $result_sql_medico = $mysqli -> query($sql_medico);
 
 // Información de citas del día
@@ -28,7 +24,9 @@ $hoy = date("Y-m-d");
 if(!empty($_POST)){
     $id_medico = $_POST['agenda'];
     if($id_medico == 'x'){
-        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita
+        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
+        CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
+        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -36,7 +34,9 @@ if(!empty($_POST)){
         WHERE cita.fecha = '$hoy'
         ORDER BY cita.fecha, cita.horario";
     }else{
-        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita
+        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
+        CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
+        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -45,7 +45,9 @@ if(!empty($_POST)){
         ORDER BY cita.fecha, cita.horario";
     }
 }else{
-    $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita
+    $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
+    CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
+    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -57,6 +59,14 @@ if(!empty($_POST)){
 $result_sql_citas = $mysqli -> query($sql_citas);
 $total_citas = $result_sql_citas -> num_rows;
 
+$citas_confirmadas = 0;
+while($contar_citas_confirm = mysqli_fetch_assoc($result_sql_citas)){
+    if($contar_citas_confirm['confirma'] == 1){
+        $citas_confirmadas ++;
+    }
+}
+
+$datos_cita = $mysqli -> query($sql_citas);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -82,7 +92,7 @@ $total_citas = $result_sql_citas -> num_rows;
         </div>
         <div class="row">
             <div class="col s12">
-            <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=large&timezone=America%2FMexico_City" width="100%" height="125" frameborder="0" seamless></iframe> 
+            <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=large&timezone=America%2FMexico_City" width="100%" height="175" frameborder="0" seamless></iframe> 
             </div>
         </div>
         <div class="row">
@@ -109,9 +119,9 @@ $total_citas = $result_sql_citas -> num_rows;
         </div>
         <div class="row">
             <div class="col s12">
-            <h2 style="color: #424242;"><?php echo $total_citas; ?> <i class="medium material-icons">check_circle</i></h2>
+            <h2 style="color: #424242;"><?php echo $citas_confirmadas; ?> <i class="medium material-icons">check_circle</i></h2>
         <p>Citas Confirmadas</p>
-        <h2 style="color: #424242;">00 <i class="medium material-icons">book</i></h2>
+        <h2 style="color: #424242;"><?php echo $total_citas; ?> <i class="medium material-icons">book</i></h2>
         <p>Citas Agendadas</p>
             </div>
         </div>
@@ -140,18 +150,33 @@ $total_citas = $result_sql_citas -> num_rows;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while($citas_dia = mysqli_fetch_assoc($result_sql_citas)){ ?>
+                        <?php 
+                        while($citas_dia = mysqli_fetch_assoc($datos_cita)){
+                        ?>
                         <tr>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['Nom_paciente']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['horario']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['medico_cita']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['descrip_cita']; ?></td>
-                            <td><div class="chip">Asistencia</div></td>
-                            <td><div class="chip">Terapias</div></td>
-                            <td><div class="chip">Caja</div></td>
+                            <?php 
+                            if($citas_dia['confirma'] == 1){
+                                echo '
+                                <td><div class="chip">Asistencia</div></td>
+                                <td><div class="chip">Terapias</div></td>
+                                <td><div class="chip">Caja</div></td>
+                                ';
+                            }else{
+                                echo'
+                                <td colspan"2"><div class="chip">Confirmar</div></td>
+                                <td><div class="chip">Cancelar</div></td>                                ';
+                            }
+                            ?>
+                            
                         </tr>
 
                         <?php 
+                        
+
                         }
                         ?>
                     </tbody>
@@ -176,7 +201,7 @@ $total_citas = $result_sql_citas -> num_rows;
 
       </div>
       <div class="modal-footer">
-        <a href="http://localhost/ser/recep/" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        <a href="http://localhost/ser/recep/" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
       </div>
     </div>
 
