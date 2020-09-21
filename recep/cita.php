@@ -18,7 +18,7 @@ include_once '../app/logic/conn.php';
 $sql_pacientes = "SELECT id_paciente, concat(nombres,' ',a_paterno,' ',a_materno) nombre_com FROM paciente";
 $result_sql_pacientes = $mysqli -> query($sql_pacientes);
 
-$sql_medico = "SELECT id, concat(nombre,' ',apellido) medico FROM user WHERE nivel = 'medico'";
+$sql_medico = "SELECT id, concat(nombre,' ',apellido) medico FROM user WHERE nivel = 'medico' or id = 2 ORDER BY medico";
 $result_sql_medico = $mysqli -> query($sql_medico);
 
 if(!empty($_POST))
@@ -100,9 +100,12 @@ if($val_cita > 0){
                 <label>
                 <input name="medico" type="radio" value="<?php echo $medicos['id']; ?>"  />
                 <span><?php echo $medicos['medico']; ?></span>
-            </label>
+                </label>
 			<?php  }?>
-        </select>
+            <label>
+                <input name="medico" type="radio" value="x"  />
+                <span>Otros</span>
+            </label>
         </div>
     </div>
     <div class="row">
@@ -116,10 +119,7 @@ if($val_cita > 0){
                 <input name="tipo" value="2" type="radio"/>
                 <span>Pellet</span>
             </label>
-            <label>
-                <input name="tipo" value="3" type="radio"/>
-                <span>Dental</span>
-            </label>
+            
         </div>
     <div class="col s3">
     <button class="btn waves-effect waves-light" type="reset" style="margin-top: 20%;">Limpiar
