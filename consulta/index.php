@@ -29,7 +29,7 @@ $hoy = date("Y-m-d");
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND medico = '$id_user'
+        WHERE cita.fecha = '$hoy' AND medico = '$id_user' and confirma = 2
         ORDER BY cita.fecha, cita.horario";
 
 

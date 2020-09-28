@@ -31,7 +31,7 @@ if(!empty($_POST)){
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy'
+        WHERE cita.fecha = '$hoy' and confirma < 3
         ORDER BY cita.fecha, cita.horario";
     }else{
         $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
@@ -41,7 +41,7 @@ if(!empty($_POST)){
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND medico = '$id_medico'
+        WHERE cita.fecha = '$hoy' AND medico = '$id_medico' AND confirma < 3
         ORDER BY cita.fecha, cita.horario";
     }
 }else{
@@ -52,7 +52,7 @@ if(!empty($_POST)){
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy'
+        WHERE cita.fecha = '$hoy' AND confirma < 3
         ORDER BY cita.fecha, cita.horario";
 
 }
@@ -158,17 +158,24 @@ $datos_cita = $mysqli -> query($sql_citas);
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['horario']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['medico_cita']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['descrip_cita']; ?></td>
-                            <?php 
-                            if($citas_dia['confirma'] == 1){
+                            <?php
+                            if($citas_dia['confirma'] == 2){
                                 echo '
-                                <td><div class="chip">Asistencia</div></td>
+                                <td><div class="chip yellow darken-3 white-text">Consulta</div></td>
+                                <td><div class="chip">Terapias</div></td>
+                                <td><div class="chip">Caja</div></td>
+                                ';
+                            }elseif($citas_dia['confirma'] == 1){
+                                echo '
+                                <td><div class="chip green darken-1"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'">Asistencia</a></div></td>
                                 <td><div class="chip">Terapias</div></td>
                                 <td><div class="chip">Caja</div></td>
                                 ';
                             }else{
                                 echo'
-                                <td colspan"2"><div class="chip"><a href="logic_recep/confirma_cita.php?cita='.$citas_dia['id_cita'].'">Confirmar</a></div></td>
-                                <td><div class="chip">Cancelar</div></td>                                ';
+                                <td colspan"2"><div class="chip cyan darken-1"><a class="white-text"href="logic_recep/estatus_cita.php?cita='.$citas_dia['id_cita'].'">Confirmar</a></div></td>
+                                <td><div class="chip red accent-2"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Cancelar</a></div></td>                                
+                                ';
                             }
                             ?>
                             
