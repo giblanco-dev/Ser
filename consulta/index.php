@@ -29,7 +29,7 @@ $hoy = date("Y-m-d");
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND medico = '$id_user' and confirma = 2
+        WHERE cita.fecha = '$hoy' AND medico = '$id_user'
         ORDER BY cita.fecha, cita.horario";
 
 
@@ -38,7 +38,7 @@ $total_citas = $result_sql_citas -> num_rows;
 
 $citas_confirmadas = 0;
 while($contar_citas_confirm = mysqli_fetch_assoc($result_sql_citas)){
-    if($contar_citas_confirm['confirma'] == 1){
+    if($contar_citas_confirm['confirma'] == 1 or $contar_citas_confirm['confirma'] == 2){
         $citas_confirmadas ++;
     }
 }
@@ -89,34 +89,31 @@ $datos_cita = $mysqli -> query($sql_citas);
             </div>
         </div>
         <div class="row">
-            <div class="col s12">
-                <table>
+            <div class="col s10 offset-s1">
+                <table class="centered striped">
                     <thead>
                         <tr>
-                            <th class="center-align" colspan="4">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
-                            <th class="center-align"><a href="http://localhost/ser/recep/">Actualizar <i class="material-icons">autorenew</i> </a></th>
+                            <th class="center-align" colspan="2">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
+                            <th class="center-align"><a href="http://localhost/ser/consulta/">Actualizar <i class="material-icons">autorenew</i> </a></th>
                         </tr>
                         <tr>
                             <th>Paciente</th>
                             <th>Horario</th>
-                            <th></th>
-                            <th colspan="3"></th>
+                            <th colspan="1"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
                         while($citas_dia = mysqli_fetch_assoc($datos_cita)){
+                            if($citas_dia['confirma'] == 2){
+                                $idp = $citas_dia['id_paciente'];
+                                $idc = $citas_dia['id_cita'];
                         ?>
                         <tr>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['Nom_paciente']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['horario']; ?></td>
+                            <td><div class="chip"><a href="consulta.php?idp=<?php echo $idp; ?>&idc=<?php echo $idc; ?>">Seguimiento</a></div></td>
                             <?php 
-                            if($citas_dia['confirma'] == 1){
-                                echo '
-                                <td><div class="chip">Asistencia</div></td>
-                                <td><div class="chip">Terapias</div></td>
-                                <td><div class="chip">Caja</div></td>
-                                ';
                             }
                             ?>
                             

@@ -27,7 +27,8 @@ if(!empty($_GET['asistencia'])){
     $cita_asiste = $_GET['asistencia'];
 
     $sql_asiste_cita = "UPDATE cita SET confirma = 2 WHERE id_cita = '$cita_asiste'";
-    if ($mysqli->query($sql_asiste_cita) === TRUE) {
+    $sql_reg_consulta = "INSERT INTO consulta (id_cita, peso) VALUES ('$cita_asiste', 'x')";
+    if ($mysqli->query($sql_asiste_cita) === TRUE && $mysqli->query($sql_reg_consulta) === TRUE) {
         echo '<script type="text/javascript" async="async">alert("Paciente Cita_CSA'.$cita_asiste.' se está en espera de pasar a Consulta");window.location.href="../"</script>';
     }else{
         echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="../"</script>';
