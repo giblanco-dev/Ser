@@ -43,8 +43,8 @@ $val_cita = $result_sql_val -> num_rows;
 if($val_cita > 0){
     $mensaje = '<h4 class="red-text">El paciente ya tiene una cita para el día: '.$fecha_cita.'</h4>';
 }else{
-    $sql_new_cita = "INSERT INTO cita(id_cita, id_paciente, medico, fecha, horario, registrado, user_registra, tipo)
-    VALUES (NULL, '$paciente', '$medico', '$fecha_cita', '$horario', CURRENT_TIMESTAMP, '$id_user', '$tipo')";
+    $sql_new_cita = "INSERT INTO cita(id_cita, id_paciente, medico, fecha, horario, registrado, user_registra, tipo, confirma)
+    VALUES (NULL, '$paciente', '$medico', '$fecha_cita', '$horario', CURRENT_TIMESTAMP, '$id_user', '$tipo', 1)";
 
     if($mysqli -> query($sql_new_cita) === true){
         $mensaje = '<h4>Cita registrada correctamente</h4>';

@@ -24,7 +24,7 @@ $hoy = date("Y-m-d");
 
         $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma
+        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -112,8 +112,13 @@ $datos_cita = $mysqli -> query($sql_citas);
                         <tr>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['Nom_paciente']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['horario']; ?></td>
-                            <td><div class="chip"><a href="consulta.php?idp=<?php echo $idp; ?>&idc=<?php echo $idc; ?>">Seguimiento</a></div></td>
-                            <?php 
+                            
+                            <?php
+                            if($citas_dia['consulta'] == 0){
+                                echo '<td><div class="chip"><a href="consulta.php?idp='.$idp.'&idc='.$idc.'">Seguimiento</a></div></td>';
+                            }else{
+                                echo '<td><div class="chip cyan #2d83a0"><a class="white-text" href="consulta.php?idp='.$idp.'&idc='.$idc.'">Actualizar Seguimiento</a></div></td>';
+                            }
                             }
                             ?>
                             

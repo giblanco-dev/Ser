@@ -32,6 +32,17 @@ FROM cita INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
 LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' and medico = '$id_user' ORDER BY cita.fecha DESC LIMIT 5";
 $result_sql_citas = $mysqli->query($sql_citas);
 
+$sql_cita_actual = "SELECT * FROM consulta WHERE id_cita = '$id_cita'";
+$res_sql_cita_act = $mysqli->query($sql_cita_actual);
+$val_cita = $res_sql_cita_act->num_rows;
+
+if($val_cita == 1){
+    $row_cita = mysqli_fetch_assoc($res_sql_cita_act);
+
+}else{
+    echo "Cita duplicada contacte con el administrador del sistema";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -67,16 +78,30 @@ $result_sql_citas = $mysqli->query($sql_citas);
     
     ?>
     <blockquote>Signos Vitales</blockquote>
-    <p>T/A: --,  TEMP: --, FRE C: --, FRE R: --, PESO: --, TALLA: --</p>
-    <form action="">
-    <blockquote>Nota del médico</blockquote>
-        <textarea name="nota_medico" id="" cols="30" rows="30">
+    <p>T/A: <?php echo $row_cita['ta']; ?>,  
+    TEMP: <?php echo $row_cita['temp']; ?>, 
+    FRE C: <?php echo $row_cita['fre_c']; ?>, 
+    FRE R: <?php echo $row_cita['fre_r']; ?>, 
+    PESO: <?php echo $row_cita['peso']; ?>, 
+    TALLA: <?php echo $row_cita['talla']; ?></p>
+    <form action="save_nota.php" method="POST">
+    <blockquote>Nota de evolución</blockquote>
+        <textarea name="nota_evo" id="" cols="30" rows="30">
 
         </textarea>
-        <input type="hidden" value = '<?php echo $id_cita;?>'>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-    <i class="material-icons right">send</i>
-  </button>
+        <?php 
+        if($row_cita['nota_evolucion'] != ''){
+            echo '<p><b>Nota previa: '.$row_cita['nota_evolucion'].'</b></p>';
+        }
+        ?>
+        
+        <input type="hidden" value = '<?php echo $id_cita;?>' name="id_cita">
+        <br><br>
+        <div class="center-align">
+        <button class="btn waves-effect waves-light" type="submit" name="action">Actualizar
+        <i class="material-icons right">send</i>
+        </button>
+        </div>
 
     </form>
 </div>

@@ -167,18 +167,11 @@ $datos_cita = $mysqli -> query($sql_citas);
                                 ';
                             }elseif($citas_dia['confirma'] == 1){
                                 echo '
-                                <td><div class="chip green darken-1"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'">Asistencia</a></div></td>
-                                <td><div class="chip">Terapias</div></td>
-                                <td><div class="chip">Caja</div></td>
-                                ';
-                            }else{
-                                echo'
-                                <td colspan"2"><div class="chip cyan darken-1"><a class="white-text"href="logic_recep/estatus_cita.php?cita='.$citas_dia['id_cita'].'">Confirmar</a></div></td>
-                                <td><div class="chip red accent-2"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Cancelar</a></div></td>                                
+                                <td><div class="chip black"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'">Asistencia</a></div></td>
+                                <td><div class="chip grey darken-1"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Cancelar</a></div></td>
                                 ';
                             }
                             ?>
-                            
                         </tr>
 
                         <?php 
