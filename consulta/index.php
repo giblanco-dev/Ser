@@ -38,7 +38,7 @@ $total_citas = $result_sql_citas -> num_rows;
 
 $citas_confirmadas = 0;
 while($contar_citas_confirm = mysqli_fetch_assoc($result_sql_citas)){
-    if($contar_citas_confirm['confirma'] == 1 or $contar_citas_confirm['confirma'] == 2){
+    if($contar_citas_confirm['confirma'] == 2){
         $citas_confirmadas ++;
     }
 }

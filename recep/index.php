@@ -26,7 +26,7 @@ if(!empty($_POST)){
     if($id_medico == 'x'){
         $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma
+        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -36,7 +36,7 @@ if(!empty($_POST)){
     }else{
         $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma
+        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -47,7 +47,7 @@ if(!empty($_POST)){
 }else{
     $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
     CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma
+    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -61,7 +61,7 @@ $total_citas = $result_sql_citas -> num_rows;
 
 $citas_confirmadas = 0;
 while($contar_citas_confirm = mysqli_fetch_assoc($result_sql_citas)){
-    if($contar_citas_confirm['confirma'] == 1){
+    if($contar_citas_confirm['confirma'] == 2){
         $citas_confirmadas ++;
     }
 }
@@ -159,13 +159,21 @@ $datos_cita = $mysqli -> query($sql_citas);
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['medico_cita']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['descrip_cita']; ?></td>
                             <?php
-                            if($citas_dia['confirma'] == 2){
+                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 0){
                                 echo '
-                                <td><div class="chip yellow darken-3 white-text">Consulta</div></td>
-                                <td><div class="chip">Terapias</div></td>
+                                <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
+                                <td><div class="chip">Consulta</div></td>
                                 <td><div class="chip">Caja</div></td>
                                 ';
-                            }elseif($citas_dia['confirma'] == 1){
+                            }
+                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 1){
+                                echo '
+                                <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
+                                <td><div class="chip  red darken-1 white-text"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Consulta</a></div></td>
+                                <td><div class="chip">Caja</div></td>
+                                ';
+                            }
+                            if($citas_dia['confirma'] == 1){
                                 echo '
                                 <td><div class="chip black"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'">Asistencia</a></div></td>
                                 <td><div class="chip grey darken-1"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Cancelar</a></div></td>
