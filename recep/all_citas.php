@@ -42,8 +42,8 @@ if(!empty($_POST)){
     <title>Citas</title>
     <link rel="stylesheet" href="../css/materialize.css">
     <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
-    <script src="../js/materialize.js"></script>
     <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/materialize.js"></script>
 </head>
 <body>
 <?php echo $nav_recep; ?>
@@ -114,6 +114,24 @@ if(!empty($_POST)){
     </div>
 
 </div>  <!-- CIERRE DE CONTAINER PRINCIPAL -->
+
+<!-- Modal Nueva Cita -->
+<div id="modal1" class="modal modal-fixed-footer" style="height: 100%;">
+      <div class="modal-content">
+        <h4>Nueva Cita</h4>
+        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 100%;"></iframe>
+
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+      </div>
+    </div>
 <?php echo $footer_recep;  ?>
+
+<script>
+    $(document).ready(function(){
+    $('.modal').modal();
+  });
+</script>
 </body>
 </html>

@@ -202,12 +202,24 @@ include_once 'recep_sections.php';
     </form>
   </div>
 
+<!-- Modal Nueva Cita -->
+<div id="modal1" class="modal modal-fixed-footer" style="height: 100%;">
+      <div class="modal-content">
+        <h4>Nueva Cita</h4>
+        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 100%;"></iframe>
+
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+      </div>
+    </div>
 
 </div>
 <?php echo $footer_recep;  ?>
 <script>
    $(document).ready(function(){
     $('select').formSelect();
+    $('.modal').modal();
   });
 </script>
 </body>

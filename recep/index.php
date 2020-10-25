@@ -202,10 +202,10 @@ $datos_cita = $mysqli -> query($sql_citas);
 <!-- ***************************** Modal de creación de Citas ****************************** -->    
 
   <!-- Modal Nueva Cita -->
-  <div id="modal1" class="modal modal-fixed-footer" style="height: 620px;">
+  <div id="modal1" class="modal modal-fixed-footer" style="height: 100%;">
       <div class="modal-content">
         <h4>Nueva Cita</h4>
-        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 340px;"></iframe>
+        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 100%;"></iframe>
 
       </div>
       <div class="modal-footer">

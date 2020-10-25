@@ -127,14 +127,15 @@ if($val_cita > 0){
             </label>
         </div>
     </div>
-    <div class="row">
-    <div class="col s3">
-    <button class="btn waves-effect waves-light" type="reset" style="margin-top: 10%;">Limpiar
+    <div class="row center-align">
+        <div class="divider"></div>
+    <div class="col s6">
+    <button class="btn waves-effect waves-light" type="reset" style="margin-top: 5%;">Limpiar
             <i class="material-icons right">settings_backup_restore</i>
         </button>
     </div>
-    <div class="col s3">
-        <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-top: 10%;">Guardar Cita
+    <div class="col s6">
+        <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-top: 5%;">Guardar Cita
             <i class="material-icons right">save</i>
         </button>
         </div>
