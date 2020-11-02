@@ -20,17 +20,17 @@ if(isset($_GET['error'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenidos</title>
-    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/materialize.css">
-    <link rel="stylesheet" href="icons/iconfont/material-icons.css">
-    <script src="js/materialize.js"></script>
+    <link rel="shortcut icon" href="static/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="static/css/materialize.css">
+    <link rel="stylesheet" href="static/icons/iconfont/material-icons.css">
+    <script src="static/js/materialize.js"></script>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 </head>
-<body style="background-image: url('img/background_login.png'); background-size: cover;">
+<body style="background-image: url('static/img/background_login.png'); background-size: cover;">
     <div class="container">
         <div class="row" style="margin-top: 1%;">
         <div class="col s12 center-align">
-        <img src="img/banner_login.png" class="responsive-img z-depth-5">
+        <img src="static/img/banner_login.png" class="responsive-img z-depth-5">
         </div>
         </div>
         <div class="row" style="margin-top: 1%;">

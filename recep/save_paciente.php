@@ -78,10 +78,10 @@ if(!empty($_POST)){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $titulo; ?></title>
-    <link rel="stylesheet" href="../css/materialize.css">
-    <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
-    <script src="../js/materialize.js"></script>
-    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../static/css/materialize.css">
+    <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
+    <script src="../static/js/materialize.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 <?php echo $nav_recep;  ?>

@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Consulta</title>
-    <link rel="shortcut icon" href="../../img/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="../../css/materialize.css">
-    <script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="shortcut icon" href="../../static/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../../static/css/materialize.css">
+    <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../static/jssweetalert.min.js"></script>
 </head>
-<body style="background-image: url('../../img/background_login.png'); background-size: cover;">
+<body style="background-image: url('../../static/img/background_login.png'); background-size: cover;">
 <?php
 
     

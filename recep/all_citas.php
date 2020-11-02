@@ -14,6 +14,8 @@ if (!isset($_SESSION['id'])) {
 include_once 'recep_sections.php';
 include_once '../app/logic/conn.php';
 $citas_dia = 0;
+$fecha = '';
+$hoy = date("Y-m-d");
 if(!empty($_POST)){
     $fecha = $_POST['fecha_cita'];
     //echo $fecha;
@@ -40,17 +42,36 @@ if(!empty($_POST)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
     <title>Citas</title>
-    <link rel="stylesheet" href="../css/materialize.css">
-    <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
-    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/materialize.js"></script>
+    <link rel="stylesheet" href="../static/css/materialize.css">
+    <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../js/static/materialize.js"></script>
+    <style type="text/css"> 
+        thead tr th { 
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #ffffff;
+        }
+    
+        .table-responsive-2 { 
+            height: 400px;
+            overflow-y:scroll;
+        }
+    </style>
 </head>
 <body>
 <?php echo $nav_recep; ?>
-<div class="container">
+<div class="container" style="margin-bottom: 5%;">
 <div class="row center-align">
     <div class="col s9">
         <h4 style="color: #2d83a0; font-weight:bold;">Calendario de Citas</h4>
+        <?php 
+        if($fecha != ''){
+            echo '<hp style="color: #2d83a0; font-weight:bold;">Citas del '.date("d-m-Y", strtotime($fecha)).'</hp>';
+        }
+        ?>
+        <p></p>
     </div>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
         <div class="col s3">
@@ -67,7 +88,7 @@ if(!empty($_POST)){
 
     <div class="row">
     <div class="col s12">
-    <div style="height: 400px;">
+    <div class="table-responsive-2">
     <?php 
         if($citas_dia > 0){
     ?>
