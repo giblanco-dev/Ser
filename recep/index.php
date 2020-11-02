@@ -92,10 +92,10 @@ $datos_cita = $mysqli -> query($sql_citas);
         </div>
         <div class="row">
             <div class="col s12">
-            <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=large&timezone=America%2FMexico_City" width="100%" height="175" frameborder="0" seamless></iframe> 
+            <iframe src="../static/clock/clock.html" width="100%" frameborder="0"></iframe> 
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: -2em;">
             <div class="col s12">
             <ul class="collection with-header">
             <li class="collection-item">

@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="../../static/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../../static/css/materialize.css">
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="../../static/jssweetalert.min.js"></script>
+    <script src="../../static/js/sweetalert.min.js"></script>
 </head>
 <body style="background-image: url('../../static/img/background_login.png'); background-size: cover;">
 <?php

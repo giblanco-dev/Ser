@@ -4,10 +4,10 @@ $nav_consulta = '
  <div class="navbar-fixed">
  <nav>
     <div class="nav-wrapper">
-      <a href="#" class="responsive-img" class="brand-logo"><img src="../img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
+      <a href="#" class="responsive-img" class="brand-logo"><img src="../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><a href="index.php"><i class="material-icons right">home</i>Inicio</a></li>
-      <li><a href="pacientes.php"><i class="material-icons right">assignment_turned_in</i>Mis Consultas</a></li>
+     
       <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
     </div>

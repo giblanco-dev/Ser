@@ -51,11 +51,11 @@ $datos_cita = $mysqli -> query($sql_citas);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta</title>
-    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="../css/materialize.css">
-    <link rel="stylesheet" href="../icons/iconfont/material-icons.css">
-    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/materialize.js"></script>
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/materialize.css">
+    <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/materialize.js"></script>
 </head>
 <body>
 <?php echo $nav_consulta;  ?>
@@ -69,10 +69,10 @@ $datos_cita = $mysqli -> query($sql_citas);
         </div>
         <div class="row">
             <div class="col s12">
-            <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=large&timezone=America%2FMexico_City" width="100%" height="175" frameborder="0" seamless></iframe> 
+            <iframe src="../static/clock/clock.html" width="100%" frameborder="0"></iframe> 
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: -4em;">
             <div class="col s12">
             <h2 style="color: #424242;"><?php echo $citas_confirmadas; ?> <i class="medium material-icons">check_circle</i></h2>
         <p>Citas Confirmadas</p>

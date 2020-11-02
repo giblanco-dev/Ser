@@ -67,7 +67,7 @@ if(isset($_GET['error'])){
     </div>
            
         <div style="margin-left: 2%;" class="col s4 grey lighten-3 center-align"> 
-        <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=large&timezone=America%2FMexico_City" width="100%" height="125" frameborder="0" seamless></iframe> 
+        <iframe src="static/clock/clock.html" width="100%"  height="125px" frameborder="0" seamless></iframe> 
         <h2 style="color: #424242;">00 <i class="medium material-icons">check_circle</i></h2>
         <p>Citas Confirmadas</p>
         <h2 style="color: #424242;">00 <i class="medium material-icons">book</i></h2>
