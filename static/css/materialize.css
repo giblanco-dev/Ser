@@ -6159,6 +6159,8 @@ textarea.materialize-textarea {
 input:not([type]):disabled, input:not([type])[readonly="readonly"],
 input[type=text]:not(.browser-default):disabled,
 input[type=text]:not(.browser-default)[readonly="readonly"],
+input[type=checkbox]:not(.browser-default):disabled,
+input[type=checkbox]:not(.browser-default)[readonly="readonly"],
 input[type=password]:not(.browser-default):disabled,
 input[type=password]:not(.browser-default)[readonly="readonly"],
 input[type=email]:not(.browser-default):disabled,
