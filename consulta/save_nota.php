@@ -9,7 +9,7 @@
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/sweetalert.min.js"></script>
 </head>
-<body style="background-image: url('../img/background_login.png'); background-size: cover;">
+<body style="background-image: url('../static/img/background_login.png'); background-size: cover;">
     
 <?php 
 require_once '../app/logic/conn.php';
