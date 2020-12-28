@@ -542,7 +542,7 @@ input {
         <div style="width: 36%; display: inline-block;">
         
             <form action="" method="post">
-                <p style="display:inline-block; width: 40%; font-weight:bold;">MEDICAMENTOS ORALES</p>
+                <p style="display:inline-block; width: 40v%; font-weight:bold;">MEDICAMENTOS ORALES</p>
                 <input type="submit" value="Guardar Medicamentos Orales" style="display:inline-block; width: 35%;" class="btn-small">
 
                 <p style="margin-top: -5px; display:inline-block; width: 25%;">
