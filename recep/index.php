@@ -169,7 +169,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                             if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 1){
                                 echo '
                                 <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
-                                <td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta.php?cita='.$citas_dia['id_cita'].'">Consulta</a></div></td>
+                                <td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta/?cita='.$citas_dia['id_cita'].'">Consulta</a></div></td>
                                 <td><div class="chip">Caja</div></td>
                                 ';
                             }
