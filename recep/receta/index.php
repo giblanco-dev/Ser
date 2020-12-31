@@ -83,7 +83,8 @@ if($val_cita == 1){
     <div class="row center-align" style="width: 98%;">
         <div class="col s2">
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
-        <a href="terapias.php?c=<?php echo $cita; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">TERAPIAS</a>
+        <a href="terapias.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>" 
+        target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">TERAPIAS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <a href="#?c=<?php echo $cita; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">SUEROS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
