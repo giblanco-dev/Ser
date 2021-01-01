@@ -12,9 +12,10 @@
             width: 100%;
             border-spacing: 1em;
         }
+        
     </style>
 </head>
-<body>
+<body style="background-color: #e0e0e0;">
 <div style="width: 40%; display:inline-block;">
 <?php 
 include_once '../../app/logic/conn.php';

@@ -90,7 +90,8 @@ if($val_cita == 1){
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <a href="#?c=<?php echo $cita; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">MED. HOMEOPÁTICOS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
-        <a href="#?c=<?php echo $cita; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">MEDICAMENTOS ORALES</a>
+        <a href="med-orales.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
+        target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">MEDICAMENTOS ORALES</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <a href="#?c=<?php echo $cita; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">ACTUALIZAR S.VITALES</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>

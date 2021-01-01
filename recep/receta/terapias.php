@@ -22,12 +22,26 @@ $res_terapias = $mysqli->query($sql_terapias);
         table{
             border-spacing: 1em;
         }
+        .btn{
+            color: #FFF; 
+            background: #2d83a0;
+            float: right; 
+            margin-right: 1.5em; 
+            margin-top: 1.5em;
+            border: 2px solid #2d83a0;
+            border-radius: 3px;
+            padding: 5px;
+        }
+        .btn:hover{
+            background-color: #008CBA;
+        }
     </style>
 </head>
 <body>
     <div style="width: 100%;">
-        <h2>Terapias</h2>
-        <form action="save_terapia.php" method="POST">
+    <form action="save_terapia.php" method="POST">
+        <h2 style="display: inline-block;">Terapias</h2>
+        <input type="submit" class="btn" value="Guardar Terapias">
         <table>
             <?php 
             $cont = 0;
@@ -40,7 +54,7 @@ $res_terapias = $mysqli->query($sql_terapias);
                     <td><input type="checkbox" name="'.$terapias['id_terapia'].'[]" ></td>
                     <td>'.$terapias['nom_terapia'].'</td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['nom_terapia'].'">
-                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" placeholder="Indicaciones" value ="sin-ind"></td>
+                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="Indicaciones"></td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['precio'].'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$cita.'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$usuario.'">
@@ -52,7 +66,7 @@ $res_terapias = $mysqli->query($sql_terapias);
                     <td><input type="checkbox" name="'.$terapias['id_terapia'].'[]" ></td>
                     <td>'.$terapias['nom_terapia'].'</td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['nom_terapia'].'">
-                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" placeholder="Indicaciones" value ="sin-ind"></td>
+                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="Indicaciones"></td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['precio'].'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$cita.'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$usuario.'">
@@ -63,7 +77,6 @@ $res_terapias = $mysqli->query($sql_terapias);
             ?>
         </table>
         <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
-        <input type="submit" value="Guardar Terapias" style="float: right;">
         </form>
     </div>
 </body>
