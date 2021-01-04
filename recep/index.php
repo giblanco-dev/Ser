@@ -24,7 +24,7 @@ $hoy = date("Y-m-d");
 if(!empty($_POST)){
     $id_medico = $_POST['agenda'];
     if($id_medico == 'x'){
-        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
+        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
         CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
         FROM cita
@@ -34,7 +34,7 @@ if(!empty($_POST)){
         WHERE cita.fecha = '$hoy' and confirma < 3
         ORDER BY cita.fecha, cita.horario";
     }else{
-        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
+        $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
         CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
         FROM cita
@@ -45,7 +45,7 @@ if(!empty($_POST)){
         ORDER BY cita.fecha, cita.horario";
     }
 }else{
-    $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
+    $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
     CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
     CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
         FROM cita
@@ -175,7 +175,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                             }
                             if($citas_dia['confirma'] == 1){
                                 echo '
-                                <td><div class="chip black"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'">Asistencia</a></div></td>
+                                <td><div class="chip black"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'&m='.$citas_dia['medico'].'">Asistencia</a></div></td>
                                 <td><div class="chip grey darken-1"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Cancelar</a></div></td>
                                 ';
                             }

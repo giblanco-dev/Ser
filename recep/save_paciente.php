@@ -15,15 +15,15 @@ require '../app/logic/conn.php';
 include_once 'recep_sections.php';
 $error = '';
 if(!empty($_POST)){
-    $nombres = $_POST['nombres'];
-    $a_paterno = $_POST['a_paterno'];
-    $a_materno = $_POST['a_materno'];
+    $nombres = ucwords(strtolower($_POST['nombres']));
+    $a_paterno = ucwords(strtolower($_POST['a_paterno']));
+    $a_materno = ucwords(strtolower($_POST['a_materno']));
     $genero = $_POST['genero'];
-    $calle = $_POST['calle'];
+    $calle = ucwords(strtolower($_POST['a_materno']));$_POST['calle'];
     $num_domicilio = $_POST['num_domicilio'];
-    $colonia = $_POST['colonia'];
+    $colonia = ucwords(strtolower($_POST['colonia']));
     $cod_postal = $_POST['cod_postal'];
-    $muni_alcaldia = $_POST['muni_alcaldia'];
+    $muni_alcaldia = ucwords(strtolower($_POST['muni_alcaldia']));
     $estado = $_POST['estado'];
     $tel_recados = $_POST['tel_recados'];
     $tel_casa = $_POST['tel_casa'];
@@ -32,8 +32,8 @@ if(!empty($_POST)){
     $ext_tel = $_POST['ext_tel'];
     $email = $_POST['email'];
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
-    $ocupacion = $_POST['ocupacion'];
-    $nombre_titular = $_POST['nombre_titular'];
+    $ocupacion = ucwords(strtolower($_POST['ocupacion']));
+    $nombre_titular = ucwords(strtolower($_POST['nombre_titular']));
     $fecha_alta = $_POST['fecha_alta'];
     $usuario_captura = $_POST['usuario_captura'];
 

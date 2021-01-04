@@ -58,9 +58,9 @@ if(!empty($_GET['cancela'])){
 
 if(!empty($_GET['asistencia'])){
     $cita_asiste = $_GET['asistencia'];
-
+    $medico = $_GET['m'];
     $sql_asiste_cita = "UPDATE cita SET confirma = 2 WHERE id_cita = '$cita_asiste'";
-    $sql_reg_consulta = "INSERT INTO consulta (id_cita, peso) VALUES ('$cita_asiste', 'x')";
+    $sql_reg_consulta = "INSERT INTO consulta (id_cita, peso, id_medico) VALUES ('$cita_asiste', 'x','$medico')";
     if ($mysqli->query($sql_asiste_cita) === TRUE && $mysqli->query($sql_reg_consulta) === TRUE) {
         //echo '<script type="text/javascript" async="async">alert("Paciente Cita_CSA'.$cita_asiste.' se está en espera de pasar a Consulta");window.location.href="../"</script>';
         echo '<script type="text/javascript">

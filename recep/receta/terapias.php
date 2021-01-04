@@ -41,7 +41,7 @@ $res_terapias = $mysqli->query($sql_terapias);
     <div style="width: 100%;">
     <form action="save_terapia.php" method="POST">
         <h2 style="display: inline-block;">Terapias</h2>
-        <input type="submit" class="btn" value="Guardar Terapias">
+        <input type="submit" class="btn" value="Guardar/Revisar Terapias">
         <table>
             <?php 
             $cont = 0;
