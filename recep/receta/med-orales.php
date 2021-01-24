@@ -19,6 +19,10 @@ $res_med = $mysqli->query($sql_med);
         input[type=checkbox] {
         transform: scale(1.5);
         }
+        input[type=number] {
+        transform: scale(1.5);
+        width: 30px;
+        }
         table{
             border-spacing: 1em;
         }
@@ -51,7 +55,7 @@ $res_med = $mysqli->query($sql_med);
                     echo'
                     <tr>
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['id_med_oral'].'">
-                    <td><input type="checkbox" name="'.$med_orales['id_med_oral'].'[]" ></td>
+                    <td><input type="number" name="'.$med_orales['id_med_oral'].'[]" min="0" max="99" value="0"></td>
                     <td>'.$med_orales['nom_med_oral'].'</td>
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['nom_med_oral'].'">
                     <td><input style="width: 25em;" type="text" name="'.$med_orales['id_med_oral'].'[]" value ="Indicaciones"></td>
@@ -63,7 +67,7 @@ $res_med = $mysqli->query($sql_med);
                 }else{
                     echo'
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['id_med_oral'].'">
-                    <td><input type="checkbox" name="'.$med_orales['id_med_oral'].'[]" ></td>
+                    <td><input type="number" name="'.$med_orales['id_med_oral'].'[]" min="0" max="99" value="0"></td>
                     <td>'.$med_orales['nom_med_oral'].'</td>
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['nom_med_oral'].'">
                     <td><input style="width: 25em;" type="text" name="'.$med_orales['id_med_oral'].'[]" value ="Indicaciones"></td>

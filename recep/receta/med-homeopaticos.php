@@ -204,7 +204,11 @@ $res = $mysqli->query($sql_medicamentos);
             <option value="4" >4 tratamientos</option>
             <option value="5" >5 tratamientos</option>
         </select>
-        <label for="z" style= "display:inline-block; margin-left: 2em;">¿Se incluyen frascos?</label> <input type="checkbox" id="z" name="frascos" style="display: inline-block;">
+        <select name="tipo_fras" id="x">
+            <option value="1" selected>Normal</option>
+            <option value="2" >Doble</option>
+            <option value="3" >Globulos</option>
+        </select>
         <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
         <a href="med-hom-ex.php"><button class="bt2">Agregar medicamentos extra</button></a>
         </form>

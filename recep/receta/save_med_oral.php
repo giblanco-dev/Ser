@@ -27,15 +27,15 @@ while($rows = mysqli_fetch_assoc($res_1)){
     $id = $rows['id_med_oral'];
     $array = $_POST[$id];
     
-    if($array[1] == "on"){
+    if($array[1] > 0){
         $sql_val = "SELECT * FROM rec_med_orales WHERE id_med_oral = '$array[0]' and id_cita = '$array[5]'";
         $val = $mysqli->query($sql_val);
         $valida = $val->num_rows;
 
         if($valida == 0){
             //print_r($array);
-            $sql_sv = "INSERT INTO rec_med_orales(id_med_oral, med_oral, indicaciones, monto, id_cita, user_registra)
-                        VALUES ('$array[0]','$array[2]', '$array[3]','$array[4]', '$array[5]', '$array[6]')";
+            $sql_sv = "INSERT INTO rec_med_orales(id_med_oral, med_oral, indicaciones, cantidad_med ,monto, id_cita, user_registra)
+                        VALUES ('$array[0]','$array[2]', '$array[3]','$array[1]','$array[4]', '$array[5]', '$array[6]')";
                 if($mysqli -> query($sql_sv) === true){
                     echo '<h4>El medicamento: '.$array[2].', fue registrado correctamente. $'.$array[4].'</h4>';
                 }else{
@@ -61,16 +61,17 @@ while($rows = mysqli_fetch_assoc($res_1)){
 <div style="width: 50%; display:inline-block;">
 <?php 
     $sum = 0;
-    $sql_total = "SELECT med_oral, indicaciones, monto FROM rec_med_orales WHERE id_cita = '$id_cita'";
+    $sql_total = "SELECT med_oral, indicaciones, cantidad_med, monto FROM rec_med_orales WHERE id_cita = '$id_cita'";
     $res_tot = $mysqli->query($sql_total);
     $total = $res_tot-> num_rows;
 
     if($total > 0){
-        echo '<h3>Medicamentos Orales registrados</h3>
+        echo '<h3 style="margin-top: 0;">Medicamentos Orales registrados</h3>
                 <table>
                 <tr>
                     <td><b>Medicamento Oral</b></td>
                     <td><b>Indicaciones</b></td>
+                    <td><b>Cantidad</b></td>
                     <td><b>Precio</b></td>
                   </tr>
                 ';
@@ -78,9 +79,11 @@ while($rows = mysqli_fetch_assoc($res_1)){
             echo '<tr>
                     <td>'.$rows2['med_oral'].'</td>
                     <td>'.$rows2['indicaciones'].'</td>
+                    <td>'.$rows2['cantidad_med'].'</td>
                     <td>$ '.$rows2['monto'].'</td>
                   </tr>';
-            $sum = $sum + $rows2['monto']; 
+                  $total_med = $rows2['monto'] * $rows2['cantidad_med'];
+            $sum = $sum + $total_med; 
         }
         echo '</table>
                 <h3 style="float: right;">Total de medicamentos orales: $'.$sum.'</h3>';
