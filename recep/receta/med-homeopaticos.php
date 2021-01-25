@@ -2,7 +2,7 @@
 include_once '../../app/logic/conn.php';
 $cita = $_GET['c'];
 $usuario = $_GET['u'];
-
+$paciente = $_GET['p'];
 $sql_medicamentos = "SELECT * FROM med_homeopaticos";
 $res = $mysqli->query($sql_medicamentos);
 
@@ -197,18 +197,33 @@ $res = $mysqli->query($sql_medicamentos);
         <input type="hidden" name="u" value="<?php echo $usuario ?>">
         <input type="hidden" name="tipo" value="gen">
         <label for="x" style= "display:inline-block; ">Cantidad de Tratamientos</label>
-        <select name="no_trat" id="x">
+        <select name="cant_trat" id="x">
             <option value="1" selected>1 tratamiento</option>
             <option value="2" >2 tratamientos</option>
             <option value="3" >3 tratamientos</option>
             <option value="4" >4 tratamientos</option>
             <option value="5" >5 tratamientos</option>
         </select>
-        <select name="tipo_fras" id="x">
-            <option value="1" selected>Normal</option>
-            <option value="2" >Doble</option>
-            <option value="3" >Globulos</option>
-        </select>
+        <?php 
+          $sql_v = "SELECT * FROM cita WHERE id_paciente = '$paciente' and tipo = 0 and consulta = 1";
+          $res_val = $mysqli->query($sql_v);
+          $val = $res_val->num_rows;
+          if($val > 1){
+            $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat != 1 ORDER BY id_trat DESC";
+          }else{
+            $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat = 1 ORDER BY id_trat DESC";
+          }
+          $trat = $mysqli->query($sql_tf);
+          ?>  
+        
+            <select name="tipo_trat">
+            <?php
+            while($row_trat = mysqli_fetch_assoc($trat)){
+             echo ' <option value="'.$row_trat['id_trat'].'" selected>'.$row_trat['des_tratamiento'].'</option>';
+            }
+             ?> 
+            </select>  
+          
         <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
         <a href="med-hom-ex.php"><button class="bt2">Agregar medicamentos extra</button></a>
         </form>

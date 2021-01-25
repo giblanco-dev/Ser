@@ -17,7 +17,7 @@ include_once '../../app/logic/conn.php';
 $cita = $_GET['cita'];
 $error_1 = '';
 $cita_sql = "SELECT 
-CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
+CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente, cita.id_paciente,
 CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita
     FROM cita
     INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
@@ -30,6 +30,7 @@ $val_cita = $res_cita->num_rows;
 if($val_cita == 1){
     $datos_cita = mysqli_fetch_assoc($res_cita);
     $fecha_cita = date("d/m/Y", strtotime($datos_cita['fecha']));
+    $paciente = $datos_cita['id_paciente'];
 }else{
     $error_1 = '<h5 style="color: red; font-weight:bold;">Hay un error con esta cita, ponerse en contacto con el administrador y proporcionar ID CITA: '.$cita.'</h5>';
 }
@@ -88,7 +89,7 @@ if($val_cita == 1){
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <a href="#?c=<?php echo $cita; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">SUEROS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
-        <a href="med-homeopaticos.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
+        <a href="med-homeopaticos.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>&p=<?php echo $paciente; ?>"
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">MED. HOMEOPÁTICOS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <a href="med-orales.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
