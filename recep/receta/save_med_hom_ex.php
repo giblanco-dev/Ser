@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/css/materialize.css">
     <link rel="stylesheet" href="../../static/icons/iconfont/material-icons.css">
-    <title>Guardar Med.Homeopáticos</title>
+    <title>Frascos ExMed.Hom</title>
     <style>
         body{
             font-family: 'Roboto', sans-serif;
@@ -24,16 +24,17 @@
 <?php 
 
 include_once '../../app/logic/conn.php';
+
 if(!empty($_POST))
 {
     $user = $_POST['u'];
     $cita = $_POST['c'];
     $tipo_fras = $_POST['tipo'];
 
-if($tipo_fras == 'gen'){
+if($tipo_fras == 'ext'){
     $continua = 0;
     
-    for($i = 1; $i <= 10; $i++){
+    for($i = 1; $i <= 3; $i++){
         $itera = "frasco".$i;
         //echo "medicamentos del frasco".$i;
         $array_frasco = $_POST[$itera];
@@ -58,33 +59,36 @@ if($tipo_fras == 'gen'){
                 $sql_u = "UPDATE rec_med_home SET med1 = '$med1', med2 = '$med2', med3 = '$med3', med4 = '$med4', med5 = '$med5'
                             WHERE id_registro = '$id_reg'";
                 if($mysqli->query($sql_u)=== True){
-                    echo '<p>Los medicamentos del frasco No. '.$no_frasco.' se han actualizado</p>';
+                    echo '<p>Los medicamentos del frasco Extra No. '.$no_frasco.' se han actualizado</p>';
                 }
             }elseif($val == 0){ 
                 $sql_in = "INSERT INTO rec_med_home (frasco, tipo_fras, id_cita, med1, med2, med3, med4, med5, user_registra)
                             VALUES('$no_frasco', '$tipo_fras','$cita','$med1','$med2','$med3','$med4','$med5','$user')";
                 if($mysqli->query($sql_in)=== True){
-                    echo '<p>Los medicamentos del frasco No. '.$no_frasco.' se han ingresado correctamente</p>';
+                    echo '<p>Los medicamentos del frasco Extra No. '.$no_frasco.' se han ingresado correctamente</p>';
                     $continua ++;
                 }
             }else{
-                echo '<p>Hay un duplicado con los medicamentos del frasco '.$no_frasco.' de la cita '.$cita.' reportar estos datos al administrador.</p>';
+                echo '<p>Hay un duplicado con los medicamentos del frasco Extra '.$no_frasco.' de la cita '.$cita.' reportar estos datos al administrador.</p>';
             }
             
         }
     }
     if($continua > 0){
     
-    $tipo_trat = $_POST['tipo_trat'];
-    $cantidad = $_POST['cant_trat'];
+    $tipo_trat = 6;
     
+    $sql_c = "SELECT id_registro FROM rec_med_home WHERE id_cita = '$cita' AND tipo_fras = 'ext'";
+    $res_c = $mysqli->query($sql_c);
+    $cantidad = $res_c->num_rows;
+
     $sql_valt = "SELECT * FROM resu_med_home WHERE id_cita = '$cita' and tipo_fras = '$tipo_fras'";
     $res_valt = $mysqli->query($sql_valt);
     $valt = $res_valt->num_rows;
         if($valt == 1){
             $row_valt = mysqli_fetch_assoc($res_valt);
             if($row_valt['id_tipo_trat'] == $tipo_trat and $row_valt['cant_tratamientos'] == $cantidad){
-                echo "Actualización terminada";
+                echo "Actualización Frascos Extra terminada";
             }else{
                 $sql_ut =  "UPDATE resu_med_home SET id_tipo_trat = '$tipo_trat', cant_tratamientos = '$cantidad'";
                 if($mysqli->query($sql_ut) === True){
@@ -95,84 +99,18 @@ if($tipo_fras == 'gen'){
             $sql_intrat =  "INSERT INTO resu_med_home (id_cita, tipo_fras, id_tipo_trat, cant_tratamientos, user_registra)
                             VALUES('$cita','$tipo_fras','$tipo_trat','$cantidad','$user')";
                 if($mysqli->query($sql_intrat) === True){
-                    echo "Se guardo correctamente el resumen del tratamiento";
+                    echo "Se guardo correctamente el resumen de Frascos Extra";
                 }
         }
 
     }
-} // cierra if de inserccion actualización
-}else{
-    $user = $_GET['u'];
-    $cita = $_GET['c'];
+} // Cierra if de inserccion/actualización tratamientos
 }
 ?>
 </div>
-<div class="col s7">
-<?php 
-$sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita";
-$fras = $mysqli->query($sql_fras);
-$val_resu = $fras->num_rows;
+<div class="col s7 center-align">
 
-$sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo FROM resu_med_home
-INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = $cita";
-$resumen = $mysqli->query($sql_resu);
-
-if($val_resu > 0){
-    $total_trat = 0;
-    echo '<br><h5 style="margin-top: 0;">Medicamentos Homeopáticos registrados</h5>
-                <table class="centered">
-                <tr>
-                    <td><b>Frasco</b></td>
-                    <td><b>Tipo</b></td>
-                    <td><b>Medicamentos</b></td>
-                  </tr>
-                ';
-        while($rows2 = mysqli_fetch_assoc($fras)){
-            $medicamentos = $rows2['med1'].' '.$rows2['med2'].' '.$rows2['med3'].' '.$rows2['med4'].' '.$rows2['med5'];
-            if($rows2['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $no_frasco = $rows2['frasco'];}
-            if($rows2['tipo_fras']== "ext"){$tipo_frasco = "Extra";$no_frasco = $rows2['frasco'].' Ex';}
-            echo '<tr>
-                    <td>'.$no_frasco.'</td>
-                    <td>'.$tipo_frasco.'</td>
-                    <td>'.$medicamentos.'</td>
-                  </tr>';
-        }
-
-        echo '
-                <tr>
-                    <td colspan="4">Totales</td>
-                </tr>
-                <tr>
-                    <td><b>Tipo tratamiento</b></td>
-                    <td><b>Precio</b></td>
-                    <td><b>Cantidad de Tratamientos</b></td>
-                    <td><b>Sub-Total</b></td>
-                  </tr>
-                ';
-
-        while($rows3 = mysqli_fetch_assoc($resumen)){
-            if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal";}
-            if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra";}
-            $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
-            echo '<tr>
-                    <td>'.$rows3['des_tratamiento'].'</td>
-                    <td>'.$rows3['costo'].'</td>
-                    <td>'.$rows3['cant_tratamientos'].'</td>
-                    <td>$ '.$sub_total_trat.'</td>
-                  </tr>';
-                  $total_trat = $total_trat + $sub_total_trat;
-        }
-        echo '
-        <tr>
-                    <td colspan="3">Total Tratamiento Medicamentos Homeopáticos</td>
-                    <td>$ '.$total_trat.'</td>
-                </tr>
-        </table>';
-
-}
-
-
-?>
+<a href="save_med_hom.php?c=<?php echo $cita; ?>&u=<?php echo $user; ?>" style="margin-top: 5%;" class="waves-effect waves-light btn">Resumen Medicamentos Homeopáticos</a>
 
 </div>
 </div>

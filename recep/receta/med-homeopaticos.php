@@ -95,10 +95,7 @@ $res = $mysqli->query($sql_medicamentos);
     <div style="width: 100%;">
     <form action="save_med_hom.php" method="POST" style="display: inline-block;">
         <h2>Medicamentos Homeopáticos</h2>
-        
-        
         <table>
-            
             <tbody>
                 <tr class="autocomplete" style="margin-top: -2em;">
                     <td><input type="checkbox" name="frasco1[]"></td>
@@ -224,8 +221,8 @@ $res = $mysqli->query($sql_medicamentos);
              ?> 
             </select>  
           
-        <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
-        <a href="med-hom-ex.php"><button class="bt2">Agregar medicamentos extra</button></a>
+        <input type="submit" class="btn" value="Guardar">
+        <a href="save_med_hom.php"><button class="bt2">Resumen Medicamentos Homeopáticos</button></a>
         </form>
         
     </div>
