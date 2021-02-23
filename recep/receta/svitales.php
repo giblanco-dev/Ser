@@ -12,38 +12,14 @@ $val = $res_consulta->num_rows;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/main.css">
-    <title>Terapias</title>
-    <style>
-        body{
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        table{
-            border-spacing: 1em;
-        }
-
-        .ancho{
-            width: 80px;
-        }
-        .btn{
-            color: #FFF; 
-            background: #2d83a0;
-            float: right; 
-            margin-right: 1.5em; 
-            margin-top: 1.5em;
-            border: 2px solid #2d83a0;
-            border-radius: 3px;
-            padding: 5px;
-        }
-        .btn:hover{
-            background-color: #008CBA;
-        }
-    </style>
+    <link rel="stylesheet" href="../../static/css/materialize.css">
+    <link rel="stylesheet" href="../../static/icons/iconfont/material-icons.css">
+    <title>Actualizar Signos Vitales</title>
 </head>
 <body>
-    <div style="width: 100%;">
-        <h2 style="display: inline-block;">Signos Vitales </h2>
+    <div style="width: 90%; margin-left: 5%; ">
+    <br>
+        <h5 style="display: inline-block;">Actualización de Signos Vitales </h5>
         <table>
             <thead>
             <tr>
@@ -60,11 +36,22 @@ $val = $res_consulta->num_rows;
                 <?php 
                 if($val == 1){ 
                     $svitales = mysqli_fetch_assoc($res_consulta);
+                    $ta = explode("/",$svitales['ta']);
                     ?>
                 <form action="update_svita.php" method="POST">
                 <tbody>
                     <tr>
-                        <td><input class="ancho" type="text" name="ta" value="<?php echo $svitales['ta'] ?>"></td>
+                        <td>
+                        <div class="row">
+                                <div class="col s5">
+                                <input class="ancho" type="text" name="ta1" value="<?php echo $ta[0]; ?>">
+                            </div>
+                            <div class="col s2"><p>/</p></div>
+                            <div class="col s5">
+                            <input class="ancho" type="text" name="ta2" value="<?php echo $ta[1]; ?>">
+                            </div>
+                        </div>
+                        </td>
                         <td><input class="ancho" type="text" name="temp" value="<?php echo $svitales['temp'] ?>"></td>
                         <td><input class="ancho" type="text" name="fre_c" value="<?php echo $svitales['fre_c'] ?>"></td>
                         <td><input class="ancho" type="text" name="fre_r" value="<?php echo $svitales['fre_r'] ?>"></td>
@@ -72,7 +59,13 @@ $val = $res_consulta->num_rows;
                         <td><input class="ancho" type="text" name="talla" value="<?php echo $svitales['talla'] ?>"></td>
                         <input type="hidden" name="user" value="<?php echo $usuario; ?>">
                         <input type="hidden" name="cita2" value="<?php echo $cita; ?>">
-                        <td><input style="margin-top: 0;" type="submit" class="btn" value="Actualizar Signos"></td>
+                    </tr>
+                    <tr>
+                    <td colspan="6" class="center-align">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Actualizar
+                        <i class="material-icons right">send</i>
+                    </button>
+                    </td>
                     </tr>
                 </form>
                 </tbody>

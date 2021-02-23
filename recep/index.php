@@ -79,13 +79,26 @@ $datos_cita = $mysqli -> query($sql_citas);
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/materialize.js"></script>
+    <style type="text/css"> 
+        thead tr th { 
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #ffffff;
+        }
+    
+        .table-responsive-2 { 
+            height: 700px; /* Mover a 400 para demostrar el scroll*/
+            overflow-y:scroll;
+        }
+    </style>
 </head>
 <body>
 <?php echo $nav_recep;  ?>
 <!-- ***************************** INICIA CONTENIDO ****************************** -->
 <div class="row center-align">
     <div class="col s2 grey lighten-3" style="margin-bottom: -20px;"> <!-- ***************************** INICIA BARRA LATERAL ****************************** -->
-        <div class="row" style="margin-top: 100px;">
+        <div class="row" style="margin-top: 65px;">
             <div class="col s12">
             <h4>Recepción</h4>
             </div>
@@ -135,6 +148,7 @@ $datos_cita = $mysqli -> query($sql_citas);
         </div>
         <div class="row">
             <div class="col s12">
+                <div class="table-responsive-2">
                 <table>
                     <thead>
                         <tr>
@@ -189,7 +203,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                         ?>
                     </tbody>
                 </table>
-                
+                </div>
             </div>
         </div>
     </div>

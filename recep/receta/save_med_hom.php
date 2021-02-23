@@ -17,7 +17,7 @@
         
     </style>
 </head>
-<body style="background-color: #e0e0e0;">
+<body style="background-color: #f5f5f5;">
 <div class="row">
 
 <div class="col s5">
@@ -140,7 +140,7 @@ if($val_resu > 0){
 
         echo '
                 <tr>
-                    <td colspan="4">Totales</td>
+                    <td colspan="4"><b>Totales</b></td>
                 </tr>
                 <tr>
                     <td><b>Tipo tratamiento</b></td>
@@ -163,12 +163,12 @@ if($val_resu > 0){
                   $total_trat = $total_trat + $sub_total_trat;
         }
         echo '
-        <tr>
-                    <td colspan="3">Total Tratamiento Medicamentos Homeopáticos</td>
-                    <td>$ '.$total_trat.'</td>
-                </tr>
-        </table>';
+        </table>
+        <br>
+        <h5>Total Tratamiento Medicamentos Homeopáticos: $'.$total_trat.'</h5>';
 
+}else{
+    echo '<h5>No se regsitro tratamiento homeopático de esta cita</h5>';
 }
 
 

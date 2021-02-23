@@ -69,7 +69,8 @@ if($val_cita == 1){
                 <h5 style="color: #2d83a0; font-weight:bold;">RECETA INTERNA</h5><?php echo $error_1; ?>
             </div>
             <div class="col s4">
-                <h6 style="text-transform: capitalize;">Médico: <?php if($datos_cita['tipo'] == 0){echo $datos_cita['medico_cita'];} ?></h6>
+                <h6 style="text-transform: capitalize;">Médico: <?php if($datos_cita['tipo'] <= 90){
+                  echo $datos_cita['medico_cita'];}else{echo "N/A";} ?></h6>
                 <h6 style="text-transform: capitalize;">Paciente: <?php echo $datos_cita['Nom_paciente']; ?></h6>
             </div>
             <div class="col s4">
@@ -87,7 +88,7 @@ if($val_cita == 1){
         <a href="terapias.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>" 
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">TERAPIAS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
-        <a href="#?c=<?php echo $cita; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">SUEROS</a>
+        <a href="sueros.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">SUEROS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <h6>MEDICAMENTOS HOMEOPÁTICOS</h6>
         <a href="med-homeopaticos.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>&p=<?php echo $paciente; ?>"
@@ -103,7 +104,7 @@ if($val_cita == 1){
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">ACTUALIZAR S.VITALES</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
-        <a href="caja.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
+        <a href="total_rec.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">Resumen/Enviar a Caja</a>
         </div>
         <div class="col s10">
@@ -111,9 +112,29 @@ if($val_cita == 1){
         </div>
     </div>
     <?php   }else{
+      ?>
+      <div class="row center-align" style="width: 90%; margin-bottom: 10%;">
+      <div class="divider" style="margin-bottom: 2%;"></div>
+      <div class="col s4">
+      <h5>Capturar importe a cobrar</h4>
+      </div>
+      <div class="col s6">
+      <form action="" method="post">
+      <input type="number" name="total_receta" id="" placeholder="Ingrese el monto a cobrar $" min="50" style="max-width: 300px;">
+         <p>Aplicar Descuento %</p>
+         <input type="number" name="descuentos" min="0" max="100" step="5" style="max-width: 300px;">
+         <br><br>
+         <input type="text" name="comentarios" id="" placeholder="Comentarios">
+         <br><br>
+         <button class="btn waves-effect waves-light" type="submit" name="action">Enviar para cobro
+            <i class="material-icons right">send</i>
+        </button>
+        </div>
 
-    }
-    
+      </form>
+      </div>
+
+<?php }   
     ?>
     <footer class="page-footer">
           <div class="container">

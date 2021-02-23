@@ -74,19 +74,18 @@ if($val_cita == 1){
     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
     <div class="divider"></div>
-    <?php 
-    
-    ?>
     <blockquote>Signos Vitales</blockquote>
-    <p>T/A: <?php echo $row_cita['ta']; ?>,  
-    TEMP: <?php echo $row_cita['temp']; ?>, 
-    FRE C: <?php echo $row_cita['fre_c']; ?>, 
-    FRE R: <?php echo $row_cita['fre_r']; ?>, 
-    PESO: <?php echo $row_cita['peso']; ?>, 
-    TALLA: <?php echo $row_cita['talla']; ?></p>
+    <ul>
+        <li>T/A: <?php echo $row_cita['ta'];?> mm Hg</li>
+        <li>TEMP: <?php echo $row_cita['temp']; ?>°C</li>
+        <li>FRE C: <?php echo $row_cita['fre_c']; ?>''</li>
+        <li>FRE R: <?php echo $row_cita['fre_r']; ?></li>
+        <li>PESO: <?php echo $row_cita['peso']; ?> KG</li>
+        <li>TALLA: <?php echo $row_cita['talla']; ?> M</li>
+    </ul>
     <form action="save_nota.php" method="POST">
     <blockquote>Nota de evolución</blockquote>
-        <textarea name="nota_evo" id="" cols="30" rows="30">
+        <textarea name="nota_evo" id="" cols="30" rows="50">
 
         </textarea>
         <?php 

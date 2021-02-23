@@ -2,7 +2,7 @@
 include_once '../../app/logic/conn.php';
 $cita = $_GET['c'];
 $usuario = $_GET['u'];
-$sql_terapias = "SELECT * FROM terapias WHERE activo = 1";
+$sql_terapias = "SELECT * FROM terapias WHERE activo = 1 ORDER BY nom_terapia";
 $res_terapias = $mysqli->query($sql_terapias);
 ?>
 <!DOCTYPE html>
@@ -18,6 +18,10 @@ $res_terapias = $mysqli->query($sql_terapias);
         }
         input[type=checkbox] {
         transform: scale(1.5);
+        }
+        input[type=number] {
+        transform: scale(1.3);
+        width: 30px;
         }
         table{
             border-spacing: 1em;
@@ -51,7 +55,7 @@ $res_terapias = $mysqli->query($sql_terapias);
                     echo'
                     <tr>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['id_terapia'].'">
-                    <td><input type="checkbox" name="'.$terapias['id_terapia'].'[]" ></td>
+                    <td><input type="number" name="'.$terapias['id_terapia'].'[]" min="0" max="'.$terapias['max_terapias'].'" value="0"></td>
                     <td>'.$terapias['nom_terapia'].'</td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['nom_terapia'].'">
                     <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="Indicaciones"></td>
@@ -63,7 +67,7 @@ $res_terapias = $mysqli->query($sql_terapias);
                 }else{
                     echo'
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['id_terapia'].'">
-                    <td><input type="checkbox" name="'.$terapias['id_terapia'].'[]" ></td>
+                    <td><input type="number" name="'.$terapias['id_terapia'].'[]" min="0" max="'.$terapias['max_terapias'].'" value="0"></td>
                     <td>'.$terapias['nom_terapia'].'</td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['nom_terapia'].'">
                     <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="Indicaciones"></td>

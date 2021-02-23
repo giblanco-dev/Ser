@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/materialize.css">
+    <link rel="stylesheet" href="../../static/icons/iconfont/material-icons.css">
     <title>Guardar Terapias</title>
     <style>
         body{
@@ -15,8 +17,9 @@
         
     </style>
 </head>
-<body style="background-color: #e0e0e0;">
-<div style="width: 40%; display:inline-block;">
+<body style="background-color: #f5f5f5;">
+<div class="row">
+<div class="col s5">
 <?php 
 include_once '../../app/logic/conn.php';
 $id_cita = $_POST['id_cita'];
@@ -27,19 +30,24 @@ while($terapia = mysqli_fetch_assoc($res_terapias)){
     $ter = $terapia['id_terapia'];
     $array = $_POST[$ter];
     
-    if($array[1] == "on"){
+    if($array[1] > 0){
         $sql_val = "SELECT * FROM rec_terapias WHERE id_terapia = '$array[0]' and id_cita = '$array[5]'";
         $val = $mysqli->query($sql_val);
         $valida = $val->num_rows;
 
         if($valida == 0){
+            if($array[3]== "Indicaciones"){
+                $indicaciones = "Sin Indicaciones";
+            }else{
+                $indicaciones = $array[3];
+            }
             //print_r($array);
-            $sql_sv = "INSERT INTO rec_terapias(id_terapia, terapia, indicaciones, monto, id_cita, user_registra)
-                        VALUES ('$array[0]','$array[2]', '$array[3]','$array[4]', '$array[5]', '$array[6]')";
+            $sql_sv = "INSERT INTO rec_terapias(id_terapia, terapia, indicaciones, monto, id_cita, user_registra, no_terapias)
+                        VALUES ('$array[0]','$array[2]', '$indicaciones','$array[4]', '$array[5]', '$array[6]', '$array[1]')";
                 if($mysqli -> query($sql_sv) === true){
-                    echo '<h4>La terapia: '.$array[2].', fue registrada correctamente. $'.$array[4].'</h4>';
+                    echo '<p>La terapia: '.$array[2].', fue registrada correctamente. $'.$array[4].'</p>';
                 }else{
-                    echo '<h4>Ha ocurrido un error favor de comunicarse con el administrador del sistema</h4>';
+                    echo '<p>Ha ocurrido un error favor de comunicarse con el administrador del sistema</p>';
                 }
         }elseif($valida == 1){
             $ter_prev = mysqli_fetch_assoc($val);
@@ -47,10 +55,10 @@ while($terapia = mysqli_fetch_assoc($res_terapias)){
                 if($indicaciones != $array[3]){
                     $sql_up = "UPDATE rec_terapias SET indicaciones = '$array[3]' WHERE id_terapia = '$array[0]' and id_cita = '$array[5]'";
                     if($mysqli -> query($sql_up) === true){
-                        echo '<h4>La terapia: '.$array[2].', ya había sido registrada previamente, se han actualizado las indicaciones</h4>';
+                        echo '<p>La terapia: '.$array[2].', ya había sido registrada previamente, se han actualizado las indicaciones</p>';
                     }
                 }else{
-                    echo '<h4>La terapia: '.$array[2].', ya había sido registrada previamente.</h4>';
+                    echo '<p>La terapia: '.$array[2].', ya había sido registrada previamente.</p>';
                 }
             }
         
@@ -58,38 +66,43 @@ while($terapia = mysqli_fetch_assoc($res_terapias)){
 }
 ?>
 </div>
-<div style="width: 50%; display:inline-block;">
+<div class="col s7">
 <?php 
     $sum_terapias = 0;
-    $sql_total = "SELECT terapia, indicaciones, monto FROM rec_terapias WHERE id_cita = '$id_cita'";
+    $sql_total = "SELECT terapia, indicaciones, monto, no_terapias FROM rec_terapias WHERE id_cita = '$id_cita'";
     $res_tot_ter = $mysqli->query($sql_total);
     $tot_ter = $res_tot_ter-> num_rows;
 
     if($tot_ter > 0){
-        echo '<h3>Terapias registradas previamente</h3>
+        echo '<h5>Terapias registradas previamente</h5>
                 <table>
                 <tr>
                     <td><b>Terapia</b></td>
+                    <td><b>Cantidad</b></td>
                     <td><b>Indicaciones</b></td>
                     <td><b>Precio</b></td>
+                    <td><b>Sub-Total</b></td>
                   </tr>
                 ';
         while($ter_reg = mysqli_fetch_assoc($res_tot_ter)){
             echo '<tr>
                     <td>'.$ter_reg['terapia'].'</td>
+                    <td>'.$ter_reg['no_terapias'].'</td>
                     <td>'.$ter_reg['indicaciones'].'</td>
-                    <td>$ '.$ter_reg['monto'].'</td>
+                    <td>$'.$ter_reg['monto'].'</td>
+                    <td>$ '.$ter_reg['monto']*$ter_reg['no_terapias'].'</td>
                   </tr>';
-            $sum_terapias = $sum_terapias + $ter_reg['monto']; 
+            $sum_terapias = $sum_terapias + ($ter_reg['monto'] * $ter_reg['no_terapias']); 
         }
         echo '</table>
-                <h3 style="float: right;">Total de terapias: $'.$sum_terapias.'</h3>';
+                <h5>Total de terapias: $'.$sum_terapias.'</h5>';
     }else{
-        echo '<h3>Aún no se ha registrado ninguna terapia de la receta de esta cita.</h3>';
+        echo '<h5>Aún no se ha registrado ninguna terapia de la receta de esta cita.</h5>';
     }
 
 ?>
 
+</div>
 </div>
 </body>
 </html>

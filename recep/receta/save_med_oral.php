@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/materialize.css">
+    <link rel="stylesheet" href="../../static/icons/iconfont/material-icons.css">
     <title>Guardar Med.Orales</title>
     <style>
         body{
@@ -15,8 +17,9 @@
         
     </style>
 </head>
-<body style="background-color: #e0e0e0;">
-<div style="width: 40%; display:inline-block;">
+<body style="background-color: #f5f5f5;">
+<div class="row">
+<div class="col s5">
 <?php 
 include_once '../../app/logic/conn.php';
 $id_cita = $_POST['id_cita'];
@@ -37,9 +40,9 @@ while($rows = mysqli_fetch_assoc($res_1)){
             $sql_sv = "INSERT INTO rec_med_orales(id_med_oral, med_oral, indicaciones, cantidad_med ,monto, id_cita, user_registra)
                         VALUES ('$array[0]','$array[2]', '$array[3]','$array[1]','$array[4]', '$array[5]', '$array[6]')";
                 if($mysqli -> query($sql_sv) === true){
-                    echo '<h4>El medicamento: '.$array[2].', fue registrado correctamente. $'.$array[4].'</h4>';
+                    echo '<p>El medicamento: '.$array[2].', fue registrado correctamente. $'.$array[4].'</p>';
                 }else{
-                    echo '<h4>Ha ocurrido un error favor de comunicarse con el administrador del sistema</h4>';
+                    echo '<p>Ha ocurrido un error favor de comunicarse con el administrador del sistema</p>';
                 }
         }elseif($valida == 1){
             $reg_prev = mysqli_fetch_assoc($val);
@@ -47,10 +50,10 @@ while($rows = mysqli_fetch_assoc($res_1)){
                 if($indicaciones != $array[3]){
                     $sql_up = "UPDATE rec_med_orales SET indicaciones = '$array[3]' WHERE id_med_oral = '$array[0]' and id_cita = '$array[5]'";
                     if($mysqli -> query($sql_up) === true){
-                        echo '<h4>El medicamento: '.$array[2].', ya había sido registrado previamente, se han actualizado las indicaciones</h4>';
+                        echo '<p>El medicamento: '.$array[2].', ya había sido registrado previamente, se han actualizado las indicaciones</p>';
                     }
                 }else{
-                    echo '<h4>El medicamento: '.$array[2].', ya había sido registrado previamente.</h4>';
+                    echo '<p>El medicamento: '.$array[2].', ya había sido registrado previamente.</p>';
                 }
             }
         
@@ -58,7 +61,7 @@ while($rows = mysqli_fetch_assoc($res_1)){
 }
 ?>
 </div>
-<div style="width: 50%; display:inline-block;">
+<div class="col s7">
 <?php 
     $sum = 0;
     $sql_total = "SELECT med_oral, indicaciones, cantidad_med, monto FROM rec_med_orales WHERE id_cita = '$id_cita'";
@@ -66,11 +69,10 @@ while($rows = mysqli_fetch_assoc($res_1)){
     $total = $res_tot-> num_rows;
 
     if($total > 0){
-        echo '<h3 style="margin-top: 0;">Medicamentos Orales registrados</h3>
+        echo '<h5>Medicamentos Orales y Nutrientes registrados</h5>
                 <table>
                 <tr>
                     <td><b>Medicamento Oral</b></td>
-                    <td><b>Indicaciones</b></td>
                     <td><b>Cantidad</b></td>
                     <td><b>Precio</b></td>
                   </tr>
@@ -78,7 +80,6 @@ while($rows = mysqli_fetch_assoc($res_1)){
         while($rows2 = mysqli_fetch_assoc($res_tot)){
             echo '<tr>
                     <td>'.$rows2['med_oral'].'</td>
-                    <td>'.$rows2['indicaciones'].'</td>
                     <td>'.$rows2['cantidad_med'].'</td>
                     <td>$ '.$rows2['monto'].'</td>
                   </tr>';
@@ -86,13 +87,13 @@ while($rows = mysqli_fetch_assoc($res_1)){
             $sum = $sum + $total_med; 
         }
         echo '</table>
-                <h3 style="float: right;">Total de medicamentos orales: $'.$sum.'</h3>';
+                <h5>Total de medicamentos orales: $'.$sum.'</h5>';
     }else{
-        echo '<h3>Aún no se ha registrado ninguna terapia de la receta de esta cita.</h3>';
+        echo '<h5>Aún no se ha registrado ninguna terapia de la receta de esta cita.</h5>';
     }
 
 ?>
-
+</div>
 </div>
 </body>
 </html>

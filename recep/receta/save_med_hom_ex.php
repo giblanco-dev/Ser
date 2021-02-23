@@ -17,7 +17,7 @@
         
     </style>
 </head>
-<body style="background-color: #e0e0e0;">
+<body style="background-color: #f5f5f5;">
 <div class="row">
 
 <div class="col s5">

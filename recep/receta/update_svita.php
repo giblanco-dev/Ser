@@ -15,7 +15,7 @@
 include_once '../../app/logic/conn.php';
 
 if(!empty($_POST)){
-    $t_a = $_POST['ta'];
+    $t_a = $_POST['ta1'].'/'.$_POST['ta2'];
     $temp = $_POST['temp'];
     $frec_c = $_POST['fre_c'];
     $fre_r = $_POST['fre_r'];

@@ -2,8 +2,9 @@
 include_once '../../app/logic/conn.php';
 $cita = $_GET['c'];
 $usuario = $_GET['u'];
-$sql_med = "SELECT * FROM med_orales WHERE activo = 1";
+$sql_med = "SELECT * FROM med_orales WHERE activo = 1 ORDER BY tipo, nom_med_oral";
 $res_med = $mysqli->query($sql_med);
+$res_med2 = $mysqli->query($sql_med);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,15 +43,15 @@ $res_med = $mysqli->query($sql_med);
     </style>
 </head>
 <body>
-    <div style="width: 100%;">
-    <form action="save_med_oral.php" method="POST">
-        <h2 style="display: inline-block;">Medicamentos Orales</h2>
-        <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
+<form action="save_med_oral.php" method="POST">
+    <div style="width: 50%; display: inline-block;">
+        <h2>Medicamentos Orales</h2>
         <table>
             <?php 
             $cont = 0;
             while($med_orales = mysqli_fetch_assoc($res_med)){
                 $cont ++;
+                if($med_orales['tipo']=='m'){
                 if(($cont % 2) == 1){
                     echo'
                     <tr>
@@ -58,7 +59,7 @@ $res_med = $mysqli->query($sql_med);
                     <td><input type="number" name="'.$med_orales['id_med_oral'].'[]" min="0" max="99" value="0"></td>
                     <td>'.$med_orales['nom_med_oral'].'</td>
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['nom_med_oral'].'">
-                    <td><input style="width: 25em;" type="text" name="'.$med_orales['id_med_oral'].'[]" value ="Indicaciones"></td>
+                    <input style="width: 25em;" type="hidden" name="'.$med_orales['id_med_oral'].'[]" value ="Indicaciones">
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['precio'].'">
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$cita.'">
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$usuario.'">
@@ -70,7 +71,7 @@ $res_med = $mysqli->query($sql_med);
                     <td><input type="number" name="'.$med_orales['id_med_oral'].'[]" min="0" max="99" value="0"></td>
                     <td>'.$med_orales['nom_med_oral'].'</td>
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['nom_med_oral'].'">
-                    <td><input style="width: 25em;" type="text" name="'.$med_orales['id_med_oral'].'[]" value ="Indicaciones"></td>
+                    <input style="width: 25em;" type="hidden" name="'.$med_orales['id_med_oral'].'[]" value ="Indicaciones">
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$med_orales['precio'].'">
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$cita.'">
                     <input type="hidden" name="'.$med_orales['id_med_oral'].'[]" value="'.$usuario.'">
@@ -78,10 +79,53 @@ $res_med = $mysqli->query($sql_med);
                     ';
                 }
             }
+        }
             ?>
         </table>
-        <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
-        </form>
+        
+        
     </div>
+    <div style=" width: 45%; display: inline-block;">
+    <h2>Nutrientes</h2>
+    <table>
+            <?php 
+            $cont = 0;
+            while($nutrientes = mysqli_fetch_assoc($res_med2)){
+                $cont ++;
+                if($nutrientes['tipo']=='n'){
+                if(($cont % 2) == 1){
+                    echo'
+                    <tr>
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$nutrientes['id_med_oral'].'">
+                    <td><input type="number" name="'.$nutrientes['id_med_oral'].'[]" min="0" max="99" value="0"></td>
+                    <td>'.$nutrientes['nom_med_oral'].'</td>
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$nutrientes['nom_med_oral'].'">
+                    <input style="width: 25em;" type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value ="Indicaciones">
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$nutrientes['precio'].'">
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$cita.'">
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$usuario.'">
+                    <td></td>            
+                    ';
+                }else{
+                    echo'
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$nutrientes['id_med_oral'].'">
+                    <td><input type="number" name="'.$nutrientes['id_med_oral'].'[]" min="0" max="99" value="0"></td>
+                    <td>'.$nutrientes['nom_med_oral'].'</td>
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$nutrientes['nom_med_oral'].'">
+                    <input style="width: 25em;" type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value ="Indicaciones">
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$nutrientes['precio'].'">
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$cita.'">
+                    <input type="hidden" name="'.$nutrientes['id_med_oral'].'[]" value="'.$usuario.'">
+                    </tr>      
+                    ';
+                }
+            }
+        }
+            ?>
+        </table>
+    </div>
+    <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
+    <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
+    </form>
 </body>
 </html>
