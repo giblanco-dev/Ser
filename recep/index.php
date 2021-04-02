@@ -88,7 +88,7 @@ $datos_cita = $mysqli -> query($sql_citas);
         }
     
         .table-responsive-2 { 
-            height: 700px; /* Mover a 400 para demostrar el scroll*/
+            height: 500px; /* Mover a 400 para demostrar el scroll*/
             overflow-y:scroll;
         }
     </style>
