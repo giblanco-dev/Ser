@@ -17,21 +17,24 @@
         
     </style>
 </head>
-<body style="background-color: #f5f5f5;">
+<body>
 <div class="row">
 <div class="col s5">
 <?php 
 include_once '../../app/logic/conn.php';
 $id_cita = $_POST['id_cita'];
+$user = $_POST['user'];
+
 $sql_terapias = "SELECT id_terapia FROM terapias WHERE activo = 1";
 $res_terapias = $mysqli->query($sql_terapias);
+
 
 while($terapia = mysqli_fetch_assoc($res_terapias)){
     $ter = $terapia['id_terapia'];
     $array = $_POST[$ter];
     
     if($array[1] > 0){
-        $sql_val = "SELECT * FROM rec_terapias WHERE id_terapia = '$array[0]' and id_cita = '$array[5]'";
+        $sql_val = "SELECT * FROM rec_terapias WHERE id_terapia = '$array[0]' and id_cita = '$array[5]' and cancelado = 0";
         $val = $mysqli->query($sql_val);
         $valida = $val->num_rows;
 
@@ -69,7 +72,7 @@ while($terapia = mysqli_fetch_assoc($res_terapias)){
 <div class="col s7">
 <?php 
     $sum_terapias = 0;
-    $sql_total = "SELECT terapia, indicaciones, monto, no_terapias FROM rec_terapias WHERE id_cita = '$id_cita'";
+    $sql_total = "SELECT id_registro, terapia, indicaciones, monto, no_terapias, cancelado FROM rec_terapias WHERE id_cita = '$id_cita'";
     $res_tot_ter = $mysqli->query($sql_total);
     $tot_ter = $res_tot_ter-> num_rows;
 
@@ -82,16 +85,23 @@ while($terapia = mysqli_fetch_assoc($res_terapias)){
                     <td><b>Indicaciones</b></td>
                     <td><b>Precio</b></td>
                     <td><b>Sub-Total</b></td>
+                    <td></td>
                   </tr>
                 ';
         while($ter_reg = mysqli_fetch_assoc($res_tot_ter)){
+            
             echo '<tr>
                     <td>'.$ter_reg['terapia'].'</td>
                     <td>'.$ter_reg['no_terapias'].'</td>
                     <td>'.$ter_reg['indicaciones'].'</td>
                     <td>$'.$ter_reg['monto'].'</td>
-                    <td>$ '.$ter_reg['monto']*$ter_reg['no_terapias'].'</td>
-                  </tr>';
+                    <td>$ '.$ter_reg['monto']*$ter_reg['no_terapias'].'</td>';
+                    if($ter_reg['cancelado']==0){
+                        echo '<td><a href="cancelaciones.php?c_terapia='.$ter_reg['id_registro'].'&u='.$user.'">Cancelar</a></td></tr>';
+                    }else{
+                        echo '<td>Cancelado</td></tr>';
+                    }
+                  
             $sum_terapias = $sum_terapias + ($ter_reg['monto'] * $ter_reg['no_terapias']); 
         }
         echo '</table>

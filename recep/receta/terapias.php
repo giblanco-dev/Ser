@@ -81,6 +81,7 @@ $res_terapias = $mysqli->query($sql_terapias);
             ?>
         </table>
         <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
+        <input type="hidden" name="user" value="<?php echo $usuario; ?>">
         </form>
     </div>
 </body>

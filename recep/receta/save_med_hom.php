@@ -113,7 +113,7 @@ $sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita";
 $fras = $mysqli->query($sql_fras);
 $val_resu = $fras->num_rows;
 
-$sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo FROM resu_med_home
+$sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado, id_registro FROM resu_med_home
 INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = $cita";
 $resumen = $mysqli->query($sql_resu);
 
@@ -147,18 +147,27 @@ if($val_resu > 0){
                     <td><b>Precio</b></td>
                     <td><b>Cantidad de Tratamientos</b></td>
                     <td><b>Sub-Total</b></td>
+                    <td></td>
                   </tr>
                 ';
 
         while($rows3 = mysqli_fetch_assoc($resumen)){
             if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal";}
             if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra";}
-            $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
+            if($rows3['cancelado'] == 0){
+                $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
+                $cancela = '<a href="cancelaciones.php?mh_terapia='.$rows3['id_registro'].'&u='.$user.'&c='.$rows3['id_cita'].'">Cancelar</a>';
+            }else{
+                $sub_total_trat = 0;
+                $cancela = 'Cancelado';
+            }
+            
             echo '<tr>
                     <td>'.$rows3['des_tratamiento'].'</td>
                     <td>'.$rows3['costo'].'</td>
                     <td>'.$rows3['cant_tratamientos'].'</td>
                     <td>$ '.$sub_total_trat.'</td>
+                    <td> '.$cancela.'</td>
                   </tr>';
                   $total_trat = $total_trat + $sub_total_trat;
         }

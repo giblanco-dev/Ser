@@ -19,7 +19,7 @@
 </head>
 <body style="background-color: #f5f5f5;">
 <div class="row">
-<div class="col s4">
+<div class="col s3">
 <?php 
 include_once '../../app/logic/conn.php';
 $id_cita = $_POST['id_cita'];
@@ -32,7 +32,7 @@ while($sueros = mysqli_fetch_assoc($res_sueros)){
     $array = $_POST[$id_suero];
     
     if($array[1] == "on"){
-        $sql_val = "SELECT * FROM rec_sueros WHERE suero = '$array[0]' and id_cita = '$id_cita'";
+        $sql_val = "SELECT * FROM rec_sueros WHERE suero = '$array[0]' and id_cita = '$id_cita' and cancelado = 0";
         $val = $mysqli->query($sql_val);
         $valida = $val->num_rows;
 
@@ -61,7 +61,7 @@ while($sueros = mysqli_fetch_assoc($res_sueros)){
    
 ?>
 </div>
-<div class="col s8">
+<div class="col s9">
 <?php 
 $sql_rec_sueros = "SELECT sueros.nom_suero, sueros.precio,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp1) Complemento1,
@@ -73,7 +73,8 @@ $sql_rec_sueros = "SELECT sueros.nom_suero, sueros.precio,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp4) Complemento4,
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5
+(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
+rec_sueros.cancelado, rec_sueros.id_registro
 FROM rec_sueros
 INNER JOIN sueros on rec_sueros.suero = sueros.id_suero
 WHERE rec_sueros.id_cita = '$id_cita' ";
@@ -88,10 +89,18 @@ if($val_sueros > 0){
         <th><b>Precio</b></th>
         <th colspan="5"><b>Complementos</b></th>
         <th><b>Subtotal</b></th>
+        <th><b></b></th>
       </tr>';
       $total = 0;
     while($row = mysqli_fetch_assoc($result)){
-        $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'];
+        if($row['cancelado'] == 0){
+            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'];
+            $cancela = '<a href="cancelaciones.php?c_suero='.$row['id_registro'].'&u='.$user.'">Cancelar</a>';
+        }else{
+            $sub_total = 0;
+            $cancela = 'Cancelado';
+        }
+        
         echo'
         <tr>
         <td>'.$row['nom_suero'].'</td>
@@ -102,6 +111,7 @@ if($val_sueros > 0){
         <td>'.$row['Complemento4'].'<br>$'.$row['Precio4'].'</td>
         <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>
         <td>$'.$sub_total.'</td>
+        <td>'.$cancela.'</td>
         </tr>';
         $total = $total + $sub_total;
     }
