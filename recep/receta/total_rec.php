@@ -26,7 +26,7 @@
     <div class="col s8">
     <?php 
     $sum_terapias = 0;
-    $sql_total = "SELECT terapia, indicaciones, monto, no_terapias FROM rec_terapias WHERE id_cita = '$id_cita'";
+    $sql_total = "SELECT terapia, indicaciones, monto, no_terapias, cancelado FROM rec_terapias WHERE id_cita = '$id_cita'";
     $res_tot_ter = $mysqli->query($sql_total);
     $tot_ter = $res_tot_ter-> num_rows;
 
@@ -34,7 +34,7 @@
         echo '
                 <table>
                 <tr>
-                <td colspan="2"><b>Terapias registradas previamente</h5></b></td>
+                <td colspan="3" style="background-color: #00e5ff;"><b>Terapias registradas previamente</h5></b></td>
                 </tr>
                 <tr>
                     <td><b>Terapia</b></td>
@@ -47,17 +47,23 @@
             echo '<tr>
                     <td>'.$ter_reg['terapia'].'</td>
                     <td>'.$ter_reg['no_terapias'].'</td>
-                    <td>$ '.$ter_reg['monto'].'</td>
-                    <td>$ '.$ter_reg['monto']*$ter_reg['no_terapias'].'</td>
-                  </tr>';
-            $sum_terapias = $sum_terapias + ($ter_reg['monto']*$ter_reg['no_terapias']); 
+                    <td>$ '.$ter_reg['monto'].'</td>';
+                    if($ter_reg['cancelado']==0){
+                        echo '<td>$ '.$ter_reg['monto']*$ter_reg['no_terapias'].'</td>
+                    </tr>';
+                        $sum_terapias = $sum_terapias + ($ter_reg['monto'] * $ter_reg['no_terapias']); 
+                    }else{
+                        echo '<td>Cancelado</td></tr>';
+                    }
+                    
+            //$sum_terapias = $sum_terapias + ($ter_reg['monto']*$ter_reg['no_terapias']); 
         }
         echo '
-            <tr>
-            <td><b>Total de terapias</b></td>
-            <td><b>$'.$sum_terapias.'</b></td>
+            <tr style="background-color: lightgrey;">
+            <td colspan="2" style="text-align: right;"><b>Total de terapias</b></td>
+            <td colspan="2"><b>$'.$sum_terapias.'</b></td>
             </tr>
-            </table>';
+            </table><br>';
     }else{
         echo '<h5>No se registraron terapias de la receta de esta cita.</h5>';
     }
@@ -74,7 +80,8 @@
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp4) Complemento4,
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5
+(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
+rec_sueros.cancelado, rec_sueros.id_registro
 FROM rec_sueros
 INNER JOIN sueros on rec_sueros.suero = sueros.id_suero
 WHERE rec_sueros.id_cita = '$id_cita' ";
@@ -85,7 +92,7 @@ if($val_sueros > 0){
     echo '
     <table>
     <tr>
-    <td colspan="7"><b>Sueros-Complementos Registrados</b></td>
+    <td colspan="6" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
     <tr>
     <tr>
         <td><b>Suero/Precio</b></td>
@@ -94,7 +101,7 @@ if($val_sueros > 0){
       </tr>';
       
     while($row = mysqli_fetch_assoc($result)){
-        $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'];
+       
         echo'
         <tr>
         <td>'.$row['nom_suero'].'<br> $'.$row['precio'].'</td>
@@ -102,24 +109,34 @@ if($val_sueros > 0){
         <td>'.$row['Complemento2'].'<br>$'.$row['Precio2'].'</td>
         <td>'.$row['Complemento3'].'<br>$'.$row['Precio3'].'</td>
         <td>'.$row['Complemento4'].'<br>$'.$row['Precio4'].'</td>
-        <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>
-        <td>$'.$sub_total.'</td>
-        </tr>';
-        $total_sueros = $total_sueros + $sub_total;
+        <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>';
+
+        if($row['cancelado'] == 0){
+            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'];
+            echo '<td>$'.$sub_total.'</td>
+        <tr>';
+            $total_sueros = $total_sueros + $sub_total;
+        }else{
+            echo '<td>Cancelado</td>
+            <tr>';
+            
+        }
+        
+        
     }
         echo'
-        <tr>
-        <td colspan="6"><b>Total de Sueros y Complementos</b></td>
-        <td><b>$'.$total_sueros.'</b></td>
+        <tr style="background-color: lightgrey;">
+        <td colspan="4" style="text-align: right;"><b>Total de Sueros y Complementos</b></td>
+        <td colspan="3"><b>$'.$total_sueros.'</b></td>
         </tr>
-        </table>';
+        </table><br>';
 }else{
     echo '<h5>Aún no hay registros de sueros de la cita Actual</h5>';
 }
 
 // *********************** Inicia totales de Medicamentos Homeopaticos *********
 
-$sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo FROM resu_med_home
+$sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado FROM resu_med_home
 INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = '$id_cita'";
 $resumen = $mysqli->query($sql_resu);
 $val_resu = $resumen->num_rows;
@@ -129,7 +146,7 @@ if($val_resu > 0){
             echo '
             <table>
                 <tr>
-                    <td colspan="4"><b>Total Tratamiento Homeopático</b></td>
+                    <td colspan="3" style="background-color: #00e5ff;"><b>Tratamiento Homeopático</b></td>
                 </tr>
                 <tr>
                     <td><b>Tipo tratamiento</b></td>
@@ -146,17 +163,24 @@ if($val_resu > 0){
             echo '<tr>
                     <td>'.$rows3['des_tratamiento'].'</td>
                     <td>'.$rows3['costo'].'</td>
-                    <td>'.$rows3['cant_tratamientos'].'</td>
-                    <td>$ '.$sub_total_trat.'</td>
-                  </tr>';
-                  $total_trat = $total_trat + $sub_total_trat;
+                    <td>'.$rows3['cant_tratamientos'].'</td>';
+
+                    if($rows3['cancelado'] == 0){
+                        $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
+                        $total_trat = $total_trat + $sub_total_trat;
+                        echo '<td>$ '.$sub_total_trat.'</td>
+                        </tr>';
+                    }else{
+                        echo '<td>Cancelado</td>
+                        </tr>';
+                    }
         }
         echo '
-        <tr>
-        <td colspan="3"><b>Total Tratamiento Medicamentos Homeopáticos</b></td>
-        <td><b>$'.$total_trat.'</b></td>
+        <tr style="background-color: lightgrey;">
+        <td colspan="2" style="text-align: right;"><b>Total Tratamiento Medicamentos Homeopáticos</b></td>
+        <td colspan="2"><b>$'.$total_trat.'</b></td>
         </tr>
-        </table>';
+        </table><br>';
 }else{
     echo '<h5>No se regsitro tratamiento homeopático de esta cita</h5>';
 }
@@ -164,7 +188,7 @@ if($val_resu > 0){
 // Total medicamentos orales
 
 $sum_orales = 0;
-    $sql_total = "SELECT med_oral, indicaciones, cantidad_med, monto FROM rec_med_orales WHERE id_cita = '$id_cita'";
+    $sql_total = "SELECT med_oral, indicaciones, cantidad_med, monto, cancelado FROM rec_med_orales WHERE id_cita = '$id_cita'";
     $res_tot = $mysqli->query($sql_total);
     $total = $res_tot-> num_rows;
 
@@ -172,27 +196,38 @@ $sum_orales = 0;
         echo '
                 <table>
                 <tr>
-                <td><b>Medicamentos Orales registrados</b></td>
+                <td colspan="3" style="background-color: #00e5ff;"><b>Medicamentos Orales registrados</b></td>
                 </tr>
                 <tr>
                     <td><b>Medicamento Oral</b></td>
                     <td><b>Cantidad</b></td>
                     <td><b>Precio</b></td>
+                    <td><b>Sub-Total</b></td>
                   </tr>
                 ';
         while($rows2 = mysqli_fetch_assoc($res_tot)){
             echo '<tr>
                     <td>'.$rows2['med_oral'].'</td>
                     <td>'.$rows2['cantidad_med'].'</td>
-                    <td>$ '.$rows2['monto'].'</td>
-                  </tr>';
-                  $total_med = $rows2['monto'] * $rows2['cantidad_med'];
+                    <td>$ '.$rows2['monto'].'</td>';
+
+                  if($rows2['cancelado'] == 0){
+                    $total_med = $rows2['monto'] * $rows2['cantidad_med'];
+                    echo'<td>$ '.$total_med.'</td>
+                        </tr>';
+                        
+                }else{
+                    echo'<td>Cancelado</td>
+                        </tr>';
+                        $total_med = 0;
+                    }
+                  
             $sum_orales = $sum_orales + $total_med; 
         }
         echo '
-                <tr>
-                <td colspan="2"><b>Total de medicamentos orales</b></td>
-                <td><b>$'.$sum_orales.'</b></td>
+                <tr style="background-color: lightgrey;">
+                <td colspan="2" style="text-align: right;"><b>Total de medicamentos orales</b></td>
+                <td colspan="2"><b>$'.$sum_orales.'</b></td>
                 </tr>
         </table>';
                 
@@ -205,7 +240,7 @@ $sum_orales = 0;
 
 
     <div class="col s4">
-    <form action="" method="post">
+    <form action="env_caja.php" method="post" oninput="resultado.value=(parseInt(total.value)+parseInt(consulta.value))-((parseInt(total.value)+parseInt(consulta.value))*(parseInt(descuentos.value)/100))">
     <table class="striped">
         <thead>
             <tr>
@@ -231,9 +266,10 @@ $sum_orales = 0;
                 <td>$<?php echo $sum_orales;?></td>
             </tr>
             <tr>
-                <td>Total a Pagar</td>
+                <td>Sub-Total</td>
                 <?php $total_receta = $sum_terapias + $total_sueros + $total_trat + $sum_orales;?>
                 <td><b>$<?php echo $total_receta;?></b></td>
+                <input type="hidden" name="total" value="<?php echo $total_receta ?>">
             </tr>
         </tbody>
     </table>
@@ -244,7 +280,7 @@ $sum_orales = 0;
             <div class="switch">
             <label>
             No
-            <input type="checkbox" name="consulta">
+            <input type="checkbox" name="consulta" value="150">
             <span class="lever"></span>
             Si
             </label>
@@ -255,9 +291,16 @@ $sum_orales = 0;
          <input type="number" name="descuentos" min="0" max="100" step="5">
         </div>
         <div class="col s12 center-align">
+        <br>
+        <p>Total a Pagar:</p>
+        <output name="resultado" for="total consulta"></output>
+        <br>
             <br>
         <button class="btn waves-effect waves-light" type="submit" name="action">Enviar para cobro
             <i class="material-icons right">send</i>
+        </button><br><br>
+        <button class="btn yellow darken-2" type="reset" name="action">Limpiar
+            <i class="material-icons right">autorenew</i>
         </button>
         </div>
     </div>

@@ -18,7 +18,7 @@ $cita = $_GET['cita'];
 $error_1 = '';
 $cita_sql = "SELECT 
 CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente, cita.id_paciente,
-CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita
+CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, cita.caja, cita.pagado
     FROM cita
     INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
     INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -84,6 +84,8 @@ if($val_cita == 1){
     if($datos_cita['tipo'] == 0){ ?>
     <div class="row center-align" style="width: 98%;">
         <div class="col s2">
+        <?php 
+        if($datos_cita['pagado'] == 0){   ?>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <a href="terapias.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>" 
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">TERAPIAS</a>
@@ -103,6 +105,9 @@ if($val_cita == 1){
         <a href="svitales.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">ACTUALIZAR S.VITALES</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
+        <?php }
+        
+        ?>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <a href="total_rec.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">Resumen/Enviar a Caja</a>
@@ -116,6 +121,9 @@ if($val_cita == 1){
       <div class="row center-align" style="width: 90%; margin-bottom: 10%;">
       <div class="divider" style="margin-bottom: 2%;"></div>
       <div class="col s4">
+      <?php 
+      if($datos_cita['pagado'] == 0){
+      ?>
       <h5>Capturar importe a cobrar</h4>
       </div>
       <div class="col s6">
@@ -130,7 +138,7 @@ if($val_cita == 1){
             <i class="material-icons right">send</i>
         </button>
         </div>
-
+        <?php  } ?>
       </form>
       </div>
 

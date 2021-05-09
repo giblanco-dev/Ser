@@ -22,6 +22,7 @@
 <div class="col s5">
 <?php 
 include_once '../../app/logic/conn.php';
+$user = $_POST['user'];
 $id_cita = $_POST['id_cita'];
 $sql_1 = "SELECT id_med_oral FROM med_orales WHERE activo = 1";
 $res_1 = $mysqli->query($sql_1);
@@ -31,7 +32,7 @@ while($rows = mysqli_fetch_assoc($res_1)){
     $array = $_POST[$id];
     
     if($array[1] > 0){
-        $sql_val = "SELECT * FROM rec_med_orales WHERE id_med_oral = '$array[0]' and id_cita = '$array[5]'";
+        $sql_val = "SELECT * FROM rec_med_orales WHERE id_med_oral = '$array[0]' and id_cita = '$array[5]' AND cancela = 0";
         $val = $mysqli->query($sql_val);
         $valida = $val->num_rows;
 
@@ -64,7 +65,7 @@ while($rows = mysqli_fetch_assoc($res_1)){
 <div class="col s7">
 <?php 
     $sum = 0;
-    $sql_total = "SELECT med_oral, indicaciones, cantidad_med, monto FROM rec_med_orales WHERE id_cita = '$id_cita'";
+    $sql_total = "SELECT med_oral, indicaciones, cantidad_med, monto, id_registro, cancelado FROM rec_med_orales WHERE id_cita = '$id_cita'";
     $res_tot = $mysqli->query($sql_total);
     $total = $res_tot-> num_rows;
 
@@ -75,16 +76,29 @@ while($rows = mysqli_fetch_assoc($res_1)){
                     <td><b>Medicamento Oral</b></td>
                     <td><b>Cantidad</b></td>
                     <td><b>Precio</b></td>
+                    <td></td>
                   </tr>
                 ';
         while($rows2 = mysqli_fetch_assoc($res_tot)){
+            $id_med_oral = $rows2['id_registro'];
             echo '<tr>
                     <td>'.$rows2['med_oral'].'</td>
                     <td>'.$rows2['cantidad_med'].'</td>
                     <td>$ '.$rows2['monto'].'</td>
-                  </tr>';
-                  $total_med = $rows2['monto'] * $rows2['cantidad_med'];
+                    ';
+            if($rows2['cancelado'] == 0){
+                echo'<td><a href="cancelaciones.php?med_oral='.$id_med_oral.'&u='.$user.'">Cancelar</a></td>
+                    </tr>';
+                    $total_med = $rows2['monto'] * $rows2['cantidad_med'];
+            }else{
+                echo'<td>Cancelado</td>
+                    </tr>';
+                    $total_med = 0;
+            }
+                  
             $sum = $sum + $total_med; 
+
+            
         }
         echo '</table>
                 <h5>Total de medicamentos orales: $'.$sum.'</h5>';

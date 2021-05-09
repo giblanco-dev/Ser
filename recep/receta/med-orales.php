@@ -124,6 +124,7 @@ $res_med2 = $mysqli->query($sql_med);
             ?>
         </table>
     </div>
+    <input type="hidden" name="user" value="<?php echo $usuario; ?>">
     <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
     <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
     </form>

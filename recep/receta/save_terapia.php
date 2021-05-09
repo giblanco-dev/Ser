@@ -98,11 +98,12 @@ while($terapia = mysqli_fetch_assoc($res_terapias)){
                     <td>$ '.$ter_reg['monto']*$ter_reg['no_terapias'].'</td>';
                     if($ter_reg['cancelado']==0){
                         echo '<td><a href="cancelaciones.php?c_terapia='.$ter_reg['id_registro'].'&u='.$user.'">Cancelar</a></td></tr>';
+                        $sum_terapias = $sum_terapias + ($ter_reg['monto'] * $ter_reg['no_terapias']); 
                     }else{
                         echo '<td>Cancelado</td></tr>';
                     }
                   
-            $sum_terapias = $sum_terapias + ($ter_reg['monto'] * $ter_reg['no_terapias']); 
+            
         }
         echo '</table>
                 <h5>Total de terapias: $'.$sum_terapias.'</h5>';

@@ -48,7 +48,7 @@ if($tipo_fras == 'gen'){
 
            
 
-            $sql_val = "SELECT id_registro FROM rec_med_home WHERE frasco = '$no_frasco' AND id_cita = '$cita' AND tipo_fras = '$tipo_fras'";
+            $sql_val = "SELECT id_registro FROM rec_med_home WHERE frasco = '$no_frasco' AND id_cita = '$cita' AND tipo_fras = '$tipo_fras' and cancelado = 0";
             $res_val = $mysqli->query($sql_val);
             $val = $res_val->num_rows;
             
@@ -78,7 +78,7 @@ if($tipo_fras == 'gen'){
     $tipo_trat = $_POST['tipo_trat'];
     $cantidad = $_POST['cant_trat'];
     
-    $sql_valt = "SELECT * FROM resu_med_home WHERE id_cita = '$cita' and tipo_fras = '$tipo_fras'";
+    $sql_valt = "SELECT * FROM resu_med_home WHERE id_cita = '$cita' and tipo_fras = '$tipo_fras' AND cancelado = 0";
     $res_valt = $mysqli->query($sql_valt);
     $valt = $res_valt->num_rows;
         if($valt == 1){
@@ -111,13 +111,13 @@ if($tipo_fras == 'gen'){
 <?php 
 $sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita";
 $fras = $mysqli->query($sql_fras);
-$val_resu = $fras->num_rows;
+$val_fras = $fras->num_rows;
 
 $sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado, id_registro FROM resu_med_home
 INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = $cita";
 $resumen = $mysqli->query($sql_resu);
 
-if($val_resu > 0){
+if($val_fras > 0){
     $total_trat = 0;
     echo '<br><h5 style="margin-top: 0;">Medicamentos Homeopáticos registrados</h5>
                 <table class="centered">
@@ -128,14 +128,16 @@ if($val_resu > 0){
                   </tr>
                 ';
         while($rows2 = mysqli_fetch_assoc($fras)){
-            $medicamentos = $rows2['med1'].' '.$rows2['med2'].' '.$rows2['med3'].' '.$rows2['med4'].' '.$rows2['med5'];
-            if($rows2['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $no_frasco = $rows2['frasco'];}
-            if($rows2['tipo_fras']== "ext"){$tipo_frasco = "Extra";$no_frasco = $rows2['frasco'].' Ex';}
-            echo '<tr>
-                    <td>'.$no_frasco.'</td>
-                    <td>'.$tipo_frasco.'</td>
-                    <td>'.$medicamentos.'</td>
-                  </tr>';
+            if($rows2['cancelado'] == 0){
+                $medicamentos = $rows2['med1'].' '.$rows2['med2'].' '.$rows2['med3'].' '.$rows2['med4'].' '.$rows2['med5'];
+                if($rows2['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $no_frasco = $rows2['frasco'];}
+                if($rows2['tipo_fras']== "ext"){$tipo_frasco = "Extra";$no_frasco = $rows2['frasco'].' Ex';}
+                echo '<tr>
+                        <td>'.$no_frasco.'</td>
+                        <td>'.$tipo_frasco.'</td>
+                        <td>'.$medicamentos.'</td>
+                    </tr>';
+            }
         }
 
         echo '
@@ -156,7 +158,7 @@ if($val_resu > 0){
             if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra";}
             if($rows3['cancelado'] == 0){
                 $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
-                $cancela = '<a href="cancelaciones.php?mh_terapia='.$rows3['id_registro'].'&u='.$user.'&c='.$rows3['id_cita'].'">Cancelar</a>';
+                $cancela = '<a href="cancelaciones.php?rmehome='.$rows3['id_registro'].'&u='.$user.'&c='.$rows3['id_cita'].'&tf='.$rows3['tipo_fras'].'">Cancelar</a>';
             }else{
                 $sub_total_trat = 0;
                 $cancela = 'Cancelado';

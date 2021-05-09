@@ -49,7 +49,7 @@ if($tipo_fras == 'ext'){
 
            
 
-            $sql_val = "SELECT id_registro FROM rec_med_home WHERE frasco = '$no_frasco' AND id_cita = '$cita' AND tipo_fras = '$tipo_fras'";
+            $sql_val = "SELECT id_registro FROM rec_med_home WHERE frasco = '$no_frasco' AND id_cita = '$cita' AND tipo_fras = '$tipo_fras' AND cancelado = 0";
             $res_val = $mysqli->query($sql_val);
             $val = $res_val->num_rows;
             
@@ -78,11 +78,11 @@ if($tipo_fras == 'ext'){
     
     $tipo_trat = 6;
     
-    $sql_c = "SELECT id_registro FROM rec_med_home WHERE id_cita = '$cita' AND tipo_fras = 'ext'";
+    $sql_c = "SELECT id_registro FROM rec_med_home WHERE id_cita = '$cita' AND tipo_fras = 'ext' AND cancelado = 0";
     $res_c = $mysqli->query($sql_c);
     $cantidad = $res_c->num_rows;
 
-    $sql_valt = "SELECT * FROM resu_med_home WHERE id_cita = '$cita' and tipo_fras = '$tipo_fras'";
+    $sql_valt = "SELECT * FROM resu_med_home WHERE id_cita = '$cita' and tipo_fras = '$tipo_fras' AND cancelado = 0";
     $res_valt = $mysqli->query($sql_valt);
     $valt = $res_valt->num_rows;
         if($valt == 1){
