@@ -26,7 +26,7 @@ if(!empty($_POST)){
     if($id_medico == 'x'){
         $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
+        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -36,7 +36,7 @@ if(!empty($_POST)){
     }else{
         $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
+        CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -47,7 +47,7 @@ if(!empty($_POST)){
 }else{
     $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
     CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
+    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -178,13 +178,23 @@ $datos_cita = $mysqli -> query($sql_citas);
                                 <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
                                 <td><div class="chip">Consulta</div></td>
                                 <td><div class="chip">Caja</div></td>
+                                <td><div class="chip">Pagado</div></td>
                                 ';
                             }
-                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 1){
+                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 1 && $citas_dia['caja'] == 0){
                                 echo '
                                 <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
                                 <td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta/?cita='.$citas_dia['id_cita'].'">Consulta</a></div></td>
-                                <td><div class="chip">Caja</div></td>
+                                <td><div class="chip ">Caja</div></td>
+                                <td><div class="chip">Pagado</div></td>
+                                ';
+                            }
+                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 1 && $citas_dia['caja'] == 1){
+                                echo '
+                                <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
+                                <td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta/?cita='.$citas_dia['id_cita'].'">Consulta</a></div></td>
+                                <td><div class="chip  teal darken-4 white-text">Caja</div></td>
+                                <td><div class="chip">Pagado</div></td>
                                 ';
                             }
                             if($citas_dia['confirma'] == 1){

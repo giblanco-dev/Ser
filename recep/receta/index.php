@@ -74,7 +74,7 @@ if($val_cita == 1){
                 <h6 style="text-transform: capitalize;">Paciente: <?php echo $datos_cita['Nom_paciente']; ?></h6>
             </div>
             <div class="col s4">
-                <h6>Fecha : <?php echo $fecha_cita; ?>  -- <?php echo $datos_cita['horario']; ?></h6>
+                <h6>Fecha : <?php echo $fecha_cita; ?>  Horario: <?php echo $datos_cita['horario']; ?></h6>
                 <h6>Cita: <?php echo $datos_cita['descrip_cita']; ?></h6>
             </div>
         </div>
@@ -117,32 +117,20 @@ if($val_cita == 1){
         </div>
     </div>
     <?php   }else{
+       if($datos_cita['pagado'] == 0){  
       ?>
-      <div class="row center-align" style="width: 90%; margin-bottom: 10%;">
-      <div class="divider" style="margin-bottom: 2%;"></div>
-      <div class="col s4">
-      <?php 
-      if($datos_cita['pagado'] == 0){
-      ?>
-      <h5>Capturar importe a cobrar</h4>
-      </div>
-      <div class="col s6">
-      <form action="" method="post">
-      <input type="number" name="total_receta" id="" placeholder="Ingrese el monto a cobrar $" min="50" style="max-width: 300px;">
-         <p>Aplicar Descuento %</p>
-         <input type="number" name="descuentos" min="0" max="100" step="5" style="max-width: 300px;">
-         <br><br>
-         <input type="text" name="comentarios" id="" placeholder="Comentarios">
-         <br><br>
-         <button class="btn waves-effect waves-light" type="submit" name="action">Enviar para cobro
-            <i class="material-icons right">send</i>
-        </button>
+      <div class="row center-align" style="width: 98%;">
+      <div class="col s2">
+      <div class="divider" style="margin-top: 50px; margin-bottom: 10px;"></div>
+        <a href="total_otros.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>" 
+        target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">Resumen/Enviar a Caja</a>  
         </div>
-        <?php  } ?>
-      </form>
+        <div class="col s10">
+            <iframe id="iframe_receta" frameborder="0" name="frame-cont"></iframe>
+        </div>   
       </div>
-
-<?php }   
+<?php }  
+    } 
     ?>
     <footer class="page-footer">
           <div class="container">

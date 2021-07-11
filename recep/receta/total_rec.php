@@ -276,26 +276,19 @@ $sum_orales = 0;
     <div class="row">
         <div class="col s6 center-align">
             <p>¿Se incluye consulta?</p>
-            <br>
-            <div class="switch">
-            <label>
-            No
-            <input type="checkbox" name="consulta" value="150">
-            <span class="lever"></span>
-            Si
-            </label>
-            </div>
+            <input type="number" name="consulta" min="0" max="150" step="150" value="0">
         </div>
         <div class="col s6">
          <p>Aplicar Descuento %</p>
-         <input type="number" name="descuentos" min="0" max="100" step="5">
+         <input type="number" name="descuentos" min="0" max="100" step="5" value="0">
+        </div>
+        <div class="col s12">
+        <blockquote style="font-size: 16px; font-weight:bold;">
+        Total a Pagar: $ 
+        <output name="resultado" for="total consulta"></output>
+        </blockquote>
         </div>
         <div class="col s12 center-align">
-        <br>
-        <p>Total a Pagar:</p>
-        <output name="resultado" for="total consulta"></output>
-        <br>
-            <br>
         <button class="btn waves-effect waves-light" type="submit" name="action">Enviar para cobro
             <i class="material-icons right">send</i>
         </button><br><br>
@@ -304,6 +297,14 @@ $sum_orales = 0;
         </button>
         </div>
     </div>
+    <input type="hidden" name="id_cita" value="<?php echo $id_cita ?>">
+    <input type="hidden" name="user" value="<?php echo $usuario ?>">
+    <input type="hidden" name="terapias" value="<?php echo $sum_terapias ?>">
+    <input type="hidden" name="sueros" value="<?php echo $total_sueros ?>">
+    <input type="hidden" name="homeopaticos" value="<?php echo $total_trat ?>">
+    <input type="hidden" name="orales" value="<?php echo $sum_orales ?>">
+    <input type="hidden" name="sub_total" value="<?php echo $total_receta ?>">
+    
     </form>
     </div>
     </div>
