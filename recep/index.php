@@ -31,7 +31,7 @@ if(!empty($_POST)){
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' and confirma < 3
+        WHERE cita.fecha = '$hoy' 
         ORDER BY cita.fecha, cita.horario";
     }else{
         $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
@@ -41,7 +41,7 @@ if(!empty($_POST)){
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND medico = '$id_medico' AND confirma < 3
+        WHERE cita.fecha = '$hoy' AND medico = '$id_medico'
         ORDER BY cita.fecha, cita.horario";
     }
 }else{
@@ -52,7 +52,7 @@ if(!empty($_POST)){
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND confirma < 3
+        WHERE cita.fecha = '$hoy'
         ORDER BY cita.fecha, cita.horario";
 
 }
@@ -173,36 +173,72 @@ $datos_cita = $mysqli -> query($sql_citas);
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['medico_cita']; ?></td>
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['descrip_cita']; ?></td>
                             <?php
-                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 0){
+                            switch($citas_dia['confirma']){
+                                case 1:
+                                    echo '
+                                        <td><div class="chip black"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'&m='.$citas_dia['medico'].'">Asistencia</a></div></td>
+                                        <td><div class="chip grey darken-1"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Cancelar</a></div></td>
+                                        ';
+                                    break;
+                                case 2:
+                                    echo '
+                                        <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>  ';
+                                        // Se evaluan estatus de Consulta
+                                        if($citas_dia['consulta'] == 0){
+                                            echo '<td><div class="chip ">Sin Consulta</div></td>';
+                                        }elseif($citas_dia['consulta'] == 1){
+                                            echo'
+                                            <td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta/?cita='.$citas_dia['id_cita'].'">Salió Consulta</a></div></td>
+                                            ';    
+                                        }else{
+                                            echo '
+                                            <td><div class="chip  red darken-1 white-text"><a class="white-text">Error ponerse en contacto con Sistemas</a></div></td>
+                                            ';            
+                                        }
+                                        // Se valuan estatus de caja
+                                        if($citas_dia['caja'] == 0){
+                                            echo '<td><div class="chip ">Sin envio Caja</div></td>';
+                                        }elseif($citas_dia['caja'] == 1){
+                                            echo'
+                                            <td><div class="chip  green darken-4 white-text">Enviado Caja</div></td>
+                                            ';    
+                                        }else{
+                                            echo '
+                                            <td><div class="chip  red darken-1 white-text"><a class="white-text">Error ponerse en contacto con Sistemas</a></div></td>
+                                            ';            
+                                        }
+
+                                        // Se valuan estatus de PAGO
+                                        if($citas_dia['pagado'] == 0){
+                                            echo '<td><div class="chip ">Pago Pendiente</div></td>';
+                                        }elseif($citas_dia['pagado'] == 1){
+                                            echo'
+                                            <td><div class="chip  light-blue darken-4 white-text">Pagado</div></td>
+                                            ';    
+                                        }else{
+                                            echo '
+                                            <td><div class="chip  red darken-1 white-text"><a class="white-text">Error ponerse en contacto con Sistemas</a></div></td>
+                                            ';            
+                                        }
+                                        
+                                        
+
+
+                                        
+                                    break;
+                                case 3:
+                                    echo '
+                                        <td><div class="chip  orange darken-4 white-text"><a class="white-text">Cancelada</a></div></td>
+                                        ';
+                                        //<td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta/?cita='.$citas_dia['id_cita'].'">Recativar</a></div></td>
+                                    break;
+                                default:
                                 echo '
-                                <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
-                                <td><div class="chip">Consulta</div></td>
-                                <td><div class="chip">Caja</div></td>
-                                <td><div class="chip">Pagado</div></td>
+                                <td><div class="chip  red darken-1 white-text"><a class="white-text">Error ponerse en contacto con Sistemas</a></div></td>
                                 ';
                             }
-                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 1 && $citas_dia['caja'] == 0){
-                                echo '
-                                <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
-                                <td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta/?cita='.$citas_dia['id_cita'].'">Consulta</a></div></td>
-                                <td><div class="chip ">Caja</div></td>
-                                <td><div class="chip">Pagado</div></td>
-                                ';
-                            }
-                            if($citas_dia['confirma'] == 2 && $citas_dia['consulta'] == 1 && $citas_dia['caja'] == 1){
-                                echo '
-                                <td><div class="chip yellow darken-3 white-text">Asistencia</div></td>
-                                <td><div class="chip  red darken-1 white-text"><a class="white-text" href="receta/?cita='.$citas_dia['id_cita'].'">Consulta</a></div></td>
-                                <td><div class="chip  teal darken-4 white-text">Caja</div></td>
-                                <td><div class="chip">Pagado</div></td>
-                                ';
-                            }
-                            if($citas_dia['confirma'] == 1){
-                                echo '
-                                <td><div class="chip black"><a class="white-text" href="logic_recep/estatus_cita.php?asistencia='.$citas_dia['id_cita'].'&m='.$citas_dia['medico'].'">Asistencia</a></div></td>
-                                <td><div class="chip grey darken-1"><a class="white-text" href="logic_recep/estatus_cita.php?cancela='.$citas_dia['id_cita'].'">Cancelar</a></div></td>
-                                ';
-                            }
+                        
+                                   
                             ?>
                         </tr>
 

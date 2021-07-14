@@ -32,7 +32,9 @@ FROM cita INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
 LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' and medico = '$id_user' ORDER BY cita.fecha DESC LIMIT 5";
 $result_sql_citas = $mysqli->query($sql_citas);
 
-$sql_cita_actual = "SELECT * FROM consulta WHERE id_cita = '$id_cita'";
+$sql_cita_actual = "SELECT consulta.*, cita.fecha, cita.horario FROM consulta 
+                    INNER JOIN  cita ON consulta.id_cita = cita.id_cita
+                    WHERE consulta.id_cita = '$id_cita'";
 $res_sql_cita_act = $mysqli->query($sql_cita_actual);
 $val_cita = $res_sql_cita_act->num_rows;
 
@@ -61,7 +63,7 @@ if($val_cita == 1){
 <div class="container">
 <div class="row center-align">
     <div class="col s12">
-    <h4 style="color: #2d83a0; font-weight:bold;">Cita de: 
+    <h4 style="color: #2d83a0; font-weight:bold;">Cita CSA<?php echo $row_cita['id_cita'];?> de: 
         <span style="text-transform: capitalize;"><?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']; ?></span></h4>
                 <div class="divider"></div>
     </div>
@@ -74,15 +76,25 @@ if($val_cita == 1){
     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
     <div class="divider"></div>
+    <blockquote>
+    Fecha Cita: <?php echo date("d/m/Y", strtotime($row_cita['fecha'])); ?> Horario: <?php echo $row_cita['horario']; ?>
+    </blockquote>
+    <div class="divider"></div>
     <blockquote>Signos Vitales</blockquote>
-    <ul>
+    <?php 
+    if($row_cita['peso'] == 'x'){
+        echo '<h6 class="yellow-text text-darken-2">No se le han tomado signos vitales al Paciente</h6>';
+    }else{  ?>
+      <ul>
         <li>T/A: <?php echo $row_cita['ta'];?> mm Hg</li>
         <li>TEMP: <?php echo $row_cita['temp']; ?>°C</li>
         <li>FRE C: <?php echo $row_cita['fre_c']; ?>''</li>
         <li>FRE R: <?php echo $row_cita['fre_r']; ?></li>
         <li>PESO: <?php echo $row_cita['peso']; ?> KG</li>
         <li>TALLA: <?php echo $row_cita['talla']; ?> M</li>
-    </ul>
+    </ul>  
+    <?php    }
+    ?>
     <form action="save_nota.php" method="POST">
     <blockquote>Nota de evolución</blockquote>
         <textarea name="nota_evo" id="" cols="30" rows="50">
