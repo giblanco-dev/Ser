@@ -59,6 +59,12 @@ if($val == 1){
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/materialize.js"></script>
     <title>Cobro</title>
+    <script>
+        function abrir(url)
+          { 
+            open(url,'','top=0,left=100,width=850,height=700') ; 
+          }
+    </script>
 </head>
 <body>
     
@@ -100,9 +106,9 @@ if($val == 1){
             <input type="number" name="pago" id="" value="<?php echo $saldo; ?>">
             <select name="med_pago" required>
                 <option value="" disabled selected>Medio de Pago</option>
-                <option value="EF">Efectivo</option>
-                <option value="TC">Tarjeta</option>
-                <option value="CH">Cheque</option>
+                <option value="EFECTIVO">Efectivo</option>
+                <option value="TARJETA(CRED-DEB)">Tarjeta</option>
+                <option value="CHEQUE">Cheque</option>
             </select>
             <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
             <input type="hidden" name="user" value="<?php echo $id_user; ?>">
@@ -116,8 +122,14 @@ if($val == 1){
         <?php }elseif($status == 'SI' and $saldo == 0){
             echo '<div class="center-align">
                     <br>
-                    <a class="waves-effect waves-light btn"><i class="material-icons right">check</i>Pagado</a>
-                    </div>';
+                    <a class="waves-effect waves-light btn"><i class="material-icons right">check</i>Pagado</a>';
+                    ?>
+                    <br>
+                    <br>
+                    <a href="javascript:abrir('recibo.php?r=<?php echo $id_cobro; ?>')"
+                        class="cyan darken-1 btn"><i class="material-icons right">print</i>Imprimir Comprobante</a>
+                    </div>
+        <?php
         }else{
             echo '<p>Error contactar con Sistamas (Código de Error SALDVAL)</p>';
         }
