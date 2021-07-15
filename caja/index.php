@@ -139,8 +139,10 @@ $datos_cita = $mysqli -> query($sql_citas);
                                 echo '<td><div class="chip  red darken-1 white-text">
                                             <a class="white-text" href="cobro.php?c='.$citas_dia['id_cita'].'&u='.$id_user.'" target="frame-cont">Pagar</a>
                                         </div></td>';
-                            }else{
-
+                            }elseif($citas_dia['pagado'] == 1){
+                                echo '<td><div class="chip  cyan darken-4 white-text">
+                                            <a class="white-text" href="cobro.php?c='.$citas_dia['id_cita'].'&u='.$id_user.'" target="frame-cont">Pagado</a>
+                                        </div></td>';
                             }
                             ?>
                         </tr>

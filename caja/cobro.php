@@ -1,6 +1,52 @@
-<?php 
+<?php
+session_start();
+if (!isset($_SESSION['id'])) {
+    header('Location: ../index.php');
+    exit();
+}elseif($_SESSION['nivel'] == 3 OR $_SESSION['nivel'] == 7){
+            $id_user = $_SESSION['id'];
+            $usuario = $_SESSION['name_usuario'];
+            $nivel = $_SESSION['nivel'];
+}else{
+    header('Location: ../index.php');
+    exit();
+}
+require_once '../app/logic/conn.php';
+
 $id_cita = $_GET['c'];
-$usuario = $_GET['u'];
+$usuario = $_GET['u'];$paciente = 
+
+$sql_caja = "SELECT caja.subtotal, caja.consulta, caja.descuento, caja.total_cobro, caja.id_cobro, caja.saldo, caja.abono, caja.status_pago,
+            CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente
+            FROM caja
+            INNER JOIN cita ON caja.id_cita = cita.id_cita
+            INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
+            WHERE caja.id_cita = '$id_cita'";
+$res_caja = $mysqli->query($sql_caja);
+$val = $res_caja->num_rows;
+if($val == 1){
+    $row_caja = mysqli_fetch_assoc($res_caja);
+    $paciente = $row_caja['Nom_paciente'];
+    $subtotal = $row_caja['subtotal'];
+    $consulta = $row_caja['consulta'];
+    $descuento = $row_caja['descuento'];
+    $total_cobro = $row_caja['total_cobro'];
+    $saldo = $row_caja['saldo'];
+    $abono = $row_caja['abono'];
+    $status = $row_caja['status_pago'];
+    $id_cobro = $row_caja['id_cobro'];
+}else{
+    
+    $paciente = "ERROR CONTACTAR CON SISTEMAS";
+    $subtotal = "";
+    $consulta = "";
+    $descuento = "";
+    $total_cobro = "";
+    $id_cobro = "";
+    $saldo = "";
+    $abono = "";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,8 +64,8 @@ $usuario = $_GET['u'];
     
     <div class="row">
     <div class="col s12">
-        <h5>Cita: CSA-<?php echo $id_cita; ?></h5>
-        <h5>Paciente: </h5>
+        <h6><b>Cita: CSA-<?php echo $id_cita; ?></b></h6>
+        <h6><b>Paciente: <?php echo $paciente; ?></b></h6>
         <div class="divider"></div>
         <table>
         <thead>
@@ -29,32 +75,59 @@ $usuario = $_GET['u'];
         <tbody>
         <tr>
         <td>Sub-Total</td>
-        <td></td>
+        <td>$ <?php echo $subtotal; ?></td>
         <td>Consulta</td>
-        <td></td>
-        <td>Descuento</td>
-        <td></td>
+        <td>$ <?php echo $consulta; ?></td>
         </tr>
         <tr>
-        <td>Abonado</td>
-        <td></td>
+        <td>Descuento</td>
+        <td><?php echo $descuento; ?> %</td>
+        <td>Pagado</td>
+        <td>$ <?php echo $abono; ?></td>
+        </tr>
+        <tr>
         <td>Total a pagar</td>
-        <td></td>
+        <td>$ <?php echo $saldo; ?></td>
         </tr>
         </tbody>
         </thead>
         </table>
-        <form action="">
-            <input type="number" name="" id="">
-            <select name="" id="">
-                <option value="">Medio de Pago</option>
-                <option value="">Efectivo</option>
-                <option value="">Tarjeta</option>
-                <option value="">Cheque</option>
+        <?php 
+        if($status == 'NO' and $saldo > 0){
+        ?>
+        <form action="pagar.php" method="POST">
+            <p>Pagar (Capturar importe)</p>
+            <input type="number" name="pago" id="" value="<?php echo $saldo; ?>">
+            <select name="med_pago" required>
+                <option value="" disabled selected>Medio de Pago</option>
+                <option value="EF">Efectivo</option>
+                <option value="TC">Tarjeta</option>
+                <option value="CH">Cheque</option>
             </select>
+            <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
+            <input type="hidden" name="user" value="<?php echo $id_user; ?>">
+            <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">
+            <div class="center-align">
+            <button class="btn waves-effect waves-light" type="submit" name="action">Pagar
+            <i class="material-icons right">payment</i>
+            </button>
+            </div>
         </form>
+        <?php }elseif($status == 'SI' and $saldo == 0){
+            echo '<div class="center-align">
+                    <br>
+                    <a class="waves-effect waves-light btn"><i class="material-icons right">check</i>Pagado</a>
+                    </div>';
+        }else{
+            echo '<p>Error contactar con Sistamas (Código de Error SALDVAL)</p>';
+        }
+        ?>
     </div>
     </div>
-   
+    <script type="text/javascript">
+	$(document).ready(function(){
+        $('select').formSelect();
+	});
+</script>
 </body>
 </html>

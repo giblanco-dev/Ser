@@ -49,7 +49,7 @@ $val = $res_val->num_rows;
 if($val == 0){
 
     $inser = "INSERT INTO caja (id_cita, user_registra, total_terapias, total_sueros, total_homeopaticos, total_orales, subtotal, consulta, descuento, id_cobro, total_cobro, status_pago, abono, saldo, medio_pago)
-     VALUES ('$id_cita', '$user', '$total_terapias', '$total_sueros', '$total_homeopaticos', '$total_orales', '$sub_total', '$consulta', '$descuento', NULL, '$total_cobro', 'NO', '', '', '')";
+     VALUES ('$id_cita', '$user', '$total_terapias', '$total_sueros', '$total_homeopaticos', '$total_orales', '$sub_total', '$consulta', '$descuento', NULL, '$total_cobro', 'NO', 0, $total_cobro, '')";
 
         $upd_cita = "UPDATE cita SET caja = 1 WHERE id_cita = '$id_cita'";
 
