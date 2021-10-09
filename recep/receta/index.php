@@ -122,6 +122,9 @@ if($val_cita == 1){
       <div class="row center-align" style="width: 98%;">
       <div class="col s2">
       <div class="divider" style="margin-top: 50px; margin-bottom: 10px;"></div>
+      <a href="svitales.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
+        target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">ACTUALIZAR S.VITALES</a>
+      <div class="divider" style="margin-top: 50px; margin-bottom: 10px;"></div>
         <a href="total_otros.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>" 
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">Resumen/Enviar a Caja</a>  
         </div>

@@ -27,12 +27,12 @@ $id_cita = $_POST['id_cita'];
 $sql_1 = "SELECT id_med_oral FROM med_orales WHERE activo = 1";
 $res_1 = $mysqli->query($sql_1);
 
-while($rows = mysqli_fetch_assoc($res_1)){
+while($rows = mysqli_fetch_assoc($res_1)){  
     $id = $rows['id_med_oral'];
     $array = $_POST[$id];
     
     if($array[1] > 0){
-        $sql_val = "SELECT * FROM rec_med_orales WHERE id_med_oral = '$array[0]' and id_cita = '$array[5]' AND cancela = 0";
+        $sql_val = "SELECT * FROM rec_med_orales WHERE id_med_oral = '$array[0]' and id_cita = '$array[5]' AND cancelado = 0";
         $val = $mysqli->query($sql_val);
         $valida = $val->num_rows;
 

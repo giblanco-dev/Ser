@@ -274,6 +274,14 @@ $sum_orales = 0;
         </tbody>
     </table>
     <div class="row">
+        <?php 
+        $val_pago = "SELECT pagado FROM cita WHERE id_cita = '$id_cita'";
+        $res_val_pago = $mysqli->query($val_pago);
+        $row_val = mysqli_fetch_assoc($res_val_pago);
+        $pagado = $row_val['pagado'];
+
+        if($pagado == 0){
+        ?>
         <div class="col s6 center-align">
             <p>¿Se incluye consulta?</p>
             <input type="number" name="consulta" min="0" max="150" step="150" value="0">
@@ -296,6 +304,13 @@ $sum_orales = 0;
             <i class="material-icons right">autorenew</i>
         </button>
         </div>
+        <?php 
+        }elseif($pagado == 1){
+            echo '<a class="waves-effect waves-light btn"><i class="material-icons right">check</i>Pagado</a>';
+        }else{
+            echo 'ERROR Favor de contactar a Sistemas CodError Status Pago no Válido';
+        }
+        ?>
     </div>
     <input type="hidden" name="id_cita" value="<?php echo $id_cita ?>">
     <input type="hidden" name="user" value="<?php echo $usuario ?>">

@@ -112,22 +112,22 @@ if($val == 1){
                         </tr>
                         <tr>
                             <td>Terapias</td>
-                            <td><?php if($recibo['total_terapias']>0){echo "$ ",$recibo['consulta'];}?></td>
+                            <td><?php if($recibo['total_terapias']>0){echo "$ ",$recibo['total_terapias'];}?></td>
                             
                         </tr>
                         <tr>
                             <td>Sueros</td>
-                            <td><?php if($recibo['total_sueros']>0){echo "$ ",$recibo['consulta'];}?></td>
+                            <td><?php if($recibo['total_sueros']>0){echo "$ ",$recibo['total_sueros'];}?></td>
                             
                         </tr>
                         <tr>
                             <td>Medicamento Homeopático</td>
-                            <td><?php if($recibo['total_homeopaticos']>0){echo "$ ",$recibo['consulta'];}?></td>
+                            <td><?php if($recibo['total_homeopaticos']>0){echo "$ ",$recibo['total_homeopaticos'];}?></td>
                             
                         </tr>
                         <tr>
                             <td>Medicamentos Orales</td>
-                            <td><?php if($recibo['total_orales']>0){echo "$ ",$recibo['consulta'];}?></td>
+                            <td><?php if($recibo['total_orales']>0){echo "$ ",$recibo['total_orales'];}?></td>
                         </tr>
                            <?php }
                         ?>

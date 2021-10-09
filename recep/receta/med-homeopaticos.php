@@ -76,6 +76,7 @@ $res = $mysqli->query($sql_medicamentos);
   background-color: #fff; 
   border-bottom: 1px solid #d4d4d4;
   max-width: 150px;
+  max-height: 250px;
 }
 
 
