@@ -55,7 +55,7 @@ if($val == 0){
 
         if(($mysqli->query($inser) === TRUE) AND ($mysqli->query($upd_cita) === TRUE)){
             echo '<script type="text/javascript">
-            swal("Los importes de la cita '.$id_cita.' fueron enviados.", "Total a pagar $ '.$total_cobro.' MXN", "success");  
+            swal("Los importes de la cita CMA'.$id_cita.' fueron enviados.", "Total a pagar $ '.$total_cobro.' MXN", "success");  
             </script>';
         }else{
             echo '<script type="text/javascript">
@@ -78,7 +78,7 @@ if($val == 0){
 
         if($mysqli->query($upd) === TRUE){
             echo '<script type="text/javascript">
-            swal("Los importes de la cita '.$id_cita.' fueron actualizados.", "Total a pagar $ '.$total_cobro.' MXN", "success");  
+            swal("Los importes de la cita CMA'.$id_cita.' fueron actualizados.", "Total a pagar $ '.$total_cobro.' MXN", "success");  
             </script>';
         }else{
             echo '<script type="text/javascript">

@@ -14,36 +14,15 @@ if (!isset($_SESSION['id'])) {
 include_once 'caja_sections.php';
 include_once '../app/logic/conn.php';
 
-$sql_medico = "SELECT id, concat(nombre,' ',apellido) medico FROM user WHERE nivel = 'medico' OR id = 2  ORDER BY medico";
-$result_sql_medico = $mysqli -> query($sql_medico);
-
 // Información de citas del día
 
 $hoy = date("Y-m-d");
 
+// Listado de Vales
+$sql_vales = "SELECT * FROM vales_salida WHERE fecha_vale = '$hoy' AND id_user = '$id_user'";
+$res_vales = $mysqli->query($sql_vales);
+$val_vales = $res_vales->num_rows;
 
-    $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
-    CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
-        FROM cita
-        INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
-        INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
-        LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1
-        ORDER BY cita.fecha, cita.horario";
-
-
-$result_sql_citas = $mysqli -> query($sql_citas);
-$total_citas = $result_sql_citas -> num_rows;
-
-$citas_confirmadas = 0;
-while($contar_citas_confirm = mysqli_fetch_assoc($result_sql_citas)){
-    if($contar_citas_confirm['confirma'] == 2){
-        $citas_confirmadas ++;
-    }
-}
-
-$datos_cita = $mysqli -> query($sql_citas);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -57,19 +36,6 @@ $datos_cita = $mysqli -> query($sql_citas);
     <link rel="stylesheet" href="../../static/css/main.css">
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/materialize.js"></script>
-    <style type="text/css"> 
-        thead tr th { 
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background-color: #ffffff;
-        }
-    
-        .table-responsive-2 { 
-            height: 500px; /* Mover a 400 para demostrar el scroll*/
-            overflow-y:scroll;
-        }
-    </style>
 </head>
 <body>
 <?php echo $nav_caja;  
@@ -87,19 +53,12 @@ $datos_cita = $mysqli -> query($sql_citas);
             <iframe src="../static/clock/clock.html" width="100%" frameborder="0"></iframe> 
             </div>
         </div>
-        <div class="row" style="margin-top: -2em;">
+        <div class="row" style="margin-top: 2em; min-height: 200px;">
             <div class="col s12">
             
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">
-            <h2 style="color: #424242;"><?php echo $citas_confirmadas; ?> <i class="medium material-icons">check_circle</i></h2>
-        <p>Citas Confirmadas</p>
-        <h2 style="color: #424242;"><?php echo $total_citas; ?> <i class="medium material-icons">book</i></h2>
-        <p>Citas Agendadas</p>
-            </div>
-        </div>
+        
     </div>
     <div class="col s10"> <!-- ***************************** INICIA CUERPO DEL SISTEMA ****************************** -->
         <div class="row center-align">
@@ -110,13 +69,13 @@ $datos_cita = $mysqli -> query($sql_citas);
         </div>
         <div class="row">
             <div class="col s1"></div>
-            <div class="col s7">
+            <div class="col s5">
                 <div class="row">
                     <div class="col s12">
                     <h5>Generar vale de Salida</h5>
                     </div>
                 </div>
-                <form action="">
+                <form action="logic_caja/save_vale.php" method="POST">
                     <input type="hidden" name="fecha_vale" value="<?php echo $hoy; ?>">
                     <input type="hidden" name="cajero" value="<?php echo $usuario; ?>">
                     <input type="hidden" name="id_cajero" value="<?php echo $id_user; ?>">
@@ -153,10 +112,46 @@ $datos_cita = $mysqli -> query($sql_citas);
                     </div>
                 </form>
             </div>
-            <div class="col s4">
-        
-            
-        
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Vales de Salida del día</h5>
+                        <?php
+                        if($val_vales > 0){
+                            ?>
+                        <table>
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Cantidad</th>
+                                <th>Recibe</th>
+                                <th>Autoriza</th>
+                                <th>Registra</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php   while($vales_reg = mysqli_fetch_assoc($res_vales)){ ?>
+                                <tr>
+                                    <td><?php echo $vales_reg['concepto']; ?></td>
+                                    <td><?php echo $vales_reg['cantidad'];   ?></td>
+                                    <td><?php echo $vales_reg['beneficiario']; ?></td>
+                                    <td><?php echo $vales_reg['autorizador']; ?></td>
+                                    <td><?php echo $vales_reg['user']; ?></td>
+                                </tr>
+                            <?php
+                            }
+            ?>
+        </tbody>
+    </table>
+
+                        <?php
+                        }else{
+                            echo '<blockquote>No hay vales de salida registrados del día</blockquote>';
+                        }
+                        ?>
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -31,7 +31,7 @@ if(!empty($_POST)){
         echo '<script type="text/javascript">
         swal({
             title: "Listo!",
-            text: "Se actualizaron los signos vitales de la Cita CSA'.$cita2.'",
+            text: "Se actualizaron los signos vitales de la Cita CMA'.$cita2.'",
             icon: "success",
             button: "Volver",
           }).then(function() {

@@ -63,7 +63,7 @@ if($val_cita == 1){
 <div class="container">
 <div class="row center-align">
     <div class="col s12">
-    <h4 style="color: #2d83a0; font-weight:bold;">Cita CSA<?php echo $row_cita['id_cita'];?> de: 
+    <h4 style="color: #2d83a0; font-weight:bold;">Cita CMA<?php echo $row_cita['id_cita'];?> de: 
         <span style="text-transform: capitalize;"><?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']; ?></span></h4>
                 <div class="divider"></div>
     </div>
@@ -73,7 +73,7 @@ if($val_cita == 1){
 <div class="col s6 offset-s1">
     <blockquote>Datos Generales</blockquote>
     <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
-    <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
+    <p>Fecha de Nacimiento: <?php echo date("d/m/Y", strtotime($datos_paciente['fecha_nacimiento'])); ?></p>
     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
     <div class="divider"></div>
     <blockquote>

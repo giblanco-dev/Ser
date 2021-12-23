@@ -29,7 +29,7 @@ if(!empty($_POST)){
         echo '<script type="text/javascript">
         swal({
             title: "Listo",
-            text: "Se guardo la nota de evolución de la Cita CSA'.$id_cita.'",
+            text: "Se guardo la nota de evolución de la Cita CMA'.$id_cita.'",
             icon: "success",
             button: "Volver",
           }).then(function() {

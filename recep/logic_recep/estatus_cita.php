@@ -65,7 +65,7 @@ if(!empty($_GET['asistencia'])){
         //echo '<script type="text/javascript" async="async">alert("Paciente Cita_CSA'.$cita_asiste.' se está en espera de pasar a Consulta");window.location.href="../"</script>';
         echo '<script type="text/javascript">
         swal({
-            title: "Cita_CSA'.$cita_asiste.' en espera de consulta",
+            title: "Cita CMA'.$cita_asiste.' en espera de consulta",
             text: "Estatus de cita actualizado",
             icon: "success",
             button: "Regresar",
