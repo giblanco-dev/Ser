@@ -7,8 +7,8 @@ $nav_caja = '
       <a href="#" class="responsive-img" class="brand-logo"><img src="../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><a href="index.php"><i class="material-icons right">home</i>Inicio</a></li>
-      <li><a href=""><i class="material-icons right">account_balance_wallet</i>Corte de Caja</a></li>
       <li><a href="vale_salida.php"><i class="material-icons right">money_off</i>Vale de Salida</a></li>
+      <li><a href="corte_caja.php"><i class="material-icons right">account_balance_wallet</i>Corte de Caja</a></li>
       <li><a href=""><i class="material-icons right">account_balance</i>Arqueo</a></li>
       <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>

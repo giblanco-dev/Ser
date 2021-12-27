@@ -45,7 +45,7 @@ $res_med2 = $mysqli->query($sql_med);
 <body>
 <form action="save_med_oral.php" method="POST">
     <div style="width: 50%; display: inline-block;">
-        <h2>Medicamentos Orales</h2>
+        <h2>Nutrientes</h2>
         <table>
             <?php 
             $cont = 0;
@@ -86,7 +86,7 @@ $res_med2 = $mysqli->query($sql_med);
         
     </div>
     <div style=" width: 45%; display: inline-block;">
-    <h2>Nutrientes</h2>
+    <h2>Medicamentos Orales</h2>
     <table>
             <?php 
             $cont = 0;

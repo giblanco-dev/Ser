@@ -64,22 +64,22 @@ if(!empty($_POST)){
     switch ($pas1){
         case 0:
             echo '<script type="text/javascript">
-                swal("Ha ocurrido un error favor de contactar a Sistemas", "error");  
+                swal("","Ha ocurrido un error favor de contactar a Sistemas", "error");  
                 </script>';
             break;
         case 1:
             echo '<script type="text/javascript">
-                    swal("Se actualizaron los importes de la Cita, aún existe adeudo", "success");  
+                    swal("","Se actualizaron los importes de la Cita, aún existe adeudo", "success");  
                     </script>';
             break;
         case 2:
             echo '<script type="text/javascript">
-                    swal("Se actualizaron los importes de la Cita, la cita ha sido liquidada", "success");  
+                    swal("","Se actualizaron los importes de la Cita, la cita ha sido liquidada", "success");  
                     </script>';
             break;
         default:
             echo '<script type="text/javascript">
-                swal("Ha ocurrido un error. Contactar a Sistemas Clave de Error: NOUPDPago", "error");  
+                swal("","Ha ocurrido un error. Contactar a Sistemas Clave de Error: NOUPDPago", "error");  
                 </script>';
             break;
         }

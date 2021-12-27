@@ -19,7 +19,7 @@ if(!empty($_POST)){
     $nota = $_POST['nota_evo'];
     //echo $id_cita;
     //echo $nota;
-  
+    if($nota != ""){
 
     $sql_nota_evo = "UPDATE consulta SET nota_evolucion = '$nota' WHERE id_cita = '$id_cita'";
 
@@ -39,6 +39,9 @@ if(!empty($_POST)){
     }else{
         echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="index.php"</script>';
     }
+}else{
+    echo '<script type="text/javascript" async="async">alert("No capturo nada en nota de evolución");window.location.href="index.php"</script>';
+}
 }
 
 

@@ -69,7 +69,7 @@ if($val == 1){
         </div>
         <div class="row">
             <div class="col s6">
-            <h5>Paciente: <?php echo $recibo['Nom_paciente']; ?></h5>
+            <h5 style="text-transform: capitalize;">Paciente: <?php echo $recibo['Nom_paciente']; ?></h5>
             </div>
             <div class="s6">
             <ul class="collection">

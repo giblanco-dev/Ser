@@ -73,7 +73,8 @@ if($val == 0){
                 subtotal = '$sub_total', 
                 consulta  = '$consulta', 
                 descuento = '$descuento', 
-                total_cobro = '$total_cobro'
+                total_cobro = '$total_cobro',
+                saldo = '$total_cobro'
                 WHERE id_cita = '$id_cita'";
 
         if($mysqli->query($upd) === TRUE){

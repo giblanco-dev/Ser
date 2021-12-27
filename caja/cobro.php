@@ -14,7 +14,8 @@ if (!isset($_SESSION['id'])) {
 require_once '../app/logic/conn.php';
 
 $id_cita = $_GET['c'];
-$usuario = $_GET['u'];$paciente = 
+$usuario = $_GET['u'];
+
 
 $sql_caja = "SELECT caja.subtotal, caja.consulta, caja.descuento, caja.total_cobro, caja.id_cobro, caja.saldo, caja.abono, caja.status_pago,
             CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente
@@ -70,8 +71,8 @@ if($val == 1){
     
     <div class="row">
     <div class="col s12">
-        <h6><b>Cita: CSA-<?php echo $id_cita; ?></b></h6>
-        <h6><b>Paciente: <?php echo $paciente; ?></b></h6>
+        <h6><b>Cita: CMA<?php echo $id_cita; ?></b></h6>
+        <h6 style="text-transform: capitalize;"><b>Paciente: <?php echo $paciente; ?></b></h6>
         <div class="divider"></div>
         <table>
         <thead>

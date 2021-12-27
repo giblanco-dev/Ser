@@ -96,10 +96,8 @@ if($val_cita == 1){
     <?php    }
     ?>
     <form action="save_nota.php" method="POST">
-    <blockquote>Nota de evolución</blockquote>
-        <textarea name="nota_evo" id="" cols="30" rows="50">
-
-        </textarea>
+    <blockquote>Nota de evolución <span style="color: red;">(Obligatorio)</span></blockquote>
+        <textarea name="nota_evo" id="" cols="30" rows="50" required></textarea>
         <?php 
         if($row_cita['nota_evolucion'] != ''){
             echo '<p><b>Nota previa: '.$row_cita['nota_evolucion'].'</b></p>';

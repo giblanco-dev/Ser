@@ -65,7 +65,7 @@
             </tr>
             </table><br>';
     }else{
-        echo '<h5>No se registraron terapias de la receta de esta cita.</h5>';
+        echo '<h5>No se registraron <b>terapias</b> de la receta de esta cita.</h5>';
     }
 
     // ******************** Inicia totales de Sueros y Complementos *****************
@@ -131,7 +131,7 @@ if($val_sueros > 0){
         </tr>
         </table><br>';
 }else{
-    echo '<h5>Aún no hay registros de sueros de la cita Actual</h5>';
+    echo '<h5>No se registraron <b>sueros</b> de la receta de esta cita</h5>';
 }
 
 // *********************** Inicia totales de Medicamentos Homeopaticos *********
@@ -182,7 +182,7 @@ if($val_resu > 0){
         </tr>
         </table><br>';
 }else{
-    echo '<h5>No se regsitro tratamiento homeopático de esta cita</h5>';
+    echo '<h5>No se registraron <b>medicamentos homeopáticos</b> de la receta de esta cita</h5>';
 }
 
 // Total medicamentos orales
@@ -232,7 +232,7 @@ $sum_orales = 0;
         </table>';
                 
     }else{
-        echo '<h5>Aún no se ha registrado ninguna terapia de la receta de esta cita.</h5>';
+        echo '<h5>No se registraron <b>medicamentos orales/nutrientes</b> de la receta de esta cita</h5>';
     }
 
     ?>

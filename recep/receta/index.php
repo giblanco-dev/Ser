@@ -69,13 +69,17 @@ if($val_cita == 1){
                 <h5 style="color: #2d83a0; font-weight:bold;">RECETA INTERNA</h5><?php echo $error_1; ?>
             </div>
             <div class="col s4">
+                <h6>Cita: <?php echo "CMA".$cita?></h6>
                 <h6 style="text-transform: capitalize;">Médico: <?php if($datos_cita['tipo'] <= 90){
                   echo $datos_cita['medico_cita'];}else{echo "N/A";} ?></h6>
-                <h6 style="text-transform: capitalize;">Paciente: <?php echo $datos_cita['Nom_paciente']; ?></h6>
+                <h6>Fecha : <?php echo $fecha_cita; ?> </h6>
             </div>
             <div class="col s4">
-                <h6>Fecha : <?php echo $fecha_cita; ?>  Horario: <?php echo $datos_cita['horario']; ?></h6>
-                <h6>Cita: <?php echo $datos_cita['descrip_cita']; ?></h6>
+            <h6 style="text-transform: capitalize;">Paciente: <?php echo $datos_cita['Nom_paciente']; ?></h6>
+                <h6>Tipo de Cita: <?php echo $datos_cita['descrip_cita']; ?></h6>
+                
+                <h6>Horario: <?php echo $datos_cita['horario']; ?></h6>
+                
             </div>
         </div>
     </div>
