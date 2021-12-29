@@ -29,7 +29,7 @@ if($val == 1){
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.PrintArea.js"></script>
     <script src="../static/js/materialize.js"></script>
-    <title>Recibo Pago <?php echo "CSA",$recibo['id_cita'],"/",$recibo['fecha_cobro']; ?></title>
+    <title>Recibo Pago <?php echo "CMA",$recibo['id_cita'],"/",$recibo['fecha_cobro']; ?></title>
     <script>
         $(document).ready(function(){
         $("#printButton").click(function(){

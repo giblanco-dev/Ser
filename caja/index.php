@@ -21,6 +21,12 @@ $result_sql_medico = $mysqli -> query($sql_medico);
 
 $hoy = date("Y-m-d");
 
+$sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND fecha_corte = '$hoy'";
+                        $res_val_corte = $mysqli->query($sql_val_corte);
+                        $val_corte = $res_val_corte->num_rows;
+
+
+    if($val_corte == 0){
 
     $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
     CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
@@ -29,9 +35,23 @@ $hoy = date("Y-m-d");
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1
+        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1 and pagado = 0
         ORDER BY cita.fecha, cita.horario";
-
+        $mensaje_val_corte = "";
+}else{
+    $corte = mysqli_fetch_assoc($res_val_corte);
+    $citas_corte = $corte['detalle_citas'];
+    $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
+    CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
+    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
+        FROM cita
+        INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
+        INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
+        LEFT JOIN user on cita.medico = user.id
+        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1 and cita.id_cita in ($citas_corte)
+        ORDER BY cita.fecha, cita.horario";
+        $mensaje_val_corte = "El usuario de la sesión actual ya ejecutó su corte de caja del día. Ya no puede efectuar cobros";
+}
 
 $result_sql_citas = $mysqli -> query($sql_citas);
 $total_citas = $result_sql_citas -> num_rows;
@@ -110,6 +130,7 @@ $datos_cita = $mysqli -> query($sql_citas);
         </div>
         <div class="row">
             <div class="col s8">
+                <p style="color: red;"><?php echo $mensaje_val_corte; ?></p>
                 <div class="table-responsive-2">
                 <table>
                     <thead>

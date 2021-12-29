@@ -23,6 +23,10 @@ $sql_vales = "SELECT * FROM vales_salida WHERE fecha_vale = '$hoy' AND id_user =
 $res_vales = $mysqli->query($sql_vales);
 $val_vales = $res_vales->num_rows;
 
+$sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND fecha_corte = '$hoy'";
+                        $res_val_corte = $mysqli->query($sql_val_corte);
+                        $val_corte = $res_val_corte->num_rows;
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -70,6 +74,9 @@ $val_vales = $res_vales->num_rows;
         <div class="row">
             <div class="col s1"></div>
             <div class="col s5">
+                <?php 
+                if($val_corte == 0){
+                ?>
                 <div class="row">
                     <div class="col s12">
                     <h5>Generar vale de Salida</h5>
@@ -111,6 +118,20 @@ $val_vales = $res_vales->num_rows;
                         </div>
                     </div>
                 </form>
+                <?php 
+                }else{
+                    echo'
+                   <div class="row">
+                   <div class="col s12">
+                   <h5>Generar vale de Salida</h5>
+                   <blockquote style="color: red;">
+                        El usuario de la sesión actual ya ejecutó su corte de caja del día.
+                    </blockquote>
+                    </div>
+                    </div>
+                   ';
+                }
+                ?>
             </div>
             <div class="col s6">
                 <div class="row">
