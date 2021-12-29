@@ -35,8 +35,8 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1 and pagado = 0
-        ORDER BY cita.fecha, cita.horario";
+        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1 
+        ORDER BY cita.pagado, cita.fecha, cita.horario";
         $mensaje_val_corte = "";
 }else{
     $corte = mysqli_fetch_assoc($res_val_corte);
@@ -48,7 +48,7 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
         LEFT JOIN user on cita.medico = user.id
-        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1 and cita.id_cita in ($citas_corte)
+        WHERE cita.fecha = '$hoy' AND confirma = 2 AND consulta = 1 AND caja = 1 and cita.id_cita in ($citas_corte) and pagado = 1
         ORDER BY cita.fecha, cita.horario";
         $mensaje_val_corte = "El usuario de la sesión actual ya ejecutó su corte de caja del día. Ya no puede efectuar cobros";
 }

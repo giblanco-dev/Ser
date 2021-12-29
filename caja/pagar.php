@@ -31,7 +31,8 @@ if(!empty($_POST)){
     $user = $_POST['user'];
     $id_cita = $_POST['id_cita'];
 
-    $sql_up = "UPDATE caja SET abono = abono + '$pago', saldo = saldo - '$pago', medio_pago = '$med_pago', user_cobro = '$user' 
+    $sql_up = "UPDATE caja SET abono = abono + '$pago', saldo = saldo - '$pago', medio_pago = '$med_pago', user_cobro = '$user',
+                fecha_cobro = now() 
                 WHERE id_cobro = '$id_cobro'";
     if($mysqli->query($sql_up) === TRUE){
         $pas1 = 1;

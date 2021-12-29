@@ -5,7 +5,9 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE id_corte = '$id_corte'";
                         $res_val_corte = $mysqli->query($sql_val_corte);
                         $val_corte = $res_val_corte->num_rows;
                         $corte = mysqli_fetch_assoc($res_val_corte);                        
+
 $fecha_corte = date('d/m/Y', strtotime($corte['fecha_corte']));
+$cajero_corte = $corte['user_cajero']; 
 
 $cobros_corte = $corte['detalle_cobros'];
 
@@ -61,7 +63,7 @@ $total_factor = $monto_factor['MontoFactor'];
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.PrintArea.js"></script>
     <script src="../static/js/materialize.js"></script>
-    <title>Impresión Corte de Caja</title>
+    <title>Impresión Corte de Caja-<?php echo $fecha_corte."-".$cajero_corte; ?></title>
     <style>
         .tabla{
             font-size: 10px !important;
@@ -71,7 +73,7 @@ $total_factor = $monto_factor['MontoFactor'];
     </style>
 </head>
 <body>
-<div id="recibo" class=" ficha z-depth-2" style="max-height: 1100px; margin: 0%; background-color: #FFF;">
+<div id="recibo" style="max-height: 1100px; margin: 0%; background-color: #FFF;">
         <div class="row">
             <div class="col s4">
                 <h5>Reporte de Ingresos</h5>
@@ -195,6 +197,21 @@ $total_factor = $monto_factor['MontoFactor'];
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="row center align">
+            <div class="col s2"></div>
+            <div class="col s3">
+            <br><br>
+                <div class="divider" style="background-color: #000;"></div>
+                <p>Entrega: <?php echo $cajero_corte; ?><br>(Fecha y firma)</p>
+            </div>
+            <div class="col s2"></div>
+            <div class="col s3">
+            <br><br>
+                <div class="divider" style="background-color: #000;"></div>
+                <p>Recibe<br>(Nombre fecha y firma)</p>
+            </div>
+            <div class="col s2"></div>
         </div>
 </div> <!-- CIERRE DE DIV PRINCIPAL -->   
 </body>
