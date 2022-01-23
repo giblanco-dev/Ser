@@ -29,7 +29,8 @@ if($paciente_val == 1){
 
 $sql_citas = "SELECT cita.id_cita, cita.id_paciente, CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.tipo, tipos_cita.descrip_cita 
 FROM cita INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita 
-LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' and medico = '$id_user' ORDER BY cita.fecha DESC LIMIT 5";
+LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' and medico = '$id_user' 
+and pagado = 1 ORDER BY cita.fecha LIMIT 8";
 $result_sql_citas = $mysqli->query($sql_citas);
 
 $sql_cita_actual = "SELECT consulta.*, cita.fecha, cita.horario FROM consulta 
@@ -85,19 +86,34 @@ if($val_cita == 1){
     if($row_cita['peso'] == 'x'){
         echo '<h6 class="yellow-text text-darken-2">No se le han tomado signos vitales al Paciente</h6>';
     }else{  ?>
-      <ul>
-        <li>T/A: <?php echo $row_cita['ta'];?> mm Hg</li>
-        <li>TEMP: <?php echo $row_cita['temp']; ?>°C</li>
-        <li>FRE C: <?php echo $row_cita['fre_c']; ?>''</li>
-        <li>FRE R: <?php echo $row_cita['fre_r']; ?></li>
-        <li>PESO: <?php echo $row_cita['peso']; ?> KG</li>
-        <li>TALLA: <?php echo $row_cita['talla']; ?> M</li>
-    </ul>  
+     <div class="row">
+         <div class="col s3">
+            <ul>
+                <li>T/A: <?php echo $row_cita['ta'];?> mm Hg</li>
+                <li>TEMP: <?php echo $row_cita['temp']; ?>°C</li>
+                <li>FRE C: <?php echo $row_cita['fre_c']; ?>''</li>
+            </ul>  
+         </div>
+         <div class="col s3">
+            <ul>
+                <li>FRE R: <?php echo $row_cita['fre_r']; ?></li>
+                <li>PESO: <?php echo $row_cita['peso']; ?> KG</li>
+                <li>TALLA: <?php echo $row_cita['talla']; ?> M</li>
+            </ul>
+         </div>
+         <div class="col s6">
+            <ul>
+                
+                <li>EDAD: <?php echo $row_cita['edad']; ?> años</li>
+                <li>ALERGIAS: <?php echo $row_cita['alergias']; ?> años</li>
+            </ul>
+         </div>
+     </div>
     <?php    }
     ?>
     <form action="save_nota.php" method="POST">
     <blockquote>Nota de evolución <span style="color: red;">(Obligatorio)</span></blockquote>
-        <textarea name="nota_evo" id="" cols="30" rows="50" required></textarea>
+        <textarea name="nota_evo" id="" cols="30" rows="50" required autocomplete="off"></textarea>
         <?php 
         if($row_cita['nota_evolucion'] != ''){
             echo '<p><b>Nota previa: '.$row_cita['nota_evolucion'].'</b></p>';
@@ -115,7 +131,7 @@ if($val_cita == 1){
     </form>
 </div>
 <div class="col s4">
-    <blockquote>Citas</blockquote>
+    <blockquote>Últimas Citas</blockquote>
     <table>
         <thead>
             <tr>

@@ -36,7 +36,7 @@ include_once 'recep_sections.php';
     </div>
 </div>
 <div class="row">
-    <form action="save_paciente.php" method="POST" class="col s12">
+    <form action="save_paciente.php" method="POST" class="col s12" autocomplete="off">
       <div class="row">
         <div class=" col s3">
           <input style="text-transform: capitalize;" placeholder="Nombres" id="first_name" name="nombres" type="text" required>
@@ -51,7 +51,7 @@ include_once 'recep_sections.php';
           <label for="inputs_pac">Apellido Materno</label>
         </div>
         <div class=" col s3">
-          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate" required>
+          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate">
           <label for="inputs_pac">Fecha de Nacimiento</label>
         </div>
         <div class=" col s2">
@@ -70,15 +70,15 @@ include_once 'recep_sections.php';
       </div>
       <div class="row">
       <div class=" col s2">
-          <input id="inputs_pac" type="text" name="calle" class="validate" required>
+          <input id="inputs_pac" type="text" name="calle" class="validate">
           <label for="inputs_pac">Calle</label>
         </div>
         <div class=" col s2">
-          <input id="inputs_pac" type="text" name="num_domicilio" class="validate" required>
+          <input id="inputs_pac" type="text" name="num_domicilio" class="validate">
           <label for="inputs_pac">Número</label>
         </div>
         <div class=" col s2">
-          <input id="inputs_pac" type="text" name="colonia" class="validate" required>
+          <input id="inputs_pac" type="text" name="colonia" class="validate">
           <label for="inputs_pac">Colonia</label>
         </div>
         <div class=" col s2">
@@ -86,12 +86,12 @@ include_once 'recep_sections.php';
           <label for="inputs_pac">Código Postal</label>
         </div>
       <div class=" col s2">
-          <input id="inputs_pac" type="text" name="muni_alcaldia" class="validate" required>
+          <input id="inputs_pac" type="text" name="muni_alcaldia" class="validate">
           <label for="inputs_pac">Alcaldía o Municipio</label>
         </div>
       <div class=" col s2">
-    <select name="estado" required>
-      <option value="" disabled selected>Estado</option>
+    <select name="estado">
+      <option value="--">Estado</option>
       <option value="Baja California">Baja California</option>
       <option value="Baja California Sur">Baja California Sur</option>
       <option value="Campeche">Campeche</option>

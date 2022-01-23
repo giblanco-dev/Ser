@@ -42,9 +42,10 @@ if (!isset($_SESSION['id'])) {
     <ul class="collection with-header">
         <li class="collection-header"><h4>Configuraciones</h4></li>
         <li class="collection-item"><div>Usuarios<a href="users.php" class="secondary-content"><i class="material-icons">person</i></a></div></li>
-        <li class="collection-item"><div>Medicamentos<a href="#!" class="secondary-content"><i class="material-icons">local_hospital</i></a></div></li>
-        <li class="collection-item"><div>Terapias<a href="#!" class="secondary-content"><i class="material-icons">airline_seat_flat</i></a></div></li>
-        <li class="collection-item"><div>Sueros<a href="#!" class="secondary-content"><i class="material-icons">bubble_chart</i></a></div></li>
+        <li class="collection-item"><div>Medicamentos Homeopáticos<a href="med_homeopaticos.php" class="secondary-content"><i class="material-icons">colorize</i></a></div></li>
+        <li class="collection-item"><div>Tratamientos<a href="tratamientos.php" class="secondary-content"><i class="material-icons">change_history</i></a></div></li>
+        <li class="collection-item"><div>Terapias<a href="terapias.php" class="secondary-content"><i class="material-icons">airline_seat_flat</i></a></div></li>
+        <li class="collection-item"><div>Sueros<a href="sueros.php" class="secondary-content"><i class="material-icons">bubble_chart</i></a></div></li>
       </ul>
     </div>
     <div class="col s9">
@@ -57,7 +58,7 @@ if (!isset($_SESSION['id'])) {
                 <i class="medium material-icons">accessibility</i>
                 </div>
                 <div class="card-action">
-                <a href="#" class="grey-text text-lighten-2">Ir al modulo de recepción</a>
+                <a href="../recep/" class="grey-text text-lighten-2">Ir al modulo de recepción</a>
                 </div>
                 </div>
             </div>
@@ -68,11 +69,11 @@ if (!isset($_SESSION['id'])) {
                 <i class="medium material-icons">local_atm</i>
                 </div>
                 <div class="card-action">
-                <a href="#" class="grey-text text-lighten-2">Ir al modulo de caja</a>
+                <a href="../caja/" class="grey-text text-lighten-2">Ir al modulo de caja</a>
                 </div>
                 </div>
             </div>
-            <div class="col s4">
+            <!--div class="col s4">
                 <div class="card cyan darken-2 hoverable center-align">
                 <div class="card-content white-text">
                 <span class="card-title">Terapias</span>
@@ -82,7 +83,7 @@ if (!isset($_SESSION['id'])) {
                 <a href="#" class="grey-text text-lighten-2">Ir al modulo de terapias</a>
                 </div>
                 </div>
-            </div>
+            </div-->
             <div class="col s4">
                 <div class="card cyan darken-1 hoverable center-align">
                 <div class="card-content white-text">
@@ -90,7 +91,18 @@ if (!isset($_SESSION['id'])) {
                 <i class="medium material-icons">local_pharmacy</i>
                 </div>
                 <div class="card-action">
-                <a href="#" class="grey-text text-lighten-2">Ir al modulo de farmacia</a>
+                <a href="../farma/" class="grey-text text-lighten-2">Ir al modulo de farmacia</a>
+                </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="card cyan darken-4 hoverable center-align">
+                <div class="card-content white-text">
+                <span class="card-title">Reportes</span>
+                <i class="medium material-icons">perm_data_setting</i>
+                </div>
+                <div class="card-action">
+                <a href="" class="grey-text text-lighten-2">Consulta de Reportes</a>
                 </div>
                 </div>
             </div>

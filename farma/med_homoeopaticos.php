@@ -63,9 +63,12 @@ if($val_trat_gen == 1){
     $trat_gen = mysqli_fetch_assoc($res_trat_gen);
     $cant_tratamientos = $trat_gen['cant_tratamientos'];
     $tipo_tratamiento = $trat_gen['des_tratamiento'];
+    $val_imp_gen = $trat_gen['flag_impr_et'];
+    
 }else{
     $cant_tratamientos = 0;
     $tipo_tratamiento = "";
+    $val_imp_gen = 0;
 }
 
 
@@ -79,8 +82,10 @@ $val_trat_ext = $res_trat_ext->num_rows;
 if($val_trat_ext == 1){
     $trat_ext = mysqli_fetch_assoc($res_trat_ext);
     $fras_ext = $trat_ext['cant_tratamientos'];
+    $val_imp_ext = $trat_ext['flag_impr_et'];
 }else{
     $fras_ext = 0;
+    $val_imp_ext = 0;
 }
 ?>
 <!DOCTYPE html>
@@ -162,15 +167,28 @@ if($val_trat_ext == 1){
                     <input type="hidden" name="cant_trat_gen" value="<?php echo $cant_tratamientos; ?>">
                     <input type="hidden" name="trat_ext" value="<?php echo $val_trat_ext ?>">
                     <input type="hidden" name="user" value="<?php echo $id_user; ?>">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Impresión de Etiquetas
+                    <input type="hidden" name="nom_paciente" value="<?php echo $paciente; ?>">
+                    <input type="hidden" name="fecha_cita" value="<?php echo $fecha_cita; ?>">
+                    <?php
+                    $val_impresion = $val_imp_gen + $val_imp_ext;
+                    if($val_impresion == 0){
+                        echo'
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Impresión de Etiquetas
                                 <i class="material-icons right">print</i>
                             </button>
+                        ';
+                    }else{
+                        echo'
+                        <p style="color: red;">Las etiquetas de este tratamiento ya fueron impresas</p>
+                                
+                        ';
+                    }
+                    ?>
                 </form>
                 <?php   }
                 ?>
-                <blockquote style="color: red;">
-                    Recuerda verificar la información antes de mandar la impresión para evitar imprimir más de una vez las etiquetas 
-                    del tratamiento con la finalidad de ahorrar material.
+                <blockquote style="font-style:italic; font-weight:bold;">
+                    Recuerda verificar la información antes de mandar la impresión  con la finalidad de ahorrar material.
                 </blockquote>
             </div>
             <div class="col s1"></div>
