@@ -29,6 +29,19 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/materialize.js"></script>
+    <style type="text/css"> 
+        thead tr th { 
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #ffffff;
+        }
+    
+        .table-responsive-2 { 
+            height: 500px; /* Mover a 400 para demostrar el scroll*/
+            overflow-y:scroll;
+        }
+    </style>
 </head>
 <body>
 <?php echo $nav_recep;  ?>
@@ -42,8 +55,8 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
         <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">search</i>
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">Buscar pacientes</label>
+          <input id="search" type="text" class="validate">
+          <label for="search">Buscar pacientes</label>
           </div>
         </div>
         </div>
@@ -52,7 +65,8 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
 
     <div class="row">
     <div class="col s12">
-    <table>
+    <div class="table-responsive-2">
+    <table id="mytable">
         <thead>
           <tr>
               <th>Nombre Completo</th>
@@ -100,6 +114,7 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
           
         </tbody>
       </table>
+      </div>
     </div>
     </div>
 
@@ -123,6 +138,21 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
     $(document).ready(function(){
     $('.modal').modal();
   });
+</script>
+<script>
+ // Write on keyup event of keyword input element
+ $(document).ready(function(){
+ $("#search").keyup(function(){
+ _this = this;
+ // Show only matching TR, hide rest of them
+ $.each($("#mytable tbody tr"), function() {
+ if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+ $(this).hide();
+ else
+ $(this).show();
+ });
+ });
+});
 </script>
 </body>
 </html>

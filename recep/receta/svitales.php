@@ -27,6 +27,7 @@ $val = $res_consulta->num_rows;
                     <th>TEMP</th>
                     <th>FRE C</th>
                     <th>FRE R</th>
+                    <th>Oxígeno</th>
                     <th>Peso</th>
                     <th>Talla</th>
                     <th>Edad</th>
@@ -55,6 +56,7 @@ $val = $res_consulta->num_rows;
                         <td><input class="ancho" type="number" min="1" step="0.1" name="temp" value="<?php echo $svitales['temp'] ?>"></td>
                         <td><input class="ancho" type="number" min="1" name="fre_c" value="<?php echo $svitales['fre_c'] ?>"></td>
                         <td><input class="ancho" type="number" min="1" name="fre_r" value="<?php echo $svitales['fre_r'] ?>"></td>
+                        <td><input class="ancho" type="number" min="1" name="oxi" value="<?php echo $svitales['oxi'] ?>"></td>
                         <td><input class="ancho" type="number" min="1" name="peso" value="<?php echo $svitales['peso'] ?>"></td>
                         <td><input class="ancho" type="number" min="1" name="talla" step="0.01" value="<?php echo $svitales['talla'] ?>"></td>
                         <td><input class="ancho" type="number" min="1" name="edad" value="<?php echo $svitales['edad'] ?>"></td>

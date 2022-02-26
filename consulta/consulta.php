@@ -103,9 +103,9 @@ if($val_cita == 1){
          </div>
          <div class="col s6">
             <ul>
-                
+                <li>OXIGENACIÓN: <?php echo $row_cita['oxi']; ?>%</li>
                 <li>EDAD: <?php echo $row_cita['edad']; ?> años</li>
-                <li>ALERGIAS: <?php echo $row_cita['alergias']; ?> años</li>
+                <li>ALERGIAS: <?php echo $row_cita['alergias']; ?></li>
             </ul>
          </div>
      </div>
@@ -147,7 +147,7 @@ if($val_cita == 1){
                     <td><?php echo date("d/m/Y", strtotime($citas_pac['fecha'])); ?></td>
                     <td><?php echo $citas_pac['medico_cita'];   ?></td>
                     <td><?php echo $citas_pac['descrip_cita']; ?></td>
-                    <td><a href="#?vercita=<?php echo $citas_pac['id_cita']; ?>">Ir al detalle</a></td>
+                    <td><a href="detalle_cita.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente ?>">Ir al detalle</a></td>
                 </tr>
             <?php
             }
