@@ -203,14 +203,7 @@ $res = $mysqli->query($sql_medicamentos);
             <option value="5" >5 tratamientos</option>
         </select>
         <?php 
-          $sql_v = "SELECT * FROM cita WHERE id_paciente = '$paciente' and tipo = 0 and consulta = 1";
-          $res_val = $mysqli->query($sql_v);
-          $val = $res_val->num_rows;
-          if($val > 1){
-            $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat != 1 ORDER BY id_trat DESC";
-          }else{
-            $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat = 1 ORDER BY id_trat DESC";
-          }
+         $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat != 1 ORDER BY id_trat DESC";
           $trat = $mysqli->query($sql_tf);
           ?>  
         

@@ -136,7 +136,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                     <thead>
                         <tr>
                             <th class="center-align" colspan="4">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
-                            <th class="center-align"><a href="http://localhost/ser/caja/">Actualizar <i class="material-icons">autorenew</i> </a></th>
+                            <th class="center-align"><a href="index.php">Actualizar <i class="material-icons">autorenew</i> </a></th>
                         </tr>
                         <tr>
                             <th>Paciente</th>

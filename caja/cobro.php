@@ -110,6 +110,7 @@ if($val == 1){
                 <option value="EFECTIVO">Efectivo</option>
                 <option value="TARJETA(CRED-DEB)">Tarjeta</option>
                 <option value="CHEQUE">Cheque</option>
+                <option value="OTRAS">Varias</option>
             </select>
             <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
             <input type="hidden" name="user" value="<?php echo $id_user; ?>">

@@ -10,6 +10,7 @@ $fecha_corte = date('d/m/Y', strtotime($corte['fecha_corte']));
 $cajero_corte = $corte['user_cajero']; 
 
 $cobros_corte = $corte['detalle_cobros'];
+$vales_corte = $corte['detalle_vales'];
 
 $sql_montos_mp = "SELECT medio_pago, SUM(abono) MontoMP FROM caja where id_cobro IN ($cobros_corte) GROUP BY medio_pago ORDER BY medio_pago";
 $res_montos_mp = $mysqli->query($sql_montos_mp);
@@ -156,6 +157,7 @@ $total_factor = $monto_factor['MontoFactor'];
                     </thead>
                     <tbody>
                         <?php
+                        $val_abonos = 0;
                         $sql_det_cita = "SELECT caja.id_cita,
                         cita.horario,
                         caja.id_cobro,
@@ -192,10 +194,51 @@ $total_factor = $monto_factor['MontoFactor'];
                                 <td><?php echo $row_detalle['medio_pago'] ?></td>
                             </tr>
                         <?php 
+                                $val_abonos = $val_abonos + $row_detalle['abono'];
                             }   // Cierre while de detalle
                         ?>
+                        <tr>
+                            <td colspan="12"> Total Ingresos = $ <?php echo $val_abonos ?></td>
+                        </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="col s12">
+            <h6>Detalle Reporte de Egresos</h6>
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Beneficiario</th>
+                        <th>Autorizador</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php 
+                    $sql_vales = "SELECT * FROM vales_salida WHERE id_vale IN ($vales_corte)";
+                    $res_sql_vales = $mysqli->query($sql_vales);
+                    $val_vales = $res_sql_vales->num_rows;
+                    $val_egresos = 0;
+                    if($val_vales > 0){
+                        while($row_vales = mysqli_fetch_assoc($res_sql_vales)){
+                            ?>
+                            <tr>
+                                <td><?php echo $row_vales['concepto']; ?></td>
+                                <td><?php echo $row_vales['beneficiario']; ?></td>
+                                <td><?php echo $row_vales['autorizador']; ?></td>
+                                <td>$ <?php echo $row_vales['cantidad']; ?></td>
+                            </tr>
+                    <?php    
+                                $val_egresos = $val_egresos + $row_vales['cantidad'];
+                }
+                    }
+                ?>
+                <tr>
+                    <td colspan="4"> Total Egresos = $<?php echo $val_egresos; ?></td>
+                </tr>
+                </tbody>
+            </table>
             </div>
         </div>
         <div class="row center align">
