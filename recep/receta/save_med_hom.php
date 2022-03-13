@@ -30,6 +30,7 @@ if(!empty($_POST))
     $cita = $_POST['c'];
     $tipo_fras = $_POST['tipo'];
 
+
 if($tipo_fras == 'gen'){
     $continua = 0;
     
@@ -77,7 +78,8 @@ if($tipo_fras == 'gen'){
     
     $tipo_trat = $_POST['tipo_trat'];
     $cantidad = $_POST['cant_trat'];
-    
+    $tipo_dosis = $_POST['tipo_dosis'];
+
     $sql_valt = "SELECT * FROM resu_med_home WHERE id_cita = '$cita' and tipo_fras = '$tipo_fras' AND cancelado = 0";
     $res_valt = $mysqli->query($sql_valt);
     $valt = $res_valt->num_rows;
@@ -92,8 +94,8 @@ if($tipo_fras == 'gen'){
                 }
             }
         }elseif($valt == 0){
-            $sql_intrat =  "INSERT INTO resu_med_home (id_cita, tipo_fras, id_tipo_trat, cant_tratamientos, user_registra)
-                            VALUES('$cita','$tipo_fras','$tipo_trat','$cantidad','$user')";
+            $sql_intrat =  "INSERT INTO resu_med_home (id_cita, tipo_fras, id_tipo_trat, tipo_dosis, cant_tratamientos, user_registra)
+                            VALUES('$cita','$tipo_fras', '$tipo_trat', '$tipo_dosis','$cantidad','$user')";
                 if($mysqli->query($sql_intrat) === True){
                     echo "Se guardo correctamente el resumen del tratamiento";
                 }
@@ -113,7 +115,7 @@ $sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita";
 $fras = $mysqli->query($sql_fras);
 $val_fras = $fras->num_rows;
 
-$sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado, id_registro FROM resu_med_home
+$sql_resu = "SELECT id_cita, tipo_fras,tipo_dosis,cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado, id_registro FROM resu_med_home
 INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = $cita";
 $resumen = $mysqli->query($sql_resu);
 
@@ -147,7 +149,8 @@ if($val_fras > 0){
                 <tr>
                     <td><b>Tipo tratamiento</b></td>
                     <td><b>Precio</b></td>
-                    <td><b>Cantidad de Tratamientos</b></td>
+                    <td><b>Cantidad<br>Tratamientos</b></td>
+                    <td><b>Tipo de Dósis</b></td>
                     <td><b>Sub-Total</b></td>
                     <td></td>
                   </tr>
@@ -168,6 +171,7 @@ if($val_fras > 0){
                     <td>'.$rows3['des_tratamiento'].'</td>
                     <td>'.$rows3['costo'].'</td>
                     <td>'.$rows3['cant_tratamientos'].'</td>
+                    <td>'.$rows3['tipo_dosis'].'</td>
                     <td>$ '.$sub_total_trat.'</td>
                     <td> '.$cancela.'</td>
                   </tr>';

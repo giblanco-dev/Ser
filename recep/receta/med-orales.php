@@ -12,7 +12,8 @@ $res_med2 = $mysqli->query($sql_med);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/css/main.css">
-    <title>Terapias</title>
+    <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
+    <title>Medicamentos Orales-Nutrientes</title>
     <style>
         body{
             font-family: 'Roboto', sans-serif;
@@ -44,9 +45,18 @@ $res_med2 = $mysqli->query($sql_med);
 </head>
 <body>
 <form action="save_med_oral.php" method="POST">
+
+<div style="width: 50%; display: inline-block;">
+<input type="hidden" name="user" value="<?php echo $usuario; ?>">
+    <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
+    <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
+</div>
+
     <div style="width: 50%; display: inline-block;">
-        <h2>Nutrientes</h2>
-        <table>
+        <h2 style="display: inline-block;">Medicamentos Orales</h2>
+        <input id="search" type="text" placeholder="Buscar" style="display: inline-block; margin-left: 15px;">
+        <table id="mytable">
+            <tbody>
             <?php 
             $cont = 0;
             while($med_orales = mysqli_fetch_assoc($res_med)){
@@ -81,13 +91,16 @@ $res_med2 = $mysqli->query($sql_med);
             }
         }
             ?>
+            </tbody>
         </table>
         
         
     </div>
     <div style=" width: 45%; display: inline-block;">
-    <h2>Medicamentos Orales</h2>
-    <table>
+    <h2 style="display: inline-block;">Nutrientes</h2>
+    <input id="search1" type="text" placeholder="Buscar" style="display: inline-block; margin-left: 15px;">
+    <table id="mytable1">
+        <tbody>
             <?php 
             $cont = 0;
             while($nutrientes = mysqli_fetch_assoc($res_med2)){
@@ -122,11 +135,42 @@ $res_med2 = $mysqli->query($sql_med);
             }
         }
             ?>
+            </tbody>
         </table>
     </div>
-    <input type="hidden" name="user" value="<?php echo $usuario; ?>">
-    <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
-    <input type="submit" class="btn" value="Guardar/Revisar Medicamentos">
     </form>
+
+    <script>
+ // Write on keyup event of keyword input element
+ $(document).ready(function(){
+ $("#search").keyup(function(){
+ _this = this;
+ // Show only matching TR, hide rest of them
+ $.each($("#mytable tbody tr"), function() {
+ if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+ $(this).hide();
+ else
+ $(this).show();
+ });
+ });
+});
+</script>
+
+<script>
+ // Write on keyup event of keyword input element
+ $(document).ready(function(){
+ $("#search1").keyup(function(){
+ _this = this;
+ // Show only matching TR, hide rest of them
+ $.each($("#mytable1 tbody tr"), function() {
+ if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+ $(this).hide();
+ else
+ $(this).show();
+ });
+ });
+});
+</script>
+
 </body>
 </html>

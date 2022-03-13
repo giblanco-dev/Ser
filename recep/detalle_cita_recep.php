@@ -26,6 +26,8 @@ if($paciente_val == 1){
     echo "Hay un error";
 }
 
+$val_trat_ext = 0;
+$val_trat_gen = 0;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -249,8 +251,8 @@ if($val_resu > 0){
                 ';
 
         while($rows3 = mysqli_fetch_assoc($resumen)){
-            if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal";}
-            if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra";}
+            if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $val_trat_gen = 1;}
+            if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra"; $val_trat_ext = 1;}
             $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
             echo '<tr>
                     <td>'.$rows3['des_tratamiento'].'</td>
@@ -273,7 +275,76 @@ if($val_resu > 0){
         <td colspan="2"><b>$'.$total_trat.'</b></td>
         </tr>
         </table><br>';
-}else{
+?>
+
+<h6>Detalle Frascos Tratamiento General</h6>
+            <?php if($val_trat_gen == 1){
+                $sql_det_gen = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
+                                FROM rec_med_home
+                                WHERE id_cita = '$id_cita' AND cancelado = 0 AND tipo_fras = 'gen'";
+                $res_det_gen = $mysqli->query($sql_det_gen);
+             ?>
+             <table>
+                 <thead>
+                     <tr>
+                         <th>Frasco</th>
+                         <th>Medicamentos Frasco</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <?php 
+                     while($row_det_gen = mysqli_fetch_assoc($res_det_gen)){
+                         echo"
+                         <tr>
+                         <td>".$row_det_gen['frasco']."</td>
+                         <td>".rtrim($row_det_gen['MedFrascos'],", ")."</td>
+                        </tr> 
+                         ";
+                     }
+                     ?>
+                 </tbody>
+             </table>
+             <br>
+            <?php   }else{
+                echo '<h6 style="color: red;">No hay registro de tratamiento</h6>';
+            }
+
+            if($val_trat_ext == 1){
+                $sql_det_ext = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
+                FROM rec_med_home
+                WHERE id_cita = '$id_cita' AND cancelado = 0 AND tipo_fras = 'ext'";
+                $res_det_ext = $mysqli->query($sql_det_ext);
+                ?>
+            <h6>Detalle Frascos Extra</h6>
+                <table>
+                <thead>
+                     <tr>
+                         <th>Frasco</th>
+                         <th>Medicamentos Frasco</th>
+                     </tr>
+                </thead>
+                <tbody>
+                     <?php 
+                     while($row_det_ext = mysqli_fetch_assoc($res_det_ext)){
+                         echo"
+                         <tr>
+                         <td>".$row_det_ext['frasco']."-Extra</td>
+                         <td>".rtrim($row_det_ext['MedFrascos'],", ")."</td>
+                        </tr> 
+                         ";
+                     }
+                     ?>
+                 </tbody>
+                </table>
+
+            <?php   }else{
+                echo "<h6>No hay registro de frascos extra</h6>";
+            }
+
+            ?>
+
+
+<?php   }else{
     echo '<h5>No se registraron <b>medicamentos homeopáticos</b> de la receta de esta cita</h5>';
 }
 

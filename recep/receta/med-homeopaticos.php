@@ -194,7 +194,7 @@ $res = $mysqli->query($sql_medicamentos);
         <input type="hidden" name="c" value="<?php echo $cita ?>">
         <input type="hidden" name="u" value="<?php echo $usuario ?>">
         <input type="hidden" name="tipo" value="gen">
-        <label for="x" style= "display:inline-block; ">Cantidad de Tratamientos</label>
+        <label for="x" style= "display:inline-block;">Cantidad de Tratamientos</label>
         <select name="cant_trat" id="x">
             <option value="1" selected>1 tratamiento</option>
             <option value="2" >2 tratamientos</option>
@@ -202,18 +202,25 @@ $res = $mysqli->query($sql_medicamentos);
             <option value="4" >4 tratamientos</option>
             <option value="5" >5 tratamientos</option>
         </select>
+        <label for="z" style= "display:inline-block; margin-left: 10px;">Tipo de Tratamiento</label>
         <?php 
          $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat != 1 ORDER BY id_trat DESC";
           $trat = $mysqli->query($sql_tf);
           ?>  
         
-            <select name="tipo_trat">
+            <select name="tipo_trat" id="z">
             <?php
             while($row_trat = mysqli_fetch_assoc($trat)){
              echo ' <option value="'.$row_trat['id_trat'].'" selected>'.$row_trat['des_tratamiento'].'</option>';
             }
              ?> 
             </select>  
+            <label for="y" style= "display:inline-block; margin-left: 10px;">Dósis</label>
+        <select name="tipo_dosis" id="y">
+            <option value="Normal" selected>Normal</option>
+            <option value="Bebe" >Bebé</option>
+            <option value="Sin Alcohol" >Sin Alcohol</option>
+        </select>
           
         <input type="submit" class="btn" value="Guardar">
         <a href="save_med_hom.php"><button class="bt2">Resumen Medicamentos Homeopáticos</button></a>

@@ -11,6 +11,7 @@ $res_terapias = $mysqli->query($sql_terapias);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/css/main.css">
+    <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
     <title>Terapias</title>
     <style>
         body{
@@ -45,8 +46,9 @@ $res_terapias = $mysqli->query($sql_terapias);
     <div style="width: 100%;">
     <form action="save_terapia.php" method="POST" autocomplete="off">
         <h2 style="display: inline-block;">Terapias</h2>
+        <input id="search" type="text" placeholder="Buscar" style="display: inline-block; margin-left: 30px;">
         <input type="submit" class="btn" value="Guardar/Revisar Terapias">
-        <table>
+        <table id="mytable">
             <?php 
             $cont = 0;
             while($terapias = mysqli_fetch_assoc($res_terapias)){
@@ -58,7 +60,7 @@ $res_terapias = $mysqli->query($sql_terapias);
                     <td><input type="number" name="'.$terapias['id_terapia'].'[]" min="0" max="'.$terapias['max_terapias'].'" value="0"></td>
                     <td>'.$terapias['nom_terapia'].'</td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['nom_terapia'].'">
-                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="Indicaciones"></td>
+                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="-"></td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['precio'].'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$cita.'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$usuario.'">
@@ -70,7 +72,7 @@ $res_terapias = $mysqli->query($sql_terapias);
                     <td><input type="number" name="'.$terapias['id_terapia'].'[]" min="0" max="'.$terapias['max_terapias'].'" value="0"></td>
                     <td>'.$terapias['nom_terapia'].'</td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['nom_terapia'].'">
-                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="Indicaciones"></td>
+                    <td><input style="width: 25em;" type="text" name="'.$terapias['id_terapia'].'[]" value ="-"></td>
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$terapias['precio'].'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$cita.'">
                     <input type="hidden" name="'.$terapias['id_terapia'].'[]" value="'.$usuario.'">
@@ -84,5 +86,20 @@ $res_terapias = $mysqli->query($sql_terapias);
         <input type="hidden" name="user" value="<?php echo $usuario; ?>">
         </form>
     </div>
+    <script>
+ // Write on keyup event of keyword input element
+ $(document).ready(function(){
+ $("#search").keyup(function(){
+ _this = this;
+ // Show only matching TR, hide rest of them
+ $.each($("#mytable tbody tr"), function() {
+ if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+ $(this).hide();
+ else
+ $(this).show();
+ });
+ });
+});
+</script>
 </body>
 </html>

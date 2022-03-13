@@ -63,6 +63,7 @@ if($val_trat_gen == 1){
     $trat_gen = mysqli_fetch_assoc($res_trat_gen);
     $cant_tratamientos = $trat_gen['cant_tratamientos'];
     $tipo_tratamiento = $trat_gen['des_tratamiento'];
+    $tipo_dosis = $trat_gen['tipo_dosis'];
     $val_imp_gen = $trat_gen['flag_impr_et'];
     
 }else{
@@ -155,8 +156,9 @@ if($val_trat_ext == 1){
                 <p>Médico: <?php echo $medico; ?></p>
                 <p>Fecha: <?php echo $fecha_cita; ?></p>
                 <p>Horario: <?php echo $horario; ?></p>
-                <p>Tipo de tratamiento: <?php echo $tipo_tratamiento; ?></p>
-                <p>Cantidad de Tratamientos: <?php echo $cant_tratamientos; ?></p>
+                <p>Tipo de tratamiento: <b><?php echo $tipo_tratamiento; ?></b></p>
+                <p>Cantidad de Tratamientos: <b><?php echo $cant_tratamientos; ?></b></p>
+                <p>Tipo de dósis: <b><?php echo $tipo_dosis; ?></b></p>
                 <p>Frascos Extra: <?php echo $fras_ext; ?></p>
                 <?php 
                 if($val_trat_gen + $val_trat_ext > 0){

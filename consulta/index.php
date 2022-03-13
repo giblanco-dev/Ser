@@ -94,7 +94,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                     <thead>
                         <tr>
                             <th class="center-align" colspan="2">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
-                            <th class="center-align"><a href="http://localhost/ser/consulta/">Actualizar <i class="material-icons">autorenew</i> </a></th>
+                            <th class="center-align"><a href="index.php">Actualizar <i class="material-icons">autorenew</i> </a></th>
                         </tr>
                         <tr>
                             <th>Paciente</th>
@@ -141,19 +141,6 @@ $datos_cita = $mysqli -> query($sql_citas);
 
 <!-- ***************************** TERMINA CONTENIDO ****************************** -->
 
-<!-- ***************************** Modal de creación de Citas ****************************** -->    
-
-  <!-- Modal Nueva Cita -->
-  <div id="modal1" class="modal modal-fixed-footer" style="height: 620px;">
-      <div class="modal-content">
-        <h4>Nueva Cita</h4>
-        <iframe frameborder="0" allowFullScreen="true" src="cita.php" style="width: 100%; height: 340px;"></iframe>
-
-      </div>
-      <div class="modal-footer">
-        <a href="http://localhost/ser/recep/" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-      </div>
-    </div>
 
 <?php echo $footer_consulta;  ?>
 

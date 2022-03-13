@@ -45,7 +45,7 @@ if(!empty($_POST)){
     <link rel="stylesheet" href="../static/css/materialize.css">
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
-    <script src="../js/static/materialize.js"></script>
+    <script src="../static/js/materialize.js"></script>
     <style type="text/css"> 
         thead tr th { 
             position: sticky;
@@ -119,7 +119,7 @@ if(!empty($_POST)){
                 <td>'.$citas['horario'].'</td>
                 <td>'.$citas['descrip_cita'].'</td>
                 <td>'.$status.'</td>
-                <td>Ver detalle</td>
+                <td><a href="detalle_cita_recep.php?c='.$citas['id_cita'].'&p='.$citas['id_paciente'].'">Ver detalle</a></td>
                 </tr>  
                 ';
             }

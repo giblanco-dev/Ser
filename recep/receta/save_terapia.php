@@ -39,7 +39,7 @@ while($terapia = mysqli_fetch_assoc($res_terapias)){
         $valida = $val->num_rows;
 
         if($valida == 0){
-            if($array[3]== "Indicaciones"){
+            if($array[3]== "-"){
                 $indicaciones = "Sin Indicaciones";
             }else{
                 $indicaciones = $array[3];
