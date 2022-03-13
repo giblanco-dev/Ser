@@ -14,7 +14,7 @@ if (!isset($_SESSION['id'])) {
 include_once 'recep_sections.php';
 include_once '../app/logic/conn.php';
 
-$sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacimiento, muni_alcaldia FROM paciente ORDER BY fecha_captura LIMIT 50";
+$sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacimiento, muni_alcaldia FROM paciente ORDER BY fecha_captura";
     $result_sql_pacientes = $mysqli -> query($sql_pacientes);
     $registros = $result_sql_pacientes -> num_rows;
 ?>

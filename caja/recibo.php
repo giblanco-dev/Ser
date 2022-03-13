@@ -41,7 +41,7 @@ if($val == 1){
 });
     </script>
 </head>
-<body>
+<body style="max-width:12cm; max-height: 18cm;"> 
     
     <!--div style="margin: 2%; background-color:#FFF;">
         <div class="row">
@@ -54,11 +54,11 @@ if($val == 1){
         </div>
     </div-->
     <!-- ************* INICIA RECIBO ***************************** -->
-    <div id="recibo" class=" ficha z-depth-2" style="max-height: 1100px; margin: 0%; background-color: #FFF;">
+    <div id="recibo" style="font-size: x-small;">
         <div class="row">
             <div class="col s8">
-                <h5>Comprobante de Pago</h5>
-                <p style="font-size: 12px;;">Clínica de Medicina Alternativa SER <br>
+                <p>Comprobante de Pago<p>
+                <p style="font-size: 8px;">Clínica de Medicina Alternativa SER <br>
                     Elena 9, Colonia Nativitas <br>
                     Del. Benito Juárez, Distrito Federal <br>
                     (55) 5579-9896, 6365-8396</p>
@@ -69,7 +69,7 @@ if($val == 1){
         </div>
         <div class="row">
             <div class="col s6">
-            <h5 style="text-transform: capitalize;">Paciente: <?php echo $recibo['Nom_paciente']; ?></h5>
+            <p style="text-transform: capitalize;"><b>Paciente: <?php echo $recibo['Nom_paciente']; ?></b></p>
             </div>
             <div class="s6">
             <ul class="collection">
@@ -181,7 +181,7 @@ if($val == 1){
                 <div class="col s12">
                 <div class="divider"></div>
                
-                <blockquote style="font-size: 12px;;">
+                <blockquote style="font-size: 8px;">
                 El presente comprobante tiene una vigencia de 8 días por lo que se recomienda la liquidación de
                 los pendientes dentro del periodo mencionado.
                 Para dudas o aclaraciones favor de comunicarse a los números indicados en el encabezado de

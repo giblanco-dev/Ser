@@ -63,7 +63,7 @@ if($val == 1){
     <script>
         function abrir(url)
           { 
-            open(url,'','top=0,left=100,width=850,height=700') ; 
+            open(url,'','top=0,left=100,width=650,height=500') ; 
           }
     </script>
 </head>
@@ -130,6 +130,7 @@ if($val == 1){
                     <br>
                     <a href="javascript:abrir('recibo.php?r=<?php echo $id_cobro; ?>')"
                         class="cyan darken-1 btn"><i class="material-icons right">print</i>Imprimir Comprobante</a>
+                        <!--a href="recibo.php?r=<?php //echo $id_cobro; ?>" target="_blank">Imprimr Comprobante</a-->
                     </div>
         <?php
         }else{

@@ -93,13 +93,9 @@ if($val_cita > 0){
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
     <div class="row">
         <div class="col s6">
-        <label for="pacientes">Selecciona Paciente</label>
-        <select id="pacientes" name="paciente" style="width: 100%;" required>
-			<?php while ($pacientes=mysqli_fetch_assoc($result_sql_pacientes)) {?>
-			<option value="<?php echo $pacientes['id_paciente']; ?>">
-				<p style="text-transform:capitalize;"><?php echo $pacientes['nombre_com'];?></p>
-			</option>
-			<?php  }?>
+        <label>Selecciona Paciente</label>
+        <select id='buscador' style='width: 200px;' name="paciente">
+            <option value='0'> Buscar paciente </option>
         </select>
         </div>
         <div class="col s3">
@@ -153,11 +149,28 @@ if($val_cita > 0){
     </div>  
     </div>
 </div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('#pacientes').select2();
-        $('select').formSelect();
-	});
-</script>
+<script>
+        $(document).ready(function(){
+            $("#buscador").select2({
+                ajax: {
+                    url: "proceso.php",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            palabraClave: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+        </script>
 </body>
 </html>
