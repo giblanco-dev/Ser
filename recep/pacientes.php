@@ -14,9 +14,6 @@ if (!isset($_SESSION['id'])) {
 include_once 'recep_sections.php';
 include_once '../app/logic/conn.php';
 
-$sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacimiento, muni_alcaldia FROM paciente ORDER BY fecha_captura";
-    $result_sql_pacientes = $mysqli -> query($sql_pacientes);
-    $registros = $result_sql_pacientes -> num_rows;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,7 +24,9 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
     <title>Pacientes</title>
     <link rel="stylesheet" href="../static/css/materialize.css">
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/select2.min.css">
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/select2.min.js"></script>
     <script src="../static/js/materialize.js"></script>
     <style type="text/css"> 
         thead tr th { 
@@ -48,72 +47,113 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
 
 <div class="container">
 <div class="row center-align">
-    <div class="col s8">
-        <h4 style="color: #2d83a0; font-weight:bold;">PACIENTES</h4>
+    <div class="col s6">
+        <h4 style="color: #2d83a0; font-weight:bold;">BÚSQUEDA DE PACIENTES</h4>
     </div>
-        <div class="col s4">
+    <div class="col s6">
         <div class="row">
-        <div class="input-field col s12">
-          <i class="material-icons prefix">search</i>
-          <input id="search" type="text" class="validate">
-          <label for="search">Buscar pacientes</label>
-          </div>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <div class="col s8" style="margin-top: 20px;">
+                <select id='buscador' style='width: 300px;' name="paciente">
+                <option value='0'> Buscar paciente </option>
+                </select>
+                </div>
+                <div class="col s4" style="margin-top: 15px;">
+                <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-top: 5%;">Cargar
+                    <i class="material-icons right">search</i>
+                </button>
+                </div>
+            </form>
         </div>
-        </div>
+    </div>
         <div class="divider"></div>
     </div>
-
+    
     <div class="row">
     <div class="col s12">
-    <div class="table-responsive-2">
-    <table id="mytable">
-        <thead>
-          <tr>
-              <th>Nombre Completo</th>
-              <th>Fecha de Nacimiento</th>
-              <th>Alcaldía o Municipio</th>
-              <th>Historia Clínica</th>
-              <th>Detalle</th>
-          </tr>
-        </thead>
+        <?php
 
-        <tbody>
-        <?php 
-        if($registros > 0){ 
-            while($rows = $result_sql_pacientes->fetch_assoc()){ 
-                $id_paciente = $rows['id_paciente'];
-                $nombre_com = $rows['nombres']." ".$rows['a_paterno']." ".$rows['a_materno'];
-                $fecha_nac = $rows['fecha_nacimiento'];
-                $municipio = $rows['muni_alcaldia'];
+        if(!empty($_POST))
+        {
+           $id_paciente = $_POST['paciente'];
 
-                $sql_hcg = "SELECT * FROM his_clinica_gen where id_paciente = '$id_paciente'";
-                $result_sql_his = $mysqli -> query($sql_hcg);
-                $hcg = $result_sql_his -> num_rows;
+           $sql_paciente = "SELECT * FROM paciente WHERE id_paciente = '$id_paciente'";
+            $res_sql_paciente = $mysqli -> query($sql_paciente);
+            $paciente_val = $res_sql_paciente -> num_rows;
 
-                if($hcg == 1){
-                    $his = '<a href="">Ver historia clinica</a>';
-                }elseif($hcg == 0){
-                    $his = '<a href="captura_hcg.php?id_paciente='.$id_paciente.'">Capturar historia clinica</a>';
-                }elseif($hcg > 1){
-                    $his = '<a href="">Contacte con el Administrador del Sistema</a>';
-                }
-                ?>
-                 <tr>
-                    <td><?php echo $nombre_com ?></td>
-                    <td><?php echo date("d/m/Y", strtotime($fecha_nac)); ?></td>
-                    <td><?php echo $municipio ?></td>
-                    <td><?php echo $his ?></td>
-                    <td><a href="detalle_paciente.php?id_paciente=<?php echo $id_paciente ?>" class="btn">Detalle Paciente</a></td>
-                </tr>
-        <?php }
+            if($paciente_val == 1){
+                $datos_paciente = $res_sql_paciente -> fetch_assoc();
+            }else {
+                echo "Hay un error";
+            }
+
+            $sql_citas = "SELECT cita.id_cita, cita.id_paciente, CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.tipo, tipos_cita.descrip_cita 
+            FROM cita INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita 
+            LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' and pagado = 1 ORDER BY cita.fecha DESC";
+            $result_sql_citas = $mysqli->query($sql_citas);
+
+            ?>
+            <div class="row">
+                <div class="col s6">
+                    <blockquote>Datos Generales</blockquote>
+                    <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
+                    <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
+                    <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
+                    <blockquote>Domicilio</blockquote>
+                    <p style="text-transform: capitalize;">Calle <?php echo $datos_paciente['calle']; ?>
+                    No. <?php echo $datos_paciente['num_domicilio']; ?>
+                    Colonia <?php echo $datos_paciente['colonia']; ?>
+                    CP. <?php echo $datos_paciente['cod_postal']; ?>, <?php echo $datos_paciente['muni_alcaldia']; ?>.
+                    <?php echo $datos_paciente['estado']; ?>
+                    </p>
+                    <blockquote>Contacto</blockquote>
+                    <p>Telefóno de Casa: <?php echo $datos_paciente['tel_casa']; ?></p>
+                    <p>Telefóno de Móvil: <?php echo $datos_paciente['tel_movil']; ?></p>
+                    <p>Telefóno de Oficina: <?php echo $datos_paciente['tel_oficina']; ?> Ext: <?php echo $datos_paciente['ext_tel']; ?></p>
+                    <p>Telefóno de Recados: <?php echo $datos_paciente['tel_recados']; ?></p>
+                    <p>Correo electrónico: <?php echo $datos_paciente['email']; ?></p>
+                    <blockquote>Otros</blockquote>
+                    <p style="text-transform: capitalize;">Ocupación: <?php echo $datos_paciente['ocupacion']; ?></p>
+                    <p style="text-transform: capitalize;">Titular: <?php echo $datos_paciente['nombre_titular']; ?></p>
+                </div>
+                <div class="col s6">
+                    <blockquote>Citas Pagadas del Paciente</blockquote>
+                    <div class="table-responsive-2">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Médico</th>
+                                <th></th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php   while($citas_pac = mysqli_fetch_assoc($result_sql_citas)){ ?>
+                                <tr>
+                                    <td><?php echo date("d/m/Y", strtotime($citas_pac['fecha'])); ?></td>
+                                    <td><?php echo $citas_pac['medico_cita'];   ?></td>
+                                    <td><?php echo $citas_pac['descrip_cita']; ?></td>
+                                    <td><a href="detalle_cita_recep.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente; ?>" target="blank">Ver detalle</a></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                </div>
+
+           
+
+<?php
         }else{
-            echo "<h3>No hay registrado ningún paciente o existe un error <br>
-                        Contacte al Administrador del Sistema</h3>";
+            echo '<h5 style="height: 500px;">No ha seleccionado ningún paciente</h5>';
         }
         ?>
           
-        </tbody>
-      </table>
+      
       </div>
     </div>
     </div>
@@ -140,19 +180,27 @@ $sql_pacientes = "SELECT id_paciente, nombres, a_paterno, a_materno, fecha_nacim
   });
 </script>
 <script>
- // Write on keyup event of keyword input element
- $(document).ready(function(){
- $("#search").keyup(function(){
- _this = this;
- // Show only matching TR, hide rest of them
- $.each($("#mytable tbody tr"), function() {
- if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
- $(this).hide();
- else
- $(this).show();
- });
- });
-});
-</script>
+        $(document).ready(function(){
+            $("#buscador").select2({
+                ajax: {
+                    url: "proceso.php",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            palabraClave: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+        </script>
 </body>
 </html>

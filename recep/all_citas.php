@@ -22,7 +22,7 @@ if(!empty($_POST)){
 
     $sql_citas = "SELECT cita.id_cita, cita.id_paciente, paciente.id_paciente, 
     CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta
+    CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
         FROM cita
         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
         INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
@@ -40,7 +40,7 @@ if(!empty($_POST)){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
     <title>Citas</title>
     <link rel="stylesheet" href="../static/css/materialize.css">
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
@@ -98,8 +98,11 @@ if(!empty($_POST)){
             <th>Paciente</th>
             <th>Médico</th>
             <th>Horario</th>
+            <th>Tipo de Cita</th>
+            <th>Confirmada</th>
             <th>Consulta</th>
-            <th>Estatus</th>
+            <th>Caja</th>
+            <th>Pagado</th>
             <th>Detalle</th>
         </tr>
         </thead>
@@ -107,11 +110,39 @@ if(!empty($_POST)){
             <?php
             $status = '';
             while($citas = mysqli_fetch_assoc($citas_fecha) ){
-                if($citas['confirma'] == 2){
-                    $status = 'Confirmada';
-                }elseif($citas['confirma'] == 3){
-                    $status = 'Cancelada';
+                
+                switch($citas['confirma']){
+                    case 1:
+                        $status = 'Programada';
+                        break;
+                    case 2:
+                        $status = 'Confirmada';
+                        break;
+                    case 3:
+                        $status = 'Cancelada';
+                        break;
+                    default:
+                    $status = 'Desconocido';        
                 }
+
+                if($citas['consulta'] == 1){
+                    $status_consulta = 'Sí';
+                }else{
+                   $status_consulta = 'No';
+                }
+
+                if($citas['caja'] == 1){
+                    $status_caja = 'Enviado';
+                }else{
+                   $status_caja = 'Sin Enviar';
+                }
+
+                if($citas['pagado'] == 1){
+                    $status_pago = 'Pagado';
+                }else{
+                   $status_pago = 'No';
+                }
+
                 echo '
                 <tr>
                 <td style="text-transform: capitalize;">'.$citas['Nom_paciente'].'</td>
@@ -119,7 +150,10 @@ if(!empty($_POST)){
                 <td>'.$citas['horario'].'</td>
                 <td>'.$citas['descrip_cita'].'</td>
                 <td>'.$status.'</td>
-                <td><a href="detalle_cita_recep.php?c='.$citas['id_cita'].'&p='.$citas['id_paciente'].'">Ver detalle</a></td>
+                <td>'.$status_consulta.'</td>
+                <td>'.$status_caja.'</td>
+                <td>'.$status_pago.'</td>
+                <td><a href="detalle_cita_recep.php?c='.$citas['id_cita'].'&p='.$citas['id_paciente'].'" target="blank">Ver detalle</a></td>
                 </tr>  
                 ';
             }

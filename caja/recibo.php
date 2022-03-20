@@ -73,10 +73,14 @@ if($val == 1){
             </div>
             <div class="s6">
             <ul class="collection">
+                <?php 
+                $fecha_cita = date("d-m-Y",strtotime($recibo['fecha'])); //
+                $fecha_cobro = date("d-m-Y, g:i a",strtotime($recibo['fecha_cobro']));
+                ?>
                 <li class="collection-item"><div>Folio Cita<a href="#!" class="secondary-content">CSA<?php echo $recibo['id_cita']; ?></a></div></li>
                 <li class="collection-item"><div>Folio Pago<a href="#!" class="secondary-content"><?php echo $recibo['id_cobro']; ?></a></div></li>
-                <li class="collection-item"><div>Fecha Cita<a href="#!" class="secondary-content"><?php echo $recibo['fecha']; ?></a></div></li>
-                <li class="collection-item"><div>Fecha Pago<a href="#!" class="secondary-content"><?php echo $recibo['fecha_cobro']; ?></a></div></li>
+                <li class="collection-item"><div>Fecha Cita<a href="#!" class="secondary-content"><?php echo $fecha_cita ?></a></div></li>
+                <li class="collection-item"><div>Fecha Pago<a href="#!" class="secondary-content"><?php echo $fecha_cobro; ?></a></div></li>
                 <li class="collection-item"><div>Total Pagado<a href="#!" class="secondary-content">$<?php echo $recibo['total_cobro']; ?></a></div></li>
             </ul>
             </div>

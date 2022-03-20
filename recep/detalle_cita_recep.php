@@ -28,6 +28,21 @@ if($paciente_val == 1){
 
 $val_trat_ext = 0;
 $val_trat_gen = 0;
+
+$sql_pago = "SELECT caja.*,
+            CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
+            cita.fecha, cita.id_cita, cita.tipo
+            FROM caja
+            INNER JOIN cita ON caja.id_cita = cita.id_cita
+            INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
+            WHERE caja.id_cita = '$id_cita' AND caja.status_pago = 'SI' AND caja.saldo = 0";
+
+$res_pago = $mysqli->query($sql_pago);
+$val = $res_pago->num_rows;
+//echo "<br>",$val;
+if($val == 1){
+    $recibo = mysqli_fetch_assoc($res_pago);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -55,7 +70,18 @@ $val_trat_gen = 0;
     </style>
 </head>
 <body>
-<?php echo $nav_recep;  ?>
+<header>
+ <div class="navbar-fixed">
+ <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="responsive-img" class="brand-logo"><img src="../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a onclick="window.close();"><i class="material-icons right">close</i>Cerrar Detalle</a></li>
+      </ul>
+    </div>
+  </nav>
+ </div>
+ </header>
 <div class="container">
 <div class="row center-align">
     <div class="col s12">
@@ -71,6 +97,28 @@ $val_trat_gen = 0;
     <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
+    <blockquote>Detalles del Pago</blockquote>
+    <?php 
+    if($val == 1){
+    $fecha_cita = date("d-m-Y",strtotime($recibo['fecha'])); //
+    $fecha_cobro = date("d-m-Y, g:i a",strtotime($recibo['fecha_cobro']));
+    ?>
+    <ul class="collection">
+                <li class="collection-item"><div>Folio Pago<a href="#!" class="secondary-content"><?php echo $recibo['id_cobro']; ?></a></div></li>
+                <li class="collection-item"><div>Fecha Cita<a href="#!" class="secondary-content"><?php echo $fecha_cita; ?></a></div></li>
+                <li class="collection-item"><div>Fecha Pago<a href="#!" class="secondary-content"><?php echo $fecha_cobro; ?></a></div></li>
+                <li class="collection-item"><div>Total Pagado<a href="#!" class="secondary-content">$<?php echo $recibo['total_cobro']; ?></a></div></li>
+                <li class="collection-item"><div>Medio Pago<a href="#!" class="secondary-content">$<?php echo $recibo['medio_pago']; ?></a></div></li>
+            </ul>
+    <?php 
+    }else{
+        echo'
+        <ul class="collection">
+                <li class="collection-item"><div>Folio Pago<a href="#!" class="secondary-content">Cita sin pago</a></div></li>
+        </ul>
+        ';
+    }
+    ?>
     <blockquote>Domicilio</blockquote>
     <p style="text-transform: capitalize;">Calle <?php echo $datos_paciente['calle']; ?>
     No. <?php echo $datos_paciente['num_domicilio']; ?>
@@ -87,6 +135,7 @@ $val_trat_gen = 0;
     <blockquote>Otros</blockquote>
     <p style="text-transform: capitalize;">Ocupación: <?php echo $datos_paciente['ocupacion']; ?></p>
     <p style="text-transform: capitalize;">Titular: <?php echo $datos_paciente['nombre_titular']; ?></p>
+    
 </div>
 <div class="col s7">
     <blockquote>Detalle Cita</blockquote>
