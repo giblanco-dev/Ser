@@ -97,7 +97,7 @@ if($val_cita == 1){
         <a href="sueros.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>" target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">SUEROS</a>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
         <h6>MEDICAMENTOS HOMEOPÁTICOS</h6>
-        <a href="med-homeopaticos.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>&p=<?php echo $paciente; ?>"
+        <a href="med-homeopaticosV2.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>&p=<?php echo $paciente; ?>"
         target="frame-cont" class="waves-effect waves-light btn" style="width: 80%;">Tratamiento</a>
         <br><br>
         <a href="med_hom_ex.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>&p=<?php echo $paciente; ?>"

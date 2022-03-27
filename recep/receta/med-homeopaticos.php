@@ -204,7 +204,7 @@ $res = $mysqli->query($sql_medicamentos);
         </select>
         <label for="z" style= "display:inline-block; margin-left: 10px;">Tipo de Tratamiento</label>
         <?php 
-         $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat != 1 ORDER BY id_trat DESC";
+         $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat < 6 ORDER BY id_trat DESC";
           $trat = $mysqli->query($sql_tf);
           ?>  
         

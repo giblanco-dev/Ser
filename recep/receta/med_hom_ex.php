@@ -94,7 +94,7 @@ $res = $mysqli->query($sql_medicamentos);
 <body>
     <div style="width: 100%;">
     <form action="save_med_hom_ex.php" method="POST" style="display: inline-block;">
-        <h2 style="margin-bottom: 5%;">Medicamentos Homeopáticos (Frascos Extra)</h2>
+        <h2 style="margin-bottom: 2%;">Medicamentos Homeopáticos (Frascos Extra)</h2>
         <table>
             <tbody>
                 <tr class="autocomplete" style="margin-top: -2em;">
@@ -138,7 +138,50 @@ $res = $mysqli->query($sql_medicamentos);
        
         <a href="save_med_hom.php"><button class="bt2">Ver medicamentos capturados</button></a>
         </form>
+
+        <br>
         
+        <form action=".php" method="POST" style="display: inline-block;">
+        <h2 style="margin-bottom: 2%;">Flores de Bach</h2>
+        <table>
+            <tbody>
+                <tr class="autocomplete" style="margin-top: -2em;">
+                    <td><input type="checkbox" name="flor1[]"></td>
+                    <td style="width: 95px;"><h1>Flor 1</h1></td>
+                    <td><input type="text" name="flor1[]" placeholder="Capturar Nombre"  class="et" autocomplete="off"></td>
+                </tr>
+                <tr class="autocomplete" style="margin-top: -2em; margin-left: 1.5em;">
+                    <td><input type="checkbox" name="flor2[]"></td>
+                    <td style="width: 95px;"><h1>Flor 2</h1></td>
+                    <td><input type="text" name="flor2[]" placeholder="Capturar Nombre"  class="et" autocomplete="off"></td>
+                </tr>
+                <tr class="autocomplete" style="margin-top: -2em; margin-left: 1.5em;">
+                    <td><input type="checkbox" name="flor3[]"></td>
+                    <td style="width: 95px;"><h1>Flor 3</h1></td>
+                    <td><input type="text" name="flor3[]" placeholder="Capturar Nombre"  class="et" autocomplete="off"></td>
+                </tr>
+                <tr class="autocomplete" style="margin-top: -2em;">
+                    <td><input type="checkbox" name="flor4[]"></td>
+                    <td style="width: 95px;"><h1>Flor 4</h1></td>
+                    <td><input type="text" name="flor4[]" placeholder="Capturar Nombre"  class="et" autocomplete="off"></td>
+                </tr>
+                <tr class="autocomplete" style="margin-top: -2em; margin-left: 1.5em;">
+                    <td><input type="checkbox" name="flor5[]"></td>
+                    <td style="width: 95px;"><h1>Flor 5</h1></td>
+                    <td><input type="text" name="flor5[]" placeholder="Capturar Nombre"  class="et" autocomplete="off"></td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="hidden" name="c" value="<?php echo $cita ?>">
+        <input type="hidden" name="u" value="<?php echo $usuario ?>">
+        <input type="hidden" name="tipo" value="flor">
+       
+       
+          
+        <input style="margin-left: 30%;" type="submit" class="btn" value="Guardar Flores de Bach">  
+       
+        <a href="save_med_hom.php"><button class="bt2">Ver medicamentos capturados</button></a>
+        </form>
     </div>
 
 
