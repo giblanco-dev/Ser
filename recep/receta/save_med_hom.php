@@ -41,7 +41,8 @@ if(!empty($_POST))
             if($row_valt['id_tipo_trat'] == $tipo_trat and $row_valt['cant_tratamientos'] == $cantidad){
                 echo "Actualización terminada";
             }else{
-                $sql_ut =  "UPDATE resu_med_home SET id_tipo_trat = '$tipo_trat', cant_tratamientos = '$cantidad'";
+                $reg_actualiza = $row_valt['id_registro'];
+                $sql_ut =  "UPDATE resu_med_home SET id_tipo_trat = '$tipo_trat', cant_tratamientos = '$cantidad' WHERE id_registro = '$reg_actualiza'";
                 if($mysqli->query($sql_ut) === True){
                     echo "Se ha actualizado el tipo de tratamiento y/o la cantidad de tratamientos, revisar correctamente el resumen";
                 }
@@ -61,12 +62,12 @@ if(!empty($_POST))
 </div>
 <div class="col s7">
 <?php 
-$sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita";
+$sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita  ORDER BY tipo_fras";
 $fras = $mysqli->query($sql_fras);
 $val_fras = $fras->num_rows;
 
 $sql_resu = "SELECT id_cita, tipo_fras,tipo_dosis,cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado, id_registro FROM resu_med_home
-INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = $cita";
+INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = '$cita' ORDER BY tipo_fras";
 $resumen = $mysqli->query($sql_resu);
 
 if($val_fras > 0){
@@ -84,6 +85,7 @@ if($val_fras > 0){
                 $medicamentos = $rows2['med1'].' '.$rows2['med2'].' '.$rows2['med3'].' '.$rows2['med4'].' '.$rows2['med5'];
                 if($rows2['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $no_frasco = $rows2['frasco'];}
                 if($rows2['tipo_fras']== "ext"){$tipo_frasco = "Extra";$no_frasco = $rows2['frasco'].' Ex';}
+                if($rows2['tipo_fras']== "flo"){$tipo_frasco = "Flor Bach";$no_frasco = ' Flor '.$rows2['frasco'];}
                 echo '<tr>
                         <td>'.$no_frasco.'</td>
                         <td>'.$tipo_frasco.'</td>

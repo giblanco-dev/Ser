@@ -41,7 +41,7 @@ if(!empty($_POST)){
                             VALUES('$num_frasco', '$tipo_fras','$cita','$med1','$med2','$med3','$med4','$med5','$user')";
                 if($mysqli->query($sql_in)=== True){
                   $result_in_med_h =  '<p>Los medicamentos del frasco No. '.$no_frasco.' se han ingresado correctamente</p>';
-                  echo '<script type="text/javascript">window.location.href="med-homeopaticosV2.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
+                  echo '<script type="text/javascript">window.location.href="med-homeopaticos.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
                 }else{
                   $result_in_med_h = '<p>Hay un duplicado con los medicamentos del frasco '.$no_frasco.' de la cita '.$cita.' reportar estos datos al administrador.</p>';
                 }
