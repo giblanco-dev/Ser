@@ -117,6 +117,9 @@ if($val_cita == 1){
         
         ?>
         <div class="divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
+        <a href="todos_frascos.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>&p=<?php echo $paciente; ?>"
+        target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">CORREGIR HOMEOPÁTICOS</a>
+        <br><br>
         <a href="total_rec.php?c=<?php echo $cita; ?>&u=<?php echo $id_user; ?>"
         target="frame-cont" class="waves-effect waves-light btn" style="width: 100%;">Resumen/Enviar a Caja</a>
         </div>

@@ -108,7 +108,7 @@ if($val == 1){
                 <li class="collection-item"><div>Fecha Cita<a href="#!" class="secondary-content"><?php echo $fecha_cita; ?></a></div></li>
                 <li class="collection-item"><div>Fecha Pago<a href="#!" class="secondary-content"><?php echo $fecha_cobro; ?></a></div></li>
                 <li class="collection-item"><div>Total Pagado<a href="#!" class="secondary-content">$<?php echo $recibo['total_cobro']; ?></a></div></li>
-                <li class="collection-item"><div>Medio Pago<a href="#!" class="secondary-content">$<?php echo $recibo['medio_pago']; ?></a></div></li>
+                <li class="collection-item"><div>Medio Pago<a href="#!" class="secondary-content"><?php echo $recibo['medio_pago']; ?></a></div></li>
             </ul>
     <?php 
     }else{

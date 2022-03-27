@@ -47,7 +47,7 @@ if($med_val == 0){
             <tbody>
                 <tr style="margin-top: -2em;">
                     <td style="width: 95;"><h5>Frasco <?php echo $no_frasco ?></h5></td>
-                    <td><select id='buscador' style='width: 200px;' name="Med1">
+                    <td><select id='buscador' style='width: 200px;' name="Med1" required>
                         <option value='0'> --- </option>
                     </select></td>
                     <td><select id='buscador2' style='width: 200px;' name="Med2">
