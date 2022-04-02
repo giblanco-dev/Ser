@@ -50,7 +50,7 @@ switch($medico){
 if($tipo_cita > 90){
     $sql_val_cita = "SELECT id_cita FROM cita where id_paciente = '$paciente' and fecha = '$fecha_cita' and tipo = '$tipo_cita'";
 }else{
-    $sql_val_cita = "SELECT id_cita FROM cita where id_paciente = '$paciente' and fecha = '$fecha_cita' and medico = '$medico_cita'";
+    $sql_val_cita = "SELECT id_cita FROM cita where id_paciente = '$paciente' and fecha = '$fecha_cita' and medico = '$medico_cita' and medico != 3";
 }
 
 $result_sql_val = $mysqli -> query($sql_val_cita);

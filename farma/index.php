@@ -14,15 +14,10 @@ if (!isset($_SESSION['id'])) {
 include_once 'farma_sections.php';
 include_once '../app/logic/conn.php';
 
-
 // Información de citas del día
 
 $hoy = date("Y-m-d");
 
-
-
-
- 
     $sql_citas = "SELECT DISTINCT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
     CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
     CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
@@ -98,11 +93,18 @@ $hoy = date("Y-m-d");
         <div class="row">
             <div class="col s12">
                 <div class="table-responsive-2">
-                <table>
+                <table id="mytable">
                     <thead>
                         <tr>
-                            <th class="center-align" colspan="4">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
-                            <th class="center-align"><a href="http://localhost/ser/farma/">Actualizar <i class="material-icons">autorenew</i> </a></th>
+                            <th class="center-align" colspan="2">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
+                            <th class="center-align"><a href="index.php">Actualizar <i class="material-icons">autorenew</i> </a></th>
+                            <th class="center-align" colspan="2">
+                            <div class="input-field col s12">
+                            <i class="material-icons prefix">search</i>
+                            <input id="search" type="text" class="validate">
+                            <label for="search">Buscar pacientes</label>
+                            </div>
+                            </th>
                         </tr>
                         <tr>
                             <th>Paciente</th>
@@ -139,5 +141,21 @@ $hoy = date("Y-m-d");
 </div>
 <!-- ***************************** TERMINA CONTENIDO ****************************** -->
 <?php echo $footer_caja;  ?>
+
+<script>
+ // Write on keyup event of keyword input element
+ $(document).ready(function(){
+ $("#search").keyup(function(){
+ _this = this;
+ // Show only matching TR, hide rest of them
+ $.each($("#mytable tbody tr"), function() {
+ if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+ $(this).hide();
+ else
+ $(this).show();
+ });
+ });
+});
+</script>
 </body>
 </html>

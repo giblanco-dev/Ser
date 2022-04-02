@@ -92,6 +92,10 @@ include_once '../app/logic/conn.php';
             LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' and pagado = 1 ORDER BY cita.fecha DESC";
             $result_sql_citas = $mysqli->query($sql_citas);
 
+            $sql_hcg = "SELECT * FROM his_clinica_gen where id_paciente = '$id_paciente'";
+                $result_sql_his = $mysqli -> query($sql_hcg);
+                $hcg = $result_sql_his -> num_rows;
+
             ?>
             <div class="row">
                 <div class="col s6">
@@ -99,6 +103,22 @@ include_once '../app/logic/conn.php';
                     <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
                     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
                     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
+                    <p>ID Interno Paciente: <?php echo $id_paciente; ?> </p>
+                    
+                    <blockquote>
+                        Historia Clínica
+                    </blockquote>
+                    <?php 
+                    if($hcg == 1){
+                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="blank">Ver historia clinica</a>';
+                    }elseif($hcg == 0){
+                        echo '<p>Sin Historia Clínica</p>
+                                <a href="captura_hcg.php?id_paciente='.$id_paciente.'">Capturar historia clinica</a>';
+                    }elseif($hcg > 1){
+                        echo '<a href="">Contacte con el Administrador del Sistema</a>';
+                    }
+                    ?>
+
                     <blockquote>Domicilio</blockquote>
                     <p style="text-transform: capitalize;">Calle <?php echo $datos_paciente['calle']; ?>
                     No. <?php echo $datos_paciente['num_domicilio']; ?>
@@ -115,6 +135,8 @@ include_once '../app/logic/conn.php';
                     <blockquote>Otros</blockquote>
                     <p style="text-transform: capitalize;">Ocupación: <?php echo $datos_paciente['ocupacion']; ?></p>
                     <p style="text-transform: capitalize;">Titular: <?php echo $datos_paciente['nombre_titular']; ?></p>
+                    <br>
+                    <a href="upd_paciente.php?idpac=<?php echo $id_paciente; ?>" target="blank">Actualizar Información del Paciente</a>
                 </div>
                 <div class="col s6">
                     <blockquote>Citas Pagadas del Paciente</blockquote>

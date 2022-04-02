@@ -7,7 +7,7 @@ $nav_consulta = '
       <a href="#" class="responsive-img" class="brand-logo"><img src="../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><a href="index.php"><i class="material-icons right">home</i>Inicio</a></li>
-     
+      <li><a href="all_citas_medico.php"><i class="material-icons right">av_timer</i>Todas mis Consultas</a></li>
       <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
     </div>

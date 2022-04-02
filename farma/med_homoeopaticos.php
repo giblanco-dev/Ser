@@ -88,6 +88,22 @@ if($val_trat_ext == 1){
     $fras_ext = 0;
     $val_imp_ext = 0;
 }
+
+$sql_flores = "SELECT resu_med_home.*, tipo_trat_hom.des_tratamiento
+FROM resu_med_home
+INNER JOIN tipo_trat_hom ON resu_med_home.id_tipo_trat = tipo_trat_hom.id_trat
+WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+$res_flores = $mysqli->query($sql_flores);
+$val_flores = $res_flores->num_rows;
+
+if($val_flores == 1){
+    $flores = mysqli_fetch_assoc($res_flores);
+    $flores_bach = $flores['cant_tratamientos'];
+    $val_imp_flor = $flores['flag_impr_et'];
+}else{
+    $flores_bach = 0;
+    $val_imp_flor = 0;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -260,7 +276,39 @@ if($val_trat_ext == 1){
             }
 
             ?>
-            
+            <br>
+            <h6>Detalle Flores de Bach</h6>
+            <?php if($val_flores == 1){
+                $sql_det_flor = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
+                                FROM rec_med_home
+                                WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+                $res_det_flor = $mysqli->query($sql_det_flor);
+             ?>
+             <table>
+                 <thead>
+                     <tr>
+                         <th>Frasco</th>
+                         <th>Medicamentos Frasco</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <?php 
+                     while($row_det_flor = mysqli_fetch_assoc($res_det_flor)){
+                         echo"
+                         <tr>
+                         <td>".$row_det_flor['frasco']."</td>
+                         <td>".rtrim($row_det_flor['MedFrascos'],", ")."</td>
+                        </tr> 
+                         ";
+                     }
+                     ?>
+                 </tbody>
+             </table>
+             <br>
+            <?php   }else{
+                echo '<h6 style="color: red;">No hay registro de Flores de Bach</h6>';
+            }
+            ?>
             </div>
         </div>
     </div>

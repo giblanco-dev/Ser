@@ -29,8 +29,8 @@ if($paciente_val == 1){
 
 $sql_citas = "SELECT cita.id_cita, cita.id_paciente, CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.tipo, tipos_cita.descrip_cita 
 FROM cita INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita 
-LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' and medico = '$id_user' 
-and pagado = 1 ORDER BY cita.fecha LIMIT 8";
+LEFT JOIN user on cita.medico = user.id WHERE id_paciente = '$id_paciente' 
+and pagado = 1 ORDER BY cita.fecha DESC";
 $result_sql_citas = $mysqli->query($sql_citas);
 
 $sql_cita_actual = "SELECT consulta.*, cita.fecha, cita.horario FROM consulta 
@@ -58,6 +58,19 @@ if($val_cita == 1){
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
     <script src="../static/js/materialize.js"></script>
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    <style type="text/css"> 
+        thead tr th { 
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #ffffff;
+        }
+    
+        .table-responsive-2 { 
+            height: 450px; /* Mover a 400 para demostrar el scroll*/
+            overflow-y:scroll;
+        }
+    </style>
 </head>
 <body>
 <?php echo $nav_consulta;  ?>
@@ -132,7 +145,8 @@ if($val_cita == 1){
 </div>
 <div class="col s4">
     <blockquote>Últimas Citas</blockquote>
-    <table>
+    <div class="table-responsive-2">
+    <table >
         <thead>
             <tr>
                 <th>Fecha</th>
@@ -147,13 +161,14 @@ if($val_cita == 1){
                     <td><?php echo date("d/m/Y", strtotime($citas_pac['fecha'])); ?></td>
                     <td><?php echo $citas_pac['medico_cita'];   ?></td>
                     <td><?php echo $citas_pac['descrip_cita']; ?></td>
-                    <td><a href="detalle_cita.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente ?>">Ir al detalle</a></td>
+                    <td><a href="detalle_consulta.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente ?>" target="blank">Ver detalle</a></td>
                 </tr>
             <?php
             }
             ?>
         </tbody>
     </table>
+    </div>
 </div>
 </div>
 
