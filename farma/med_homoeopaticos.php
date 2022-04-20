@@ -184,6 +184,7 @@ if($val_flores == 1){
                     <input type="hidden" name="trat_gen" value="<?php echo $val_trat_gen; ?>">
                     <input type="hidden" name="cant_trat_gen" value="<?php echo $cant_tratamientos; ?>">
                     <input type="hidden" name="trat_ext" value="<?php echo $val_trat_ext ?>">
+                    <input type="hidden" name="trat_flores" value="<?php echo $val_flores ?>">
                     <input type="hidden" name="user" value="<?php echo $id_user; ?>">
                     <input type="hidden" name="nom_paciente" value="<?php echo $paciente; ?>">
                     <input type="hidden" name="fecha_cita" value="<?php echo $fecha_cita; ?>">

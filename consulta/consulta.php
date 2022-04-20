@@ -161,7 +161,7 @@ if($val_cita == 1){
                     <td><?php echo date("d/m/Y", strtotime($citas_pac['fecha'])); ?></td>
                     <td><?php echo $citas_pac['medico_cita'];   ?></td>
                     <td><?php echo $citas_pac['descrip_cita']; ?></td>
-                    <td><a href="detalle_consulta.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente ?>" target="blank">Ver detalle</a></td>
+                    <td><a href="detalle_consulta.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente ?>" target="_blank">Ver detalle</a></td>
                 </tr>
             <?php
             }

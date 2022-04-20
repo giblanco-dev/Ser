@@ -56,6 +56,19 @@ $datos_cita = $mysqli -> query($sql_citas);
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/materialize.js"></script>
+    <style type="text/css"> 
+        thead tr th { 
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #ffffff;
+        }
+    
+        .table-responsive-2 { 
+            height: 500px; /* Mover a 400 para demostrar el scroll*/
+            overflow-y:scroll;
+        }
+    </style>
 </head>
 <body>
 <?php echo $nav_consulta;  ?>
@@ -90,11 +103,19 @@ $datos_cita = $mysqli -> query($sql_citas);
         </div>
         <div class="row">
             <div class="col s10 offset-s1">
-                <table class="centered striped">
+            <div class="table-responsive-2">
+                <table class="centered striped" id="mytable"> 
                     <thead>
                         <tr>
-                            <th class="center-align" colspan="2">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
+                            <th class="center-align">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
                             <th class="center-align"><a href="index.php">Actualizar <i class="material-icons">autorenew</i> </a></th>
+                            <th class="center-align">
+                            <div class="input-field col s12">
+                            <i class="material-icons prefix">search</i>
+                            <input id="search" type="text" class="validate">
+                            <label for="search">Buscar pacientes</label>
+                            </div>
+                            </th>
                         </tr>
                         <tr>
                             <th>Paciente</th>
@@ -131,7 +152,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                         ?>
                     </tbody>
                 </table>
-                
+            </div>
             </div>
         </div>
     </div>
@@ -144,10 +165,21 @@ $datos_cita = $mysqli -> query($sql_citas);
 
 <?php echo $footer_consulta;  ?>
 
+
 <script>
-    $(document).ready(function(){
-    $('.modal').modal();
-  });
+ // Write on keyup event of keyword input element
+ $(document).ready(function(){
+ $("#search").keyup(function(){
+ _this = this;
+ // Show only matching TR, hide rest of them
+ $.each($("#mytable tbody tr"), function() {
+ if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+ $(this).hide();
+ else
+ $(this).show();
+ });
+ });
+});
 </script>
 </body>
 </html>

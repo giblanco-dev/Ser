@@ -22,6 +22,7 @@ $cita = $_POST['cita'];
 $flag_trat_gen = $_POST['trat_gen'];
 $cantidad_trat_gen = $_POST['cant_trat_gen'];
 $flag_trat_ext = $_POST['trat_ext'];
+$flag_flores = $_POST['trat_flores'];
 $user_print = $_POST['user'];
 $nom_paciente = $_POST['nom_paciente'];
 $fecha_cita = $_POST['fecha_cita'];
@@ -86,6 +87,33 @@ if($flag_trat_ext == 1){
         $update_flag_imp_2 = "Error al actualizar bandera de impresión de tratamiento hom. Extra";
     }
 }
+
+if($flag_flores >= 1){
+    $sql_det_ext = "SELECT frasco, tipo_fras, med1, med2, med3, med4, med5
+                FROM rec_med_home
+                WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+                $res_det_ext = $mysqli->query($sql_det_ext);
+    while($row_det_ext = mysqli_fetch_assoc($res_det_ext)){
+        
+            fwrite($file_etiquetas,'*** FLOR NO. '.$row_det_ext['frasco'].' *** Fecha: '.$fecha_cita.chr(13));
+            fwrite($file_etiquetas,$nom_paciente.chr(13));
+            fwrite($file_etiquetas,' '.$row_det_ext['med1'].chr(13));
+            fwrite($file_etiquetas,' '.$row_det_ext['med2'].chr(13));
+            fwrite($file_etiquetas,' '.$row_det_ext['med3'].chr(13));
+            fwrite($file_etiquetas,' '.$row_det_ext['med4'].chr(13));
+            fwrite($file_etiquetas,' '.$row_det_ext['med5'].chr(13));
+            fwrite($file_etiquetas,' Dra. Bertha Angélica Mosqueda Hernandez'.chr(13));
+            fwrite($file_etiquetas,' Céd.Prof.11105190'.chr(13));
+    }
+    $upd_imp_trat_EXT = "UPDATE resu_med_home SET flag_impr_et = 1, user_imp_et = '$id_user', fecha_imp_et = '$hoy'
+                            WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+    if($mysqli->query($upd_imp_trat_EXT) === True){
+        $update_flag_imp_2 = "";
+    }else{
+        $update_flag_imp_2 = "Error al actualizar bandera de impresión de tratamiento hom. Extra";
+    }
+}
+
 
 fclose($file_etiquetas);
 

@@ -47,9 +47,15 @@ if($med_val == 0){
             <tbody>
                 <tr style="margin-top: -2em;">
                     <td style="width: 95;"><h5>Frasco <?php echo $no_frasco ?></h5></td>
-                    <td>
-                        <input type="text" name="Med1" placeholder="Capture los Medicamentos del Frasco" required>
-                    </td>
+                    <td><select id='buscador' style='width: 200px;' name="Med1" required>
+                        <option value='0'> --- </option>
+                    </select></td>
+                    <td><select id='buscador2' style='width: 200px;' name="Med2">
+                        <option value='0'> --- </option>
+                    </select></td>
+                    <td><select id='buscador3' style='width: 200px;' name="Med3">
+                        <option value='0'> --- </option>
+                    </select></td>
                     
                 </tr>
                 <tr>
@@ -90,5 +96,75 @@ if($med_val == 0){
 
 
 <!-- ***************** INICIA SCRIPT DE AUTOCOMPLETADO ***************************************-->
+<script>
+        $(document).ready(function(){
+            $("#buscador").select2({
+                ajax: {
+                    url: "busca_med_hom.php",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            palabraClave: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            
+            // ***********************************
+            $("#buscador2").select2({
+                ajax: {
+                    url: "busca_med_hom.php",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            palabraClave: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            // ***********************************
+            $("#buscador3").select2({
+                ajax: {
+                    url: "busca_med_hom.php",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            palabraClave: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            // ***********************************
+
+      
+        
+          });
+        </script>
 </body>
 </html>

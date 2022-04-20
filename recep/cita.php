@@ -104,7 +104,7 @@ if($val_cita > 0){
         </div>
         <div class="col s3">
         <label for="inputs_cita">Horario</label>
-        <input id="inputs_cita" type="time" name="horario" class="validate" required>
+        <input id="inputs_cita" type="time" name="horario" class="validate" min="09:00" max="21:00" required>
         </div>
         
     </div>

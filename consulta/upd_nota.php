@@ -17,7 +17,6 @@ if(!empty($_POST)){
         }else{
             echo '<h3 style="color: red; margin-top; 800px;">No se pudo actualizar al paciente favor de comunicarse con Sistemas</h3>';
         }
-
     }   
 }
-    ?>
+?>

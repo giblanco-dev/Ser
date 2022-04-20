@@ -149,11 +149,18 @@ $datos_cita = $mysqli -> query($sql_citas);
         <div class="row">
             <div class="col s12">
                 <div class="table-responsive-2">
-                <table>
+                <table id="mytable">
                     <thead>
                         <tr>
                             <th class="center-align" colspan="4">Citas del <?php echo date("d/m/Y", strtotime($hoy)); ?></th>
                             <th class="center-align"><a href="index.php">Actualizar <i class="material-icons">autorenew</i> </a></th>
+                            <th class="center-align" colspan="2">
+                            <div class="input-field col s12">
+                            <i class="material-icons prefix">search</i>
+                            <input id="search" type="text" class="validate">
+                            <label for="search">Buscar pacientes</label>
+                            </div>
+                            </th>
                         </tr>
                         <tr>
                             <th>Paciente</th>
@@ -279,6 +286,21 @@ $datos_cita = $mysqli -> query($sql_citas);
     $(document).ready(function(){
     $('.modal').modal();
   });
+</script>
+<script>
+ // Write on keyup event of keyword input element
+ $(document).ready(function(){
+ $("#search").keyup(function(){
+ _this = this;
+ // Show only matching TR, hide rest of them
+ $.each($("#mytable tbody tr"), function() {
+ if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+ $(this).hide();
+ else
+ $(this).show();
+ });
+ });
+});
 </script>
 </body>
 </html>

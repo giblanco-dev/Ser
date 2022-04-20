@@ -69,6 +69,8 @@ if($paciente_val == 1){
     <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
+
+    
     <blockquote>Domicilio</blockquote>
     <p style="text-transform: capitalize;">Calle <?php echo $datos_paciente['calle']; ?>
     No. <?php echo $datos_paciente['num_domicilio']; ?>
@@ -76,6 +78,8 @@ if($paciente_val == 1){
     CP. <?php echo $datos_paciente['cod_postal']; ?>, <?php echo $datos_paciente['muni_alcaldia']; ?>.
     <?php echo $datos_paciente['estado']; ?>
     </p>
+    
+
     <blockquote>Contacto</blockquote>
     <p>Telefóno de Casa: <?php echo $datos_paciente['tel_casa']; ?></p>
     <p>Telefóno de Móvil: <?php echo $datos_paciente['tel_movil']; ?></p>
