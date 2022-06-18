@@ -75,7 +75,17 @@ if(!empty($_POST)){
             break;
         case 2:
             echo '<script type="text/javascript">
-                    swal("","Se actualizaron los importes de la Cita, la cita ha sido liquidada", "success");  
+                    swal("","", "success");  
+                    </script>
+                    <script type="text/javascript">
+                    swal({
+                        title: "",
+                        text: "Se actualizaron los importes de la Cita, la cita ha sido liquidada",
+                        icon: "success",
+                        button: "Regresar",
+                    }).then(function() {
+                        window.location = "cobro.php?c='.$id_cita.'&u='.$user.'";
+                    });
                     </script>';
             break;
         default:

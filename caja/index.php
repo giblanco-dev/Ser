@@ -151,10 +151,10 @@ $datos_cita = $mysqli -> query($sql_citas);
                         while($citas_dia = mysqli_fetch_assoc($datos_cita)){
                         ?>
                         <tr>
-                            <td style="text-transform: capitalize;"><?php echo $citas_dia['Nom_paciente']; ?></td>
-                            <td style="text-transform: capitalize;"><?php echo $citas_dia['horario']; ?></td>
-                            <td style="text-transform: capitalize;"><?php echo $citas_dia['medico_cita']; ?></td>
-                            <td style="text-transform: capitalize;"><?php echo $citas_dia['descrip_cita']; ?></td>
+                            <td style="text-transform: capitalize; font-size:small;"><?php echo $citas_dia['Nom_paciente']; ?></td>
+                            <td style="text-transform: capitalize; font-size:small;"><?php echo $citas_dia['horario']; ?></td>
+                            <td style="text-transform: capitalize; font-size:small;"><?php echo $citas_dia['medico_cita']; ?></td>
+                            <td style="text-transform: capitalize; font-size:small;"><?php echo $citas_dia['descrip_cita']; ?></td>
                             <?php 
                             if($citas_dia['pagado'] == 0){
                                 echo '<td><div class="chip  red darken-1 white-text">
@@ -163,6 +163,9 @@ $datos_cita = $mysqli -> query($sql_citas);
                             }elseif($citas_dia['pagado'] == 1){
                                 echo '<td><div class="chip  cyan darken-4 white-text">
                                             <a class="white-text" href="cobro.php?c='.$citas_dia['id_cita'].'&u='.$id_user.'" target="frame-cont">Pagado</a>
+                                        </div></td>';
+                                        echo '<td><div class="chip  red white-text">
+                                        <a class="white-text" href="devolucion.php?c='.$citas_dia['id_cita'].'">Devolución</a>
                                         </div></td>';
                             }
                             ?>

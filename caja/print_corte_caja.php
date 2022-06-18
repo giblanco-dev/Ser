@@ -11,6 +11,7 @@ $cajero_corte = $corte['user_cajero'];
 
 $cobros_corte = $corte['detalle_cobros'];
 $vales_corte = $corte['detalle_vales'];
+$citas_corte = $corte['detalle_citas'];
 
 $sql_montos_mp = "SELECT medio_pago, SUM(abono) MontoMP FROM caja where id_cobro IN ($cobros_corte) GROUP BY medio_pago ORDER BY medio_pago";
 $res_montos_mp = $mysqli->query($sql_montos_mp);
@@ -68,28 +69,36 @@ $total_factor = $monto_factor['MontoFactor'];
     <style>
         .tabla{
             font-size: 10px !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            padding: -10 !important;
+            margin: -10 !important;
+            
         }
+        td{
+            padding: 0;
+        }
+        th{
+            padding: 0;
+        }
+        
     </style>
 </head>
 <body>
-<div id="recibo" style="max-height: 1100px; margin: 0%; background-color: #FFF;">
+<div id="recibo" style="max-height: 21.4cm; margin: 0%; background-color: #FFF;">
         <div class="row">
             <div class="col s4">
-                <h5>Reporte de Ingresos</h5>
+                <b><p>Reporte de Ingresos</p></b>
                 <p style="font-size: 12px;;">Clínica de Medicina Alternativa SER <br>
                     Elena 9, Colonia Nativitas <br>
                     Del. Benito Juárez, Distrito Federal <br>
                     (55) 5579-9896, 6365-8396</p>
             </div>
             <div class="col s6">
-            <ul class="collection">
-                <li class="collection-item"><div>Cajero:<a href="#!" class="secondary-content"><?php echo $corte['user_cajero']; ?></a></div></li>
-                <li class="collection-item"><div>Fecha del Corte:<a href="#!" class="secondary-content"><?php echo $fecha_corte; ?></a></div></li>
-                <li class="collection-item"><div>Monto Ingresos:<a href="#!" class="secondary-content">$ <?php echo $corte['cobrado']; ?></a></div></li>
-                <li class="collection-item"><div>Monto Egresos:<a href="#!" class="secondary-content">$ <?php echo $corte['monto_vales']; ?></a></div></li>
-                <li class="collection-item"><div>Monto Corte:<a href="#!" class="secondary-content">$ <?php echo $corte['monto_corte']; ?></a></div></li>
+            <ul class="collection" style="font-size: 12px;">
+                <li class="collection-item" style="padding: 0;"><div>Cajero:<a href="#!" class="secondary-content"><?php echo $corte['user_cajero']; ?></a></div></li>
+                <li class="collection-item" style="padding: 0;"><div>Fecha del Corte:<a href="#!" class="secondary-content"><?php echo $fecha_corte; ?></a></div></li>
+                <li class="collection-item" style="padding: 0;"><div>Monto Ingresos:<a href="#!" class="secondary-content">$ <?php echo $corte['cobrado']; ?></a></div></li>
+                <li class="collection-item" style="padding: 0;"><div>Monto Egresos:<a href="#!" class="secondary-content">$ <?php echo $corte['monto_vales']; ?></a></div></li>
+                <li class="collection-item" style="padding: 0;"><div>Monto Corte:<a href="#!" class="secondary-content">$ <?php echo $corte['monto_corte']; ?></a></div></li>
             </ul>
             </div>
             <div class="col s2">
@@ -99,22 +108,26 @@ $total_factor = $monto_factor['MontoFactor'];
         <div class="row">
             <div class="col s5">
             <ul class="collection with-header">
-            <li class="collection-header"><h6>Desglose por medio de pago</h6></li>
+            <li class="collection-header" style="padding: 0;"><b>Desglose por medio de pago</b></li>
                 <?php 
                 $total_val = 0;
                 while($montos_mp = mysqli_fetch_assoc($res_montos_mp)){
                 ?>
-                <li class="collection-item"><div><?php echo $montos_mp['medio_pago'];?><a href="#!" class="secondary-content">$ <?php echo $montos_mp['MontoMP']; ?></a></div></li>
+                <li class="collection-item" style="padding: 0;"><div><?php echo $montos_mp['medio_pago'];?><a href="#!" class="secondary-content">$ <?php echo $montos_mp['MontoMP']; ?></a></div></li>
                 <?php 
                 $total_val = $total_val + $montos_mp['MontoMP'];
                     } // CIERRA WHILE MEDIOS DE PAGO
                 ?>
-                <li class="collection-header"><h6>Total: $ <?php echo $total_val; ?></h6></li>
+                <li class="collection-header" style="padding: 0;"><b>Total: $ <?php echo $total_val; ?></b></li>
             </ul>
             </div>
             <div class="col s7">
-                <table>
+                <table style="font-size:12px;">
                     <tbody>
+                    <tr>
+                            <th>Total Día</th>
+                            <td><b>$ <?php echo $total_val; ?></b></td>
+                        </tr>
                         <tr>
                             <th>Total Nutrientes/Med.Orales</th>
                             <td>$ <?php echo $total_nutrientes; ?></td>
@@ -131,13 +144,17 @@ $total_factor = $monto_factor['MontoFactor'];
                             <th>Total de Factor de Crecimiento</th>
                             <td>$ <?php echo $total_factor; ?></td>
                         </tr>
+                        <tr style="background-color: #9c9c9c;">
+                            <th>Total (-) Nutrientes, Dental y Otros</th>
+                            <td><b>$ <?php echo $total_val - $total_nutrientes- $total_dental - $total_pellet - $total_factor; ?></b></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: -20px;">
             <div class="col s12">
-                <h6>Detalle Reporte de Ingresos</h6>
+                <p>Detalle Reporte de Ingresos</p>
                 <table class="tabla">
                     <thead>
                         <tr>
@@ -185,7 +202,21 @@ $total_factor = $monto_factor['MontoFactor'];
                                 <td><?php echo $row_detalle['id_cobro'] ?></td>
                                 <td><?php echo $row_detalle['Nom_Paciente'] ?></td>
                                 <td><?php echo $row_detalle['descrip_cita'] ?></td>
-                                <td><?php echo $row_detalle['Nom_Medico'] ?></td>
+                                <td><?php 
+                                if($row_detalle['Nom_Medico'] == 'Cargos Extra'){
+                                    $id_cita_nota = $row_detalle['id_cita'];
+                                    $sql_nota = "SELECT nota_evolucion FROM consulta WHERE id_cita = '$id_cita_nota'";
+                                    $res_nota = $mysqli->query($sql_nota);
+                                    $row_nota = mysqli_fetch_assoc($res_nota);
+                                    $nota = $row_nota['nota_evolucion'];
+                                    $nota_format = explode("|", $nota);
+                                    echo $nota_format[0];
+
+                                }else{
+                                    echo $row_detalle['Nom_Medico'];
+                                }
+                                ?>
+                                </td>
                                 <td>$ <?php echo $row_detalle['subtotal'] ?></td>
                                 <td>$ <?php echo $row_detalle['consulta'] ?></td>
                                 <td><?php echo $row_detalle['descuento'] ?>%</td>
@@ -204,7 +235,7 @@ $total_factor = $monto_factor['MontoFactor'];
                 </table>
             </div>
             <div class="col s12">
-            <h6>Detalle Reporte de Egresos</h6>
+            <p>Detalle Reporte de Egresos</p>
             <table class="tabla">
                 <thead>
                     <tr>
@@ -216,10 +247,12 @@ $total_factor = $monto_factor['MontoFactor'];
                 </thead>
                 <tbody>
                 <?php 
+                    $val_egresos = 0;
+                    if($vales_corte != ''){
                     $sql_vales = "SELECT * FROM vales_salida WHERE id_vale IN ($vales_corte)";
                     $res_sql_vales = $mysqli->query($sql_vales);
                     $val_vales = $res_sql_vales->num_rows;
-                    $val_egresos = 0;
+                    
                     if($val_vales > 0){
                         while($row_vales = mysqli_fetch_assoc($res_sql_vales)){
                             ?>
@@ -233,12 +266,82 @@ $total_factor = $monto_factor['MontoFactor'];
                                 $val_egresos = $val_egresos + $row_vales['cantidad'];
                 }
                     }
+                }
                 ?>
                 <tr>
                     <td colspan="4"> Total Egresos = $<?php echo $val_egresos; ?></td>
                 </tr>
                 </tbody>
             </table>
+            </div>
+          
+            <div class="col s12">
+            <p>Detalle Nutrientes y Medicamentos Orales</p>
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Cita</th>
+                        <th>Medicamento</th>
+                        <th>Cantidad</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php 
+                    $sql_med_oral = "SELECT * FROM rec_med_orales WHERE id_cita in ($citas_corte) and cancelado = 0";
+                    $res_det_orales = $mysqli->query($sql_med_oral);
+                    $val_med_orales = $res_det_orales->num_rows;
+                    $val_total_orales = 0;
+                    if($val_med_orales > 0){
+                        
+                        while($row_med_orales = mysqli_fetch_assoc($res_det_orales)){
+                            ?>
+                            <tr>
+                                <td>CMA<?php echo $row_med_orales['id_cita']; ?></td>
+                                <td><?php echo $row_med_orales['med_oral']; ?></td>
+                                <td><?php echo $row_med_orales['cantidad_med']; ?></td>
+                                <td>$ <?php echo $row_med_orales['monto']; ?></td>
+                            </tr>
+                    <?php    
+                                $val_total_orales = $val_total_orales + $row_med_orales['monto'];
+                }
+                    }
+                ?>
+                <tr>
+                    <td colspan="4"> Total Medicamentos Orales = $<?php echo $val_total_orales; ?></td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="col s12" >
+                <?php 
+                $sql_monto_efectivo = "SELECT SUM(abono) MontoEfectivo FROM caja where id_cobro IN ($cobros_corte) and medio_pago = 'EFECTIVO'";
+                $res_efectivo = $mysqli->query($sql_monto_efectivo);
+                $monto_efectivo = mysqli_fetch_assoc($res_efectivo);
+                ?>
+                <p>Desglose Efectivo</p>
+                <table class="tabla">
+                    <tr>
+                        <th>Total Efectivo:</th>
+                        <td>$ <?php echo $monto_efectivo['MontoEfectivo']; ?></td>
+                        <th>Total Nutrientes:</th>
+                        <td>$ <?php echo $total_nutrientes; ?></td>
+                        <th>Total Dental:</th>
+                        <td>$ <?php echo $total_dental; ?></td>
+                        <th>Total Factor Pellet:</th>
+                        <td>$ <?php echo $total_pellet; ?></td>
+                        <th>Total Factor Crecimiento:</th> 
+                        <td>$ <?php echo $total_factor; ?></td>
+                        <th>Total Egresos:</th>
+                        <td>$ <?php echo $val_egresos; ?></td>
+                        <?php 
+                        $resto_efectivo = $monto_efectivo['MontoEfectivo'] - $total_nutrientes - $total_dental
+                                        - $total_pellet - $total_factor - $val_egresos;
+                        ?>
+                        <th>Efectivo a Entregar:</th>
+                        <th>$ <?php echo $resto_efectivo; ?></th>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="row center align">

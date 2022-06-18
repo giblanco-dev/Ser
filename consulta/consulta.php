@@ -55,9 +55,10 @@ if($val_cita == 1){
     <title>Consulta</title>
     <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/materialize.css">
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
     <script src="../static/js/materialize.js"></script>
-    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    
     <style type="text/css"> 
         thead tr th { 
             position: sticky;
@@ -125,12 +126,43 @@ if($val_cita == 1){
     <?php    }
     ?>
     <form action="save_nota.php" method="POST">
-    <blockquote>Nota de evolución <span style="color: red;">(Obligatorio)</span></blockquote>
+    <blockquote><span style="color: red;">(Obligatorio) Datos para liberar la cita</span></blockquote>
+        <?php 
+        if($id_user == 3){
+            echo '
+            <div class = "row">
+            <div class = "input-field col s4">
+            <input type="number" name="folio" id="" placeholder="Indique el Folio" required>
+            </div>
+            <div class = "input-field col s8">
+            <select name="medico" required>
+                <option value="" disabled selected>Médico al que corresponde el folio</option>
+                <option value="Enrique Mtz">Dr. Enrique Mtz</option>
+                <option value="Guillermo Le">Dr. Guillermo León</option>
+                <option value="Angélica Mo">Dra. Angélica Mosqueda</option>
+                </select>
+            </div>
+            </div>
+            ';
+            ?>
+            <blockquote>Comentarios <span style="color: red;">(Obligatorio)</span></blockquote>
+            <textarea name="nota_evo" id="" cols="30" rows="50" required autocomplete="off"></textarea>
+            
+            <?php 
+            if($row_cita['nota_evolucion'] != ''){
+            echo '<p><b>Nota previa: '.$row_cita['nota_evolucion'].'</b></p>';
+            }
+            echo '<input type="hidden" name="flag_ex" value="1">';
+           }else{
+        ?>
+        <blockquote>Nota de evolución <span style="color: red;">(Obligatorio)</span></blockquote>
         <textarea name="nota_evo" id="" cols="30" rows="50" required autocomplete="off"></textarea>
         <?php 
         if($row_cita['nota_evolucion'] != ''){
             echo '<p><b>Nota previa: '.$row_cita['nota_evolucion'].'</b></p>';
         }
+        echo '<input type="hidden" name="flag_ex" value="0">';
+    }
         ?>
         
         <input type="hidden" value = '<?php echo $id_cita;?>' name="id_cita">
@@ -178,5 +210,10 @@ if($val_cita == 1){
 </div>
 
 <?php echo $footer_consulta;  ?>
+<script>
+    $(document).ready(function(){
+    $('select').formSelect();
+  });
+</script>
 </body>
 </html>

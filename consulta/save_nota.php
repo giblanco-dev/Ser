@@ -16,7 +16,17 @@ require_once '../app/logic/conn.php';
 
 if(!empty($_POST)){
     $id_cita = $_POST['id_cita'];
-    $nota = $_POST['nota_evo'];
+
+    $flag_ex = $_POST['flag_ex'];
+    if($flag_ex == 1){
+        $folio = $_POST['folio'];
+        $medico = $_POST['medico'];
+        $comentarios = $_POST['nota_evo'];
+        $nota = $folio."-".$medico."|".$comentarios;
+    }else{
+        $nota = $_POST['nota_evo'];
+    }
+
     //echo $id_cita;
     //echo $nota;
     if($nota != ""){

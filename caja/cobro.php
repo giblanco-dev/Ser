@@ -17,7 +17,7 @@ $id_cita = $_GET['c'];
 $usuario = $_GET['u'];
 
 
-$sql_caja = "SELECT caja.subtotal, caja.consulta, caja.descuento, caja.total_cobro, caja.id_cobro, caja.saldo, caja.abono, caja.status_pago,
+$sql_caja = "SELECT caja.*,
             CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente
             FROM caja
             INNER JOIN cita ON caja.id_cita = cita.id_cita
@@ -36,6 +36,7 @@ if($val == 1){
     $abono = $row_caja['abono'];
     $status = $row_caja['status_pago'];
     $id_cobro = $row_caja['id_cobro'];
+    $medio_pago = $row_caja['medio_pago'];
 }else{
     
     $paciente = "ERROR CONTACTAR CON SISTEMAS";
@@ -96,6 +97,23 @@ if($val == 1){
         <td>Total a pagar</td>
         <td>$ <?php echo $saldo; ?></td>
         </tr>
+        <?php
+        if($row_caja['monto_devolucion'] > 0){
+            echo '
+            <td colspan = 4><b>Cobro con Devolución</b></td>
+            <tr>
+            <td>Monto Devolución</td>
+            <td>$ '.$row_caja['monto_devolucion'].'</td>
+            <td>Autoriza</td>
+            <td>'.$row_caja['autoriza_devolucion'].'</td>
+            </tr>
+            <tr>
+            <td>Motivo</td>
+            <td colspan = 3>'.$row_caja['motivo_devolucion'].'</td>
+            </tr>
+            ';
+        }
+        ?>
         </tbody>
         </thead>
         </table>
@@ -121,7 +139,26 @@ if($val == 1){
             </button>
             </div>
         </form>
-        <?php }elseif($status == 'SI' and $saldo == 0){
+        <?php }elseif($status == 'NO' and $saldo == 0 and $descuento == 100){
+            ?>
+        <form action="pagar.php" method="POST">
+            <p>Pagar (Capturar importe)</p>
+            <input type="number" name="pago" id="" value="<?php echo $saldo; ?>">
+            <select name="med_pago" required>
+                <option value="OTRAS" selected>Varias</option>
+            </select>
+            <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
+            <input type="hidden" name="user" value="<?php echo $id_user; ?>">
+            <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">
+            <div class="center-align">
+            <button class="btn waves-effect waves-light" type="submit" name="action">Pagar
+            <i class="material-icons right">payment</i>
+            </button>
+            </div>
+        </form>
+
+            <?php
+        }elseif($status == 'SI' and $saldo == 0){
             echo '<div class="center-align">
                     <br>
                     <a class="waves-effect waves-light btn"><i class="material-icons right">check</i>Pagado</a>';
@@ -130,7 +167,8 @@ if($val == 1){
                     <br>
                     <a href="javascript:abrir('recibo.php?r=<?php echo $id_cobro; ?>')"
                         class="cyan darken-1 btn"><i class="material-icons right">print</i>Imprimir Comprobante</a>
-                        <!--a href="recibo.php?r=<?php //echo $id_cobro; ?>" target="_blank">Imprimr Comprobante</a-->
+                    <br><br>
+                    <p><b>Medio de Pago: <?php echo $medio_pago; ?></b></p>
                     </div>
         <?php
         }else{
