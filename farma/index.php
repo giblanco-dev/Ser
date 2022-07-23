@@ -18,6 +18,8 @@ include_once '../app/logic/conn.php';
 
 $hoy = date("Y-m-d");
 
+require_once '../app/conteo_citas.php';
+
     $sql_citas = "SELECT DISTINCT cita.id_cita, cita.id_paciente, paciente.id_paciente, cita.medico,
     CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
     CONCAT(user.nombre,' ',user.apellido) medico_cita, cita.fecha, cita.horario, cita.tipo, tipos_cita.descrip_cita, confirma, consulta, caja, pagado
@@ -76,7 +78,10 @@ $hoy = date("Y-m-d");
         </div>
         <div class="row" style="margin-top: -2em;">
             <div class="col s12">
-            
+            <h2 style="color: #424242;"><?php echo $citas_confirmadas; ?> <i class="medium material-icons">check_circle</i></h2>
+            <p>Citas Confirmadas</p>
+            <h2 style="color: #424242;"><?php echo $total_citas; ?> <i class="medium material-icons">book</i></h2>
+            <p>Citas Agendadas</p>
             </div>
         </div>
         <div class="row">

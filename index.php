@@ -12,7 +12,7 @@ if(isset($_GET['error'])){
       break;
     }
 }
-
+require_once 'app/conteo_citas.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -68,9 +68,9 @@ if(isset($_GET['error'])){
            
         <div style="margin-left: 2%;" class="col s4 grey lighten-3 center-align"> 
         <iframe src="static/clock/clock.html" width="100%"  height="125px" frameborder="0" seamless></iframe> 
-        <h2 style="color: #424242;">00 <i class="medium material-icons">check_circle</i></h2>
+        <h2 style="color: #424242;"><?php echo $citas_confirmadas; ?> <i class="medium material-icons">check_circle</i></h2>
         <p>Citas Confirmadas</p>
-        <h2 style="color: #424242;">00 <i class="medium material-icons">book</i></h2>
+        <h2 style="color: #424242;"><?php echo $total_citas; ?> <i class="medium material-icons">book</i></h2>
         <p>Citas Agendadas</p>
         <br>
         </div>
