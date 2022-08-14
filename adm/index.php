@@ -102,7 +102,7 @@ if (!isset($_SESSION['id'])) {
                 <i class="medium material-icons">perm_data_setting</i>
                 </div>
                 <div class="card-action">
-                <a href="" class="grey-text text-lighten-2">Consulta de Reportes</a>
+                <a href="reports/reports.php" class="grey-text text-lighten-2">Consulta de Reportes</a>
                 </div>
                 </div>
             </div>
