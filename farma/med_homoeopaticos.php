@@ -176,10 +176,11 @@ if($val_flores == 1){
                 <p>Cantidad de Tratamientos: <b><?php echo $cant_tratamientos; ?></b></p>
                 <p>Tipo de dósis: <b><?php echo $tipo_dosis; ?></b></p>
                 <p>Frascos Extra: <?php echo $fras_ext; ?></p>
+                <p>Flores de Bach: <?php echo $flores_bach; ?></p>
                 <?php 
                 if($val_trat_gen + $val_trat_ext > 0){
                     ?>
-                <form action="logic/print_etiquetas.php" method="post">
+                <form action="logic/print_pdf_etiquetas.php" method="post" target="_blank">
                     <input type="hidden" name="cita" value="<?php echo $cita ?>">
                     <input type="hidden" name="trat_gen" value="<?php echo $val_trat_gen; ?>">
                     <input type="hidden" name="cant_trat_gen" value="<?php echo $cant_tratamientos; ?>">

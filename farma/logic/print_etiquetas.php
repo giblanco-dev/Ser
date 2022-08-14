@@ -89,7 +89,7 @@ if($flag_trat_ext == 1){
 }
 
 if($flag_flores >= 1){
-    $sql_det_ext = "SELECT frasco, tipo_fras, med1, med2, med3, med4, med5
+    $sql_det_flor = "SELECT frasco, tipo_fras, med1, med2, med3, med4, med5
                 FROM rec_med_home
                 WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
                 $res_det_ext = $mysqli->query($sql_det_ext);
