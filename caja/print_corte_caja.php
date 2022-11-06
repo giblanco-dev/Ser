@@ -61,7 +61,7 @@ ob_start();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 
@@ -91,7 +91,7 @@ ob_start();
     </style>
 </head>
 <body>
-
+        <div style="max-width: 21.59cm; margin-left:auto; margin-right:auto; background-color:#fff;">
         <div class="row">
             <div class="col-12">
                 <b><p style="font-size: 14px;">Corte de Turno. || Cajero: <?php echo $corte['user_cajero']; ?><br>
@@ -132,6 +132,7 @@ ob_start();
                         CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_Paciente,
                         tipos_cita.descrip_cita,
                         CONCAT(user.nombre,' ',user.apellido) Nom_Medico,
+                        user.iniciales,
                         usuario Medico,
                         caja.subtotal,
                         caja.consulta,
@@ -173,7 +174,7 @@ ob_start();
                                     echo $nota_format[0];
 
                                 }else{
-                                    echo strtoupper($row_detalle['Medico']);
+                                    echo $row_detalle['iniciales'];
                                 }
                                 ?>
                                 </td>
@@ -394,12 +395,13 @@ ob_start();
                 </div>
             </div>
         </div>
- 
+ </div>
+</div>
 </body>
 </html>
 <?php
-
-/* $html_corte = ob_get_clean();
+/*
+$html_corte = ob_get_clean();
 
 // //echo $html_etiquetas;
 
@@ -408,18 +410,18 @@ ob_start();
  $dompdf = new Dompdf();
 
 $options = $dompdf->getOptions();
- $options->set(array('isRemoteEnabled'=>true));
+//$options->set(array('isRemoteEnabled'=>true));
 $dompdf->setOptions($options); 
 
 $dompdf->loadHtml($html_corte);
 
-// //$dompdf->setPaper(array(0, 0, 170.0784 , 113.38546));
+$dompdf->setPaper("A4", "portrait");
 
  $dompdf->render();
 
- $dompdf->stream("Corte".$fecha_corte."-".$cajero_corte.".pdf",array("Attachment" => false)); */
+ $dompdf->stream("Corte".$fecha_corte."-".$cajero_corte.".pdf",array("Attachment" => false)); 
 
-
+*/
 
 
 ?>

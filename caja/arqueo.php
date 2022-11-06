@@ -22,10 +22,11 @@ $sql_cobros = "SELECT
                 caja.id_cita,
                 tipos_cita.descrip_cita,
                 CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_Paciente,
-                CONCAT(user.nombre,' ',user.apellido) medico_cita,
+                CONCAT(user.nombre,' ',user.apellido) medico_cita, user.usuario, user.iniciales,
                 cita.fecha, 
                 caja.fecha_cobro,
                 caja.subtotal, caja.consulta, caja.descuento, caja.total_cobro, caja.abono, caja.medio_pago,
+                caja.abono_efectivo, caja.abono_tarjeta, caja.abono_cheque, caja.abono_otro,
                 caja.monto_devolucion
                 FROM caja
                 INNER JOIN cita ON caja.id_cita = cita.id_cita
@@ -61,16 +62,22 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
     <script src="../static/js/materialize.js"></script>
     <style>
         .tabla{
-            font-size: 10px !important;
+            font-size: 11px !important;
             padding: -10 !important;
             margin: -10 !important;
+            border: black 1px solid;
             
         }
         td{
             padding: 0;
+            border: black 1px solid;
         }
         th{
             padding: 0;
+            border: black 1px solid;
+        }
+        tr{
+            border: black 1px solid;
         }
         
     </style>
@@ -111,10 +118,11 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                 ?>
             <div class="col s12">
                 <div class="row">
-                    <div class="col s10">
+                    <div class="col s12">
                         <h6>Cobros</h6>
                         <?php
                         if($val_cobros > 0){
+                            $consecutivo = 1;
                             $total_cobrado = 0;
                             $total_tarjeta = 0;
                             $total_efectivo = 0;
@@ -122,18 +130,23 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                             $total_varios = 0;
                             $total_devolucion = 0;
                             ?>
-                        <table>
+                        <table class="tabla">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Cita</th>
                                 <th>Tipo Cita</th>
                                 <th>Paciente</th>
                                 <th>Médico</th>
                                 <th>Fecha Cita</th>
                                 <th>Fecha Cobro</th>
+                                <th>Efectivo</th>
+                                <th>Tarjeta</th>
+                                <th>Cheque</th>
+                                <th>Otros</th>
                                 <th>Pagado</th>
                                 <th>Devolución</th>
-                                <th>Medio de Pago</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -141,37 +154,46 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                                 $total_cobrado = $total_cobrado + $row_cobro['abono'];
                                 $total_devolucion = $total_devolucion + $row_cobro['monto_devolucion']; 
 
-                                switch($row_cobro['medio_pago']){
-                                    case 'EFECTIVO':
-                                        $total_efectivo = $total_efectivo + $row_cobro['abono'] - $row_cobro['monto_devolucion'];
-                                        break;
-                                    case 'TARJETA(CRED-DEB)':
-                                        $total_tarjeta = $total_tarjeta + $row_cobro['abono'] - $row_cobro['monto_devolucion'];
-                                        break;
-                                    case 'CHEQUE':
-                                        $total_cheque = $total_cheque + $row_cobro['abono'] - $row_cobro['monto_devolucion'];
-                                        break;
-                                    case 'OTRAS':
-                                        $total_varios = $total_varios + $row_cobro['abono'] - $row_cobro['monto_devolucion'];
-                                        break;
-                                }
                                 
+                                        $total_efectivo = $total_efectivo + $row_cobro['abono_efectivo'];
+                                        $total_tarjeta = $total_tarjeta + $row_cobro['abono_tarjeta'];                                
+                                        $total_cheque = $total_cheque + $row_cobro['abono_cheque'];                                
+                                        $total_varios = $total_varios + $row_cobro['abono_otro'];
+                                        
+                                        
+                                                                                                        
                                 ?>
                                 
                                 <tr>
+                                    <td><?php echo $consecutivo; ?></td>
                                     <td><?php echo $row_cobro['id_cita']; ?></td>
                                     <td><?php echo $row_cobro['descrip_cita'];   ?></td>
                                     <td><?php echo $row_cobro['Nom_Paciente']; ?></td>
-                                    <td><?php echo $row_cobro['medico_cita']; ?></td>
+                                    <td><?php echo $row_cobro['iniciales']; ?></td>
                                     <td><?php echo $row_cobro['fecha']; ?></td>
                                     <td><?php echo $row_cobro['fecha_cobro']; ?></td>
-                                    <td><?php echo $row_cobro['abono']; ?></td>
-                                    <td><?php echo $row_cobro['monto_devolucion']; ?></td>
-                                    <td><?php echo $row_cobro['medio_pago']; ?></td>
+                                    <td>$ <?php echo $row_cobro['abono_efectivo']; ?></td>
+                                    <td>$ <?php echo $row_cobro['abono_tarjeta']; ?></td>
+                                    <td>$ <?php echo $row_cobro['abono_cheque']; ?></td>
+                                    <td>$ <?php echo $row_cobro['abono_otro']; ?></td>
+                                    <td>$ <?php echo $row_cobro['abono']; ?></td>
+                                    <td>$ <?php echo $row_cobro['monto_devolucion']; ?></td>
+                                    <td>$ <?php echo $row_cobro['abono'] - $row_cobro['monto_devolucion']; ?></td>
                                 </tr>
                             <?php
+                                $consecutivo ++;
                             }
             ?>
+                        <tr>
+                            <th colspan="7" style="text-align:center;">Totales</th>
+                            <th>$ <?php  echo $total_efectivo; ?></th>
+                            <th>$ <?php  echo $total_tarjeta; ?></th>
+                            <th>$ <?php  echo $total_cheque; ?></th>
+                            <th>$ <?php  echo $total_varios; ?></th>
+                            <th>$ <?php  echo $total_cobrado; ?></th>
+                            <th>$ <?php  echo $total_devolucion; ?></th>
+                            <th>$ <?php  echo $total_cobrado - $total_devolucion; ?></th>
+                        </tr>
                         </tbody>
                         </table>
 
@@ -182,37 +204,40 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                         ?>
 
                     </div>
-                    <div class="col s2 left-align">
-                        <p>Total Efectivo: $<?php echo $total_efectivo; ?><br>
-                        Total Tarjeta: $<?php echo $total_tarjeta; ?><br>
-                        Total Cheque: $<?php echo $total_cheque; ?><br>
-                        Total Varios: $<?php echo $total_varios; ?><br>
-                        Devoluciones: $<?php echo $total_devolucion; ?><br>
-                        Total Cobrado: <b>$<?php echo $total_cobrado; ?></b><br>
+                    <!--div class="col s2 left-align">
+                        <p>Total Efectivo: $<?php // echo $total_efectivo; ?><br>
+                        Total Tarjeta: $<?php // echo $total_tarjeta; ?><br>
+                        Total Cheque: $<?php // echo $total_cheque; ?><br>
+                        Total Varios: $<?php // echo $total_varios; ?><br>
+                        Devoluciones: $<?php // echo $total_devolucion; ?><br>
+                        Total Cobrado: <b>$<?php // echo $total_cobrado; ?></b><br>
                         Cobrado (-) Devoluciones: <b>$<?php echo $total_cobrado - $total_devolucion; ?></b></p>
 
 
-                    </div>
+                    </div-->
                 </div>
                
                 </div>
 
                 <div class="col s12">
                 <div class="row">
-                    <div class="col s10">
+                    <div class="col s2"></div>
+                    <div class="col s8">
                         <h6>Vales de Salida del día</h6>
                         <?php
                         $total_vales = 0;
+                        $consecutivo_vales = 1;
                         if($val_vales > 0){
                             
                             ?>
-                        <table>
+                        <table class="tabla">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Concepto</th>
                                 <th>Cantidad</th>
-                                <th>Recibe</th>
                                 <th>Autoriza</th>
+                                <th>Recibe</th>
                                 <th>Registra</th>
                             </tr>
                         </thead>
@@ -221,15 +246,21 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                                 $total_vales = $total_vales + $vales_reg['cantidad'];
                                 ?>
                                 <tr>
+                                    <td><?php echo $consecutivo_vales; ?></td>
                                     <td><?php echo $vales_reg['concepto']; ?></td>
-                                    <td><?php echo $vales_reg['cantidad'];   ?></td>
                                     <td><?php echo $vales_reg['beneficiario']; ?></td>
                                     <td><?php echo $vales_reg['autorizador']; ?></td>
                                     <td><?php echo $vales_reg['user']; ?></td>
+                                    <td>$ <?php echo $vales_reg['cantidad'];   ?></td>
                                 </tr>
                             <?php
+                                $consecutivo_vales ++;
                             }
             ?>
+                                <tr>
+                                    <th colspan="5" style="text-align: center;">Total</th>
+                                    <th>$ <?php echo $total_vales;?></th>
+                                </tr>
         </tbody>
     </table>
 
@@ -241,7 +272,7 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                         
                     </div>
                     <div class="col s2 left-align">
-                        <p>Total Vales: <b>$<?php echo $total_vales; ?></b></p>
+                        
                     </div>
                 </div>
             </div>

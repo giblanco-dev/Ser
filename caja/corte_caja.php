@@ -34,7 +34,7 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
     <script>
         function abrir(url)
           { 
-            open(url,'','top=0,left=100,width=1300,height=700') ; 
+            open(url,'','top=0,left=100,width=850,height=1056') ; 
           }
     </script>
 </head>
