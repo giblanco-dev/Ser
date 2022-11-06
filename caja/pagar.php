@@ -25,13 +25,44 @@
 include_once '../app/logic/conn.php';
 if(!empty($_POST)){
 
-    $pago = $_POST['pago'];
+
+    $abono_efectivo = (float)$_POST['abono_efectivo'];
+    $abono_tarjeta = (float)$_POST['abono_tarjeta'];
+    $abono_cheque = (float)$_POST['abono_cheque'];
+    $abono_otros = (float)$_POST['abono_otros'];
+    $saldo = (float)$_POST['saldo'];
+    $pago = $abono_efectivo + $abono_tarjeta + $abono_cheque + $abono_otros;
+    echo $pago;
+    if($pago > $saldo){
+        echo '<script type="text/javascript">
+        swal("","Los montos de pago son mayores a el total de la cita,\nVolver a capturar montos", "error");  
+        </script>';
+    }else{
+
     $id_cobro = $_POST['id_cobro'];
-    $med_pago = $_POST['med_pago'];
+    $med_pago = '';
+
+    if($abono_efectivo > 0){
+        $med_pago = $med_pago.'EFE/';
+    }
+    if($abono_tarjeta > 0){
+        $med_pago = $med_pago.'TAR/';
+    }
+    if($abono_cheque > 0){
+        $med_pago = $med_pago.'CHE/';
+    }
+    if($abono_otros > 0){
+        $med_pago = $med_pago.'OTR/';
+    }
+
+    $med_pago_ok = rtrim($med_pago,"/");
+
     $user = $_POST['user'];
     $id_cita = $_POST['id_cita'];
 
-    $sql_up = "UPDATE caja SET abono = abono + '$pago', saldo = saldo - '$pago', medio_pago = '$med_pago', user_cobro = '$user',
+    $sql_up = "UPDATE caja SET abono = abono + '$pago', saldo = saldo - '$pago', medio_pago = '$med_pago_ok',
+                abono_efectivo = '$abono_efectivo', abono_tarjeta = '$abono_tarjeta', abono_cheque = '$abono_cheque',
+                abono_otro = '$abono_otros', user_cobro = '$user',
                 fecha_cobro = now() 
                 WHERE id_cobro = '$id_cobro'";
     if($mysqli->query($sql_up) === TRUE){
@@ -55,17 +86,19 @@ if(!empty($_POST)){
 
             if($mysqli->query($sql_liq)===True AND $mysqli->query($sql_cita)===True){
                 $pas1 ++;
+            }else{
+                echo "ERROR FAVOR DE CONTACTAR A SISTEMAS CLAVE ERROR (NO SE PUDIERON ACTUALIZAR LOS ESTATUS DE CAJA Y CITA A PAGADO)COBRO ",$id_cobro," CITA",$id_cita;
             }
         }
 
     }else{
-        echo "ERROR FAVOR DE CONTACTAR A SISTEMAS CLAVE ERROR +1CAJA-",$id_cobro;
+        echo "ERROR FAVOR DE CONTACTAR A SISTEMAS CLAVE ERROR (ID COBRO DUPLICADO)-",$id_cobro;
     }
 
     switch ($pas1){
         case 0:
             echo '<script type="text/javascript">
-                swal("","Ha ocurrido un error favor de contactar a Sistemas", "error");  
+                swal("","ERROR FAVOR DE CONTACTAR A SISTEMAS CLAVE ERROR (NO SE PUDIERON ACTUALIZAR LOS ESTATUS DE CAJA Y CITA A PAGADO)COBRO '.$id_cobro.' CITA'.$id_cita.', "error");  
                 </script>';
             break;
         case 1:
@@ -96,12 +129,9 @@ if(!empty($_POST)){
         }
         
     
-
+    }    // Cierra If validación montos capturados
 
 }// Cierra if validación de datos de formulario
-
-
-
 
 ?>
 </div>

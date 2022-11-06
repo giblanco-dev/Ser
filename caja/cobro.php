@@ -75,11 +75,8 @@ if($val == 1){
         <h6><b>Cita: CMA<?php echo $id_cita; ?></b></h6>
         <h6 style="text-transform: capitalize;"><b>Paciente: <?php echo $paciente; ?></b></h6>
         <div class="divider"></div>
-        <table>
+        <table style="font-size: 12px;">
         <thead>
-        <tr>
-        <th colspan="2" class="center-align">Cobrar</th>
-        </tr>
         <tbody>
         <tr>
         <td>Sub-Total</td>
@@ -121,18 +118,46 @@ if($val == 1){
         if($status == 'NO' and $saldo > 0){
         ?>
         <form action="pagar.php" method="POST">
-            <p>Pagar (Capturar importe)</p>
-            <input type="number" name="pago" id="" value="<?php echo $saldo; ?>">
-            <select name="med_pago" required>
+            <p><b>Pagar (Capturar importes)</b></p>
+            <div class="row">
+            <div class="col s6">
+                <p>Monto Efectivo</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto Efectivo" type="number" name="abono_efectivo">
+            </div>
+            <div class="col s6">
+                <p>Monto Tarjeta</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto Tarjeta" type="number" name="abono_tarjeta">
+            </div>
+            <div class="col s6">
+                <p>Monto Cheque</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto Cheque" type="number" name="abono_cheque">
+            </div>
+            <div class="col s6">
+                <p>Otras formas de pago</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto otros" type="number" name="abono_otros">
+            </div>
+            </div>
+            
+
+            <!--select name="med_pago" required>
                 <option value="" disabled selected>Medio de Pago</option>
                 <option value="EFECTIVO">Efectivo</option>
                 <option value="TARJETA(CRED-DEB)">Tarjeta</option>
                 <option value="CHEQUE">Cheque</option>
                 <option value="OTRAS">Varias</option>
-            </select>
+            </select-->
             <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
             <input type="hidden" name="user" value="<?php echo $id_user; ?>">
             <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">
+            <input type="hidden" name="saldo" value="<?php echo $saldo; ?>">
             <div class="center-align">
             <button class="btn waves-effect waves-light" type="submit" name="action">Pagar
             <i class="material-icons right">payment</i>
@@ -142,14 +167,38 @@ if($val == 1){
         <?php }elseif($status == 'NO' and $saldo == 0 and $descuento == 100){
             ?>
         <form action="pagar.php" method="POST">
-            <p>Pagar (Capturar importe)</p>
-            <input type="number" name="pago" id="" value="<?php echo $saldo; ?>">
-            <select name="med_pago" required>
-                <option value="OTRAS" selected>Varias</option>
-            </select>
+            <p><b>Pagar (Capturar importe)</b></p>
+            <!--input type="number" name="pago" id="" value="<?php //echo $saldo; ?>"-->
+            <div class="row">
+            <div class="col s6">
+                <p>Monto Efectivo</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto Efectivo" type="number" name="abono_efectivo">
+            </div>
+            <div class="col s6">
+                <p>Monto Tarjeta</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto Tarjeta" type="number" name="abono_tarjeta">
+            </div>
+            <div class="col s6">
+                <p>Monto Cheque</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto Cheque" type="number" name="abono_cheque">
+            </div>
+            <div class="col s6">
+                <p>Otras formas de pago</p>
+            </div>
+            <div class="col s6">
+                <input placeholder="Monto otros" type="number" name="abono_otros">
+            </div>
+            </div>
             <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
             <input type="hidden" name="user" value="<?php echo $id_user; ?>">
             <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">
+            <input type="hidden" name="saldo" value="<?php echo $saldo; ?>">
             <div class="center-align">
             <button class="btn waves-effect waves-light" type="submit" name="action">Pagar
             <i class="material-icons right">payment</i>
@@ -168,7 +217,7 @@ if($val == 1){
                     <a href="javascript:abrir('recibo.php?r=<?php echo $id_cobro; ?>')"
                         class="cyan darken-1 btn"><i class="material-icons right">print</i>Imprimir Comprobante</a>
                     <br><br>
-                    <p><b>Medio de Pago: <?php echo $medio_pago; ?></b></p>
+                    <p><b>Medios de Pago: <?php echo $medio_pago; ?></b></p>
                     </div>
         <?php
         }else{

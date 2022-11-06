@@ -102,8 +102,8 @@ ob_start();
        
         <div class="row align-self-center" style="margin-top: -20px;">
             <div class="col">
-                <p style="text-align: center; font-size: 14px;"><b>Reporte de Ingresos Detallados</b></p>
-                <table class="tabla" style="width: 100%;">
+                <p style="text-align: center; font-size: 14px;"><b>Reporte de Ingresos detallados</b></p>
+                <table class="tabla" style="width: 95%; margin-left: auto; margin-right: auto;">
                     <thead>
                         <tr>
                             <th>NO.</th>
@@ -137,6 +137,10 @@ ob_start();
                         caja.consulta,
                         caja.descuento,
                         caja.total_cobro,
+                        caja.abono_efectivo,
+                        caja.abono_tarjeta,
+                        caja.abono_cheque,
+                        caja.abono_otro,
                         caja.abono,
                         caja.medio_pago
                         FROM   caja
@@ -176,10 +180,26 @@ ob_start();
 
                                 <?php 
                         // ****************  Impresion de pagos por medio de pago
+                                
+                            echo "<td>$ ".$row_detalle['abono_efectivo']."</td>";
+                            echo "<td>$ ".$row_detalle['abono_tarjeta']."</td>";
+                            if($row_detalle['abono_tarjeta'] > 0){
+                                echo "<td>BANAMEX</td>";
+                            }else{
+                                echo "<td></td>";
+                            }
+                            echo "<td>$ ".$row_detalle['abono_cheque']."</td>";
+                            echo "<td>$ ".$row_detalle['abono_otro']."</td>";
+
+                            $sum_efectivo = $sum_efectivo + $row_detalle['abono_efectivo'];
+                            $sum_tarjetas = $sum_tarjetas + $row_detalle['abono_tarjeta'];
+                            $sum_cheques = $sum_cheques + $row_detalle['abono_cheque'];
+                            $sum_otros = $sum_otros + $row_detalle['abono_otro'];
+                                /*
                                 $mp = $row_detalle['medio_pago'];
                                 switch($mp){
                                     case 'EFECTIVO':
-                                        echo "<td>$ ".$row_detalle['abono']."</td>"; // EFECTIVO
+                                         // EFECTIVO
                                         echo "<td></td>"; // TERMINAL
                                         echo "<td></td>"; // BANCO
                                         echo "<td></td>"; // CHEQUE
@@ -211,7 +231,7 @@ ob_start();
                                         $sum_otros = $sum_otros + $row_detalle['abono'];
                                     break;
                                 }
-                
+                                */
                                 ?>
                                 
                                 
@@ -235,7 +255,7 @@ ob_start();
                 </table>
                 <br>
                 <p style="font-size: 14px; text-align: center;"><b>Reporte de Egresos detallados</b></p>
-                <table style="width: 90%; margin-left: auto; margin-right: auto;" class="tabla">
+                <table style="width: 80%; margin-left: auto; margin-right: auto;" class="tabla">
                         <thead>
                             <tr>
                                 <th>NO.</th>
@@ -354,22 +374,22 @@ ob_start();
                         </tbody>
                 </table>
                 <br>
-                <div class="row" style="width: 100%;">
+                <div class="row" style="width: 95%;margin-left: auto; margin-right: auto;">
                     <div class="col-5">
-                        <p style="font-size: 13px;">Pagos recibidos en la terminal banamex: $ <?php echo $sum_tarjetas ?><br>
+                        <p style="font-size: 12px;">Pagos recibidos en la terminal Banamex: $ <?php echo $sum_tarjetas ?><br>
                         Total de ingresos es de: $ <?php echo $val_abonos; ?><br>
                         El total en efectivo es de: $ <?php echo $sum_efectivo - ($val_egresos + $val_total_orales); ?></p>
                     </div>
                     <div class="col-3 text-center" >
                         <br>
-                        <hr style="height: 2px; background-color: #000;">
-                        <p style="font-size: 10px;">Entrega: <?php echo $cajero_corte; ?></p>
+                        <hr style="color: #000000; background-color: #000000; height: 3px;" />
+                        <p style="font-size: 12px; margin-top: -8px;"><b>Entrega: <?php echo $cajero_corte; ?></b></p>
                     </div>
-                    <div class="col-1"></div>
+                    <div style="width: 20px;"></div>
                     <div class="col-3 text-center">
                         <br>
-                        <hr style="height: 2px; background-color: black;">
-                        <p style="font-size: 10px;">Recibe:</p>
+                        <hr style="color: #000000; background-color: #000000; height: 3px;" />
+                        <p style="font-size: 12px; margin-top: -8px;"><b>Recibe</b></p>
                             </div>
                 </div>
             </div>

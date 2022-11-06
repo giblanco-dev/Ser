@@ -188,7 +188,7 @@ $datos_cita = $mysqli -> query($sql_citas);
             </div>
             <div class="col s4">
         
-            <iframe id="iframe_cobro" frameborder="0" name="frame-cont" style="min-height: 500px; width:100%;"></iframe>
+            <iframe id="iframe_cobro" frameborder="0" name="frame-cont" style="min-height: 550px; width:100%;"></iframe>
         
             </div>
         </div>

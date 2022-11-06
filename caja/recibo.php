@@ -117,6 +117,8 @@ if($val == 1){
 
                             echo'<tr>
                                     <td>'.$descrip_tipo.'</td>
+                                    <td></td>
+                                    <td>'.$recibo['subtotal'].'</td>
                                     <td>'.$recibo['subtotal'].'</td>
                                    
                                 </tr>';
