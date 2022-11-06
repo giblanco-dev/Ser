@@ -13,6 +13,12 @@ if (!isset($_SESSION['id'])) {
 }
 
 require '../app/logic/conn.php';
+//echo $_GET['ori'];
+if(isset($_GET['ori'])){
+   $nav_bar_prin = $_GET['ori'];
+}else{
+    $nav_bar_prin = 1;
+}
 
 if(isset($_GET['id_paciente'])){
     $id_paciente = $_GET['id_paciente'];
@@ -51,7 +57,26 @@ include_once 'recep_sections.php';
     <script type="text/javascript" src="../static/js/materialize.js"></script>
 </head>
 <body>
-<?php echo $nav_recep;  ?>
+<?php 
+if($nav_bar_prin == 1){
+    echo $nav_recep;
+}else{
+    echo'
+    <header>
+ <div class="navbar-fixed">
+ <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="responsive-img" class="brand-logo"><img src="../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a onclick="window.close();"><i class="material-icons right">close</i>Cerrar Actualización</a></li>
+      </ul>
+    </div>
+  </nav>
+ </div>
+ </header>
+    ';
+}
+  ?>
 <div class="container">
     <div class="row center-align">
             <div class="col s12">

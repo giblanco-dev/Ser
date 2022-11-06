@@ -93,84 +93,34 @@ ob_start();
 <body>
 
         <div class="row">
-            <div class="col-4">
-                <b><p style="font-size: 14px;">Reporte de Ingresos del <?php echo $fecha_corte; ?><br>
-                Cajero: <?php echo $corte['user_cajero']; ?></p></b>
-                <p style="font-size: 12px;;">Clínica de Medicina Alternativa SER <br>
-                    Elena 9, Colonia Nativitas CDMX<br>
-                   
-            </div>
-            <div class="col-3">
-            <ul class="list-group" style="font-size: 12px;">
-                <?php 
-                $total_val = 0;
-                while($montos_mp = mysqli_fetch_assoc($res_montos_mp)){
-                ?>
-                <li class="list-group-item" style="padding: 0;"><?php echo $montos_mp['medio_pago'];?>   $ <?php echo $montos_mp['MontoMP']; ?></li>
-                <?php 
-                $total_val = $total_val + $montos_mp['MontoMP'];
-                    } // CIERRA WHILE MEDIOS DE PAGO
-                ?>
-                <li class="list-group-item" style="padding: 0;"><b>Total: $ <?php echo $total_val; ?></b></li>
-            </ul>
-            </div>
-            <div class="col-5">
-            <table style="font-size:12px;" >
-                    <tbody>
-                    <tr>
-                            <th>Total Cobros</th>
-                            <td><b>$ <?php echo $total_val; ?></b></td>
-                        </tr>
-                        <tr>
-                            <th>(-)Nutrientes/Med.Orales</th>
-                            <td>$ <?php echo $total_nutrientes; ?></td>
-                        </tr>
-                        <tr>
-                            <th>(-)Dental</th>
-                            <td>$ <?php echo $total_dental; ?></td>
-                        </tr>
-                        <tr>
-                            <th>(-)Pellet</th>
-                            <td>$ <?php echo $total_pellet; ?></td>
-                        </tr>
-                        <tr>
-                            <th>(-)Factor de Crecimiento</th>
-                            <td>$ <?php echo $total_factor; ?></td>
-                        </tr>
-                        <tr>
-                            <th>(-)Vales de Salida</th>
-                            <td>$ <?php echo $monto_vales_salida; ?></td>
-                        </tr>
-                        <tr style="background-color: #9c9c9c;">
-                            
-                            <th colspan="2" style="text-align: center; font-size:14px;"><b>$ <?php echo $total_val - $total_nutrientes- $total_dental - $total_pellet - $total_factor - $monto_vales_salida; ?></b></th>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-12">
+                <b><p style="font-size: 14px;">Corte de Turno. || Cajero: <?php echo $corte['user_cajero']; ?><br>
+                Fecha: <?php echo $fecha_corte; ?> <br>
+                Clínica de Medicina Alternativa SER S.C.</p></b><br>
             </div>
             
-        </div>
        
-        <div class="row">
+        <div class="row align-self-center" style="margin-top: -20px;">
             <div class="col">
-                <table class="tabla">
+                <p style="text-align: center; font-size: 14px;"><b>Reporte de Ingresos Detallados</b></p>
+                <table class="tabla" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th colspan="9">Detalle Citas</th>
-                        </tr>
-                        <tr>
-                            <th>Cita</th>
-                            <th>Horario</th>
-                            <th>No. Cobro</th>
-                            <th>Paciente</th>
+                            <th>NO.</th>
+                            <th>HORA</th>
+                            <th>PACIENTE</th>
+                            <th>FOLIO</th>
+                            <th>MEDICO</th>
                             <!--th>Clasificación Cita</th-->
-                            <th>Médico</th>
-                            <th>Total</th>
+                            
+                            <th>EFECTIVO</th>
                             <!--th>Consulta</th-->
-                            <th>Descuento</th>
-                            <!--th>Total a Pagar</th-->
-                            <th>Pagado</th>
-                            <th>Medio Pago</th>
+                            <th>TERMINAL</th>
+                            <th>BANCO</th>
+                            <th>CHEQUE</th>
+                            <th>OTRO</th>
+                            <th>TOTAL</th>
+                            <!--th>MED PAGO</th-->
                         </tr>
                     </thead>
                     <tbody>
@@ -194,16 +144,20 @@ ob_start();
                         INNER JOIN tipos_cita ON cita.tipo = tipos_cita.id_tipo_cita
                         INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
                         LEFT OUTER JOIN user ON cita.medico = user.id
-                        where id_cobro IN ($cobros_corte) AND cita.tipo = 0";
+                        where id_cobro IN ($cobros_corte) ORDER BY cita.horario";
                         $res_detalle = $mysqli->query($sql_det_cita);
+                        $contador_citas = 1;
+                        $sum_efectivo = 0;
+                        $sum_tarjetas = 0;
+                        $sum_cheques = 0;
+                        $sum_otros = 0;
                         while($row_detalle = mysqli_fetch_assoc($res_detalle)){
                             ?>
                             <tr>
-                                <td>CMA<?php echo $row_detalle['id_cita'] ?></td>
+                                <td><?php echo $contador_citas; ?></td>
                                 <td><?php echo $row_detalle['horario'] ?></td>
-                                <td><?php echo $row_detalle['id_cobro'] ?></td>
                                 <td><?php echo $row_detalle['Nom_Paciente'] ?></td>
-                                <!--td><?php //echo $row_detalle['descrip_cita'] ?></td-->
+                                <td>CMA<?php echo $row_detalle['id_cita'] ?></td>
                                 <td><?php 
                                 if($row_detalle['Nom_Medico'] == 'Cargos Extra'){
                                     $id_cita_nota = $row_detalle['id_cita'];
@@ -219,47 +173,82 @@ ob_start();
                                 }
                                 ?>
                                 </td>
-                                <td>$ <?php echo $row_detalle['subtotal'] + $row_detalle['consulta'] ?></td>
-                                <td><?php echo $row_detalle['descuento'] ?>%</td>
-                                <!--td>$ <?php //echo $row_detalle['total_cobro'] ?></td-->
+
+                                <?php 
+                        // ****************  Impresion de pagos por medio de pago
+                                $mp = $row_detalle['medio_pago'];
+                                switch($mp){
+                                    case 'EFECTIVO':
+                                        echo "<td>$ ".$row_detalle['abono']."</td>"; // EFECTIVO
+                                        echo "<td></td>"; // TERMINAL
+                                        echo "<td></td>"; // BANCO
+                                        echo "<td></td>"; // CHEQUE
+                                        echo "<td></td>"; // OTRO
+                                        $sum_efectivo = $sum_efectivo + $row_detalle['abono'];
+                                    break;
+                                    case 'TARJETA(CRED-DEB)':
+                                        echo "<td></td>"; // EFECTIVO
+                                        echo "<td>$ ".$row_detalle['abono']."</td>"; // TERMINAL
+                                        echo "<td>BANAMEX</td>"; // BANCO
+                                        echo "<td></td>"; // CHEQUE
+                                        echo "<td></td>"; // OTRO
+                                        $sum_tarjetas = $sum_tarjetas + $row_detalle['abono'];
+                                    break;
+                                    case 'CHEQUE':
+                                        echo "<td></td>"; // EFECTIVO
+                                        echo "<td></td>"; // TERMINAL
+                                        echo "<td></td>"; // BANCO
+                                        echo "<td>$ ".$row_detalle['abono']."</td>"; // CHEQUE
+                                        echo "<td></td>"; // OTRO
+                                        $sum_cheques = $sum_cheques + $row_detalle['abono'];
+                                    break;
+                                    case 'OTRAS':
+                                        echo "<td></td>"; // EFECTIVO
+                                        echo "<td></td>"; // TERMINAL
+                                        echo "<td></td>"; // BANCO
+                                        echo "<td></td>"; // CHEQUE
+                                        echo "<td>$ ".$row_detalle['abono']."</td>"; // OTRO
+                                        $sum_otros = $sum_otros + $row_detalle['abono'];
+                                    break;
+                                }
+                
+                                ?>
+                                
+                                
                                 <td>$ <?php echo $row_detalle['abono'] ?></td>
-                                <td><?php echo $row_detalle['medio_pago'] ?></td>
+                                <!--td><?php //echo $row_detalle['medio_pago'] ?></td-->
                             </tr>
                         <?php 
+                                $contador_citas ++;
                                 $val_abonos = $val_abonos + $row_detalle['abono'];
                             }   // Cierre while de detalle
                         ?>
                         <tr>
-                            <td colspan="9"> Total Ingresos por Consultas = $ <?php echo $val_abonos ?></td>
+                            <td style="text-align: center;" colspan="5"><b>TOTALES <?php //echo $val_abonos ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $sum_efectivo; ?></b></td>
+                            <td style="text-align: center;" colspan="2"><b>$ <?php echo $sum_tarjetas; ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $sum_cheques; ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $sum_otros; ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $val_abonos;?></b></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div> 
-            <div class="row" style="margin-top: 10px;">
-            <div class="col">
-            <table class="tabla">
-                    <thead>
-                        <tr>
-                        <th colspan="9">Detalle Egresos Dental Pellet y Factor de Crecimiento</th>
-                        </tr>
-                        <tr>
-                            <th>Cita</th>
-                            <th>Horario</th>
-                            <th>No. Cobro</th>
-                            <th>Paciente</th>
-                            <!--th>Clasificación Cita</th-->
-                            <th>Médico</th>
-                            <th>Total</th>
-                            <!--th>Consulta</th-->
-                            <th>Descuento</th>
-                            <!--th>Total a Pagar</th-->
-                            <th>Pagado</th>
-                            <th>Medio Pago</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <br>
+                <p style="font-size: 14px; text-align: center;"><b>Reporte de Egresos detallados</b></p>
+                <table style="width: 90%; margin-left: auto; margin-right: auto;" class="tabla">
+                        <thead>
+                            <tr>
+                                <th>NO.</th>
+                                <th>HORA</th>
+                                <th>TIPO</th>
+                                <th>RECIBE</th>
+                                <th>COMENTARIOS</th>
+                                <th>MONTO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         <?php
+                        $contador_egresos = 1;
                         $val_egresos = 0;
                         $sql_det_egre = "SELECT caja.id_cita,
                         cita.horario,
@@ -284,47 +273,21 @@ ob_start();
                         while($row_det_egre = mysqli_fetch_assoc($res_det_egre)){
                             ?>
                             <tr>
-                                <td>CMA<?php echo $row_det_egre['id_cita'],$row_det_egre['descrip_cita']; ?></td>
+                                <td><?php echo $contador_egresos; ?></td>
                                 <td><?php echo $row_det_egre['horario'] ?></td>
-                                <td><?php echo $row_det_egre['id_cobro'] ?></td>
-                                <td><?php echo $row_det_egre['Nom_Paciente'] ?></td>
-                                <!--td><?php //echo $row_detalle['descrip_cita'] ?></td-->
+                                <td><?php echo $row_det_egre['descrip_cita'] ?></td>
                                 <td><?php echo strtoupper($row_det_egre['Medico']); ?></td>
-                                <td>$ <?php echo $row_det_egre['subtotal'] + $row_det_egre['consulta'] ?></td>
-                                <td><?php echo $row_det_egre['descuento'] ?>%</td>
-                                <!--td>$ <?php //echo $row_detalle['total_cobro'] ?></td-->
+                                <td></td>
                                 <td>$ <?php echo $row_det_egre['abono'] ?></td>
-                                <td><?php echo $row_det_egre['medio_pago'] ?></td>
                             </tr>
                         <?php 
+                                $contador_egresos ++;
                                 $val_egresos = $val_egresos + $row_det_egre['abono'];
                             }   // Cierre while de detalle
                         ?>
-                        <tr>
-                            <td colspan="12"> Total Egresos Dental, Pellet y FCrec = $ <?php echo $val_egresos ?></td>
-                        </tr>
-                    </tbody>
-                </table>
-            
-            </div>
-            </div>
-            <div class="row" style="margin-top: 10px;">
-                <div class="col">
-                <table class="tabla">
-                <thead>
-                    <tr>
-                        <th colspan="4">Vales de Salida</th>
-                    </tr>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Beneficiario</th>
-                        <th>Autorizador</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php 
-                    $val_egresos = 0;
+                        
+                        <?php 
+                    //$val_egresos = 0;
                     if($vales_corte != ''){
                     $sql_vales = "SELECT * FROM vales_salida WHERE id_vale IN ($vales_corte)";
                     $res_sql_vales = $mysqli->query($sql_vales);
@@ -334,39 +297,26 @@ ob_start();
                         while($row_vales = mysqli_fetch_assoc($res_sql_vales)){
                             ?>
                             <tr>
-                                <td><?php echo $row_vales['concepto']; ?></td>
+                                <td><?php echo $contador_egresos; ?></td>
+                                <td>N/A</td>
+                                <td>VALE SAL</td>
                                 <td><?php echo $row_vales['beneficiario']; ?></td>
-                                <td><?php echo $row_vales['autorizador']; ?></td>
+                                <td><?php echo $row_vales['concepto']; ?></td>
                                 <td>$ <?php echo $row_vales['cantidad']; ?></td>
+                                
                             </tr>
                     <?php    
+                                $contador_egresos ++;
                                 $val_egresos = $val_egresos + $row_vales['cantidad'];
-                }
-                    }
-                }
-                ?>
-                <tr>
-                    <td colspan="4"> Total Vales = $<?php echo $val_egresos; ?></td>
-                </tr>
-                </tbody>
-            </table>
-                </div>
-            <div class="col">
-            <table class="tabla">
-                <thead>
-                    <tr>
-                        <th colspan="4">Detalle Nutrientes y Medicamentos Orales</th>
-                    </tr>
-                    <tr>
-                        <th>Cita</th>
-                        <th>Medicamento</th>
-                        <th>Cantidad</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php 
-                    $sql_med_oral = "SELECT * FROM rec_med_orales WHERE id_cita in ($citas_corte) and cancelado = 0";
+                        }
+                            }
+                        }
+                        ?>
+                        <?php 
+                    $sql_med_oral = "SELECT rec_med_orales.*, cita.horario FROM rec_med_orales 
+                    INNER JOIN cita ON cita.id_cita = rec_med_orales.id_cita
+                    INNER JOIN med_orales ON rec_med_orales.id_med_oral = med_orales.id_med_oral
+                    WHERE rec_med_orales.id_cita in ($citas_corte) and cancelado = 0 AND med_orales.egreso = 1";
                     $res_det_orales = $mysqli->query($sql_med_oral);
                     $val_med_orales = $res_det_orales->num_rows;
                     $val_total_orales = 0;
@@ -375,74 +325,54 @@ ob_start();
                         while($row_med_orales = mysqli_fetch_assoc($res_det_orales)){
                             ?>
                             <tr>
-                                <td>CMA<?php echo $row_med_orales['id_cita']; ?></td>
-                                <td><?php echo $row_med_orales['med_oral']; ?></td>
-                                <td><?php echo $row_med_orales['cantidad_med']; ?></td>
-                                <td>$ <?php echo $row_med_orales['monto']; ?></td>
+                                <td><?php echo $contador_egresos; ?></td>
+                                <td><?php echo $row_med_orales['horario']; ?></td>
+                                <td>Med. Oral/Nutri</td>
+                                <td>MMARTINEZ</td>
+                                <td><?php echo $row_med_orales['med_oral']," || Cant", $row_med_orales['cantidad_med']  ?></td>
+                                <td>$ <?php echo $row_med_orales['monto'] * $row_med_orales['cantidad_med']; ?></td>
+                                
                             </tr>
                     <?php    
-                                $val_total_orales = $val_total_orales + $row_med_orales['monto'];
+                                $contador_egresos ++;
+                                $val_total_orales = $val_total_orales + ($row_med_orales['monto'] * $row_med_orales['cantidad_med']);
                 }
                     }
                 ?>
-                <tr>
-                    <td colspan="4"> Total Medicamentos Orales = $<?php echo $val_total_orales; ?></td>
-                </tr>
-                </tbody>
-            </table>
-            </div>
-            </div>
-            <div class="row" style="margin-top: 10px;">
-            <div class="col">
-                <?php 
-                $sql_monto_efectivo = "SELECT SUM(abono) MontoEfectivo FROM caja where id_cobro IN ($cobros_corte) and medio_pago = 'EFECTIVO'";
-                $res_efectivo = $mysqli->query($sql_monto_efectivo);
-                $monto_efectivo = mysqli_fetch_assoc($res_efectivo);
-                ?>
-                <table class="tabla">
-                    <tr>
-                        <th colspan="7">Desglose de Efectivo</th>
-                    </tr>
-                    <tr>
-                        <th>Total Efectivo</th>                        
-                        <th>Total Nutrientes</th>                        
-                        <th>Total Dental</th>                        
-                        <th>Total Factor Pellet</th>                        
-                        <th>Total Factor Crecimiento</th>                         
-                        <th>Total Vales</th>
-                        
-                        <?php 
-                        $resto_efectivo = $monto_efectivo['MontoEfectivo'] - $total_nutrientes - $total_dental
-                                        - $total_pellet - $total_factor - $val_egresos;
-                        ?>
-                        <th>Efectivo a Entregar:</th>
-                        
-                    </tr>
-                    <tr>
-                    <td>$ <?php echo $monto_efectivo['MontoEfectivo']; ?></td>
-                    <td>$ <?php echo $total_nutrientes; ?></td>
-                    <td>$ <?php echo $total_dental; ?></td>
-                    <td>$ <?php echo $total_pellet; ?></td>
-                    <td>$ <?php echo $total_factor; ?></td>
-                    <td>$ <?php echo $val_egresos; ?></td>
-                    <th>$ <?php echo $resto_efectivo; ?></th>
-                    </tr>
+                        <tr>
+                            <td style="text-align: center;" colspan="5"><b>TOTAL EGRESOS POR TERMINAL</b></td>
+                            <td style="text-align: center;"><b>$ 0</b></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;" colspan="5"><b>TOTAL EGRESOS EFECTIVO</b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $val_egresos + $val_total_orales; ?></b></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;" colspan="5"><b>TOTAL EGRESOS</b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $val_egresos + $val_total_orales; ?></b></td>
+                        </tr>
+                        </tbody>
                 </table>
-            </div>
-            </div>
-        
-        <div class="row" style="margin-top: 50px;">
-            <div class="col-2"></div>
-            <div class="col-3 text-center" >
-                <hr style="height: 2px; background-color: #000;">
-                <p style="font-size: 12px;">Entrega: <?php echo $cajero_corte; ?></p>
-            </div>
-            <div class="col-2"></div>
-            <div class="col-3 text-center">
-                <hr style="height: 2px; background-color: black;">
-                <p style="font-size: 12px;">Recibe:</p>
+                <br>
+                <div class="row" style="width: 100%;">
+                    <div class="col-5">
+                        <p style="font-size: 13px;">Pagos recibidos en la terminal banamex: $ <?php echo $sum_tarjetas ?><br>
+                        Total de ingresos es de: $ <?php echo $val_abonos; ?><br>
+                        El total en efectivo es de: $ <?php echo $sum_efectivo - ($val_egresos + $val_total_orales); ?></p>
+                    </div>
+                    <div class="col-3 text-center" >
+                        <br>
+                        <hr style="height: 2px; background-color: #000;">
+                        <p style="font-size: 10px;">Entrega: <?php echo $cajero_corte; ?></p>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-3 text-center">
+                        <br>
+                        <hr style="height: 2px; background-color: black;">
+                        <p style="font-size: 10px;">Recibe:</p>
                             </div>
-            <div class="col s2"></div>
+                </div>
+            </div>
         </div>
  
 </body>

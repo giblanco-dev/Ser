@@ -95,6 +95,7 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                         <select name="autoriza">
                         <option value="" disabled selected>Eliga Autorizador</option>
                         <option value="Dra. Mónica">Dra. Mónica Martinez</option>
+                        <option value="Dr. Enrique">Dr. Enrique Martinez</option>
                         <option value="Admin">Administrador</option>
                         </select>
                         <label>Autoriza</label>

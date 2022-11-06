@@ -36,7 +36,7 @@ if(!empty($_POST)){
  
     
 
-    if($num_frasco < 6){
+    if($num_frasco < 11){
       $sql_in = "INSERT INTO rec_med_home (frasco, tipo_fras, id_cita, med1, med2, med3, med4, med5, user_registra)
                             VALUES('$num_frasco', '$tipo_fras','$cita','$med1','$med2','$med3','$med4','$med5','$user')";
                 if($mysqli->query($sql_in)=== True){

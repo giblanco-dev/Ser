@@ -4,7 +4,7 @@ $cita = $_GET['c'];
 $usuario = $_GET['u'];
 $paciente = $_GET['p'];
 
-$sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita AND tipo_fras != 'flo'  ORDER BY tipo_fras";
+$sql_fras = "SELECT * FROM rec_med_home WHERE id_cita = $cita  ORDER BY tipo_fras";
 $fras = $mysqli->query($sql_fras);
 $val_fras = $fras->num_rows;
 
@@ -99,6 +99,12 @@ $val_fras = $fras->num_rows;
                         <label>
                         <input name="tipo" type="radio" value="ext" />
                         <span>Extra</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                        <input name="tipo" type="radio" value="flo" />
+                        <span>Flores de Bach</span>
                         </label>
                     </p>
                 </div>

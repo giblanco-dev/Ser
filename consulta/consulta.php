@@ -137,9 +137,9 @@ if($val_cita == 1){
             <div class = "input-field col s8">
             <select name="medico" required>
                 <option value="" disabled selected>Médico al que corresponde el folio</option>
-                <option value="Enrique Mtz">Dr. Enrique Mtz</option>
-                <option value="Guillermo Le">Dr. Guillermo León</option>
-                <option value="Angélica Mo">Dra. Angélica Mosqueda</option>
+                <option value="emartinez">Dr. Enrique Mtz</option>
+                <option value="gleon">Dr. Guillermo León</option>
+                <option value="amosqueda">Dra. Angélica Mosqueda</option>
                 </select>
             </div>
             </div>

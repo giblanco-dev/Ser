@@ -100,7 +100,7 @@ include_once '../app/logic/conn.php';
             <div class="row">
                 <div class="col s6">
                     <blockquote>Datos Generales</blockquote>
-                    <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
+                    <p style="text-transform: capitalize;">Nombre: <?php echo $nombre_pacientec = $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
                     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
                     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
                     <p>ID Interno Paciente: <?php echo $id_paciente; ?> </p>
@@ -112,8 +112,8 @@ include_once '../app/logic/conn.php';
                     if($hcg == 1){
                         echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="blank">Ver historia clinica</a>';
                     }elseif($hcg == 0){
-                        echo '<p>Sin Historia Clínica</p>
-                                <a href="captura_hcg.php?id_paciente='.$id_paciente.'">Capturar historia clinica</a>';
+                        echo '<p style="color: red; font-size: 20px;"><b>Sin Historia Clínica</b></p>
+                                <a href="captura_hcg.php?id_paciente='.$id_paciente.'&ori=8" target="blank" class="btn">Capturar historia clinica</a>';
                     }elseif($hcg > 1){
                         echo '<a href="">Contacte con el Administrador del Sistema</a>';
                     }
@@ -135,10 +135,13 @@ include_once '../app/logic/conn.php';
                     <blockquote>Otros</blockquote>
                     <p style="text-transform: capitalize;">Ocupación: <?php echo $datos_paciente['ocupacion']; ?></p>
                     <p style="text-transform: capitalize;">Titular: <?php echo $datos_paciente['nombre_titular']; ?></p>
-                    <br>
-                    <a href="upd_paciente.php?idpac=<?php echo $id_paciente; ?>" target="blank">Actualizar Información del Paciente</a>
+                    
                 </div>
                 <div class="col s6">
+                    <a href="upd_paciente.php?idpac=<?php echo $id_paciente; ?>" target="blank">Actualizar Información del Paciente</a><br>
+                    <hr>
+                    <a href="hoja_enfermeria.php?idp=<?php echo $id_paciente; ?>&nom_paciente=<?php echo $nombre_pacientec; ?>" target="blank">Ver/Imprimir Hoja Enfermería</a>
+                    <hr><br>    
                     <blockquote>Citas Pagadas del Paciente</blockquote>
                     <div class="table-responsive-2">
                     <table>

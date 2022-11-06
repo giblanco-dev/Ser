@@ -36,7 +36,7 @@ if($med_val == 0){
     <form action="save_frasco_ex.php" method="POST">
         <h4>Flores de Bach</h4>
         <?php 
-        if($no_frasco > 5){
+        if($no_frasco > 10){
           echo '<p>Han sido capturados todos los frascos de Flores de Bach del tratamiento.</p>';
           ?>
           <a href="save_med_hom.php?c=<?php echo $cita ?>&u=<?php echo $usuario?>" class="waves-effect waves-light btn">Resumen Medicamentos Homeopáticos</a>

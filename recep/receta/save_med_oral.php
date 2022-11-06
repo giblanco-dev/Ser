@@ -76,6 +76,7 @@ while($rows = mysqli_fetch_assoc($res_1)){
                     <td><b>Medicamento Oral</b></td>
                     <td><b>Cantidad</b></td>
                     <td><b>Precio</b></td>
+                    <td><b>Total</b></td>
                     <td></td>
                   </tr>
                 ';
@@ -85,6 +86,7 @@ while($rows = mysqli_fetch_assoc($res_1)){
                     <td>'.$rows2['med_oral'].'</td>
                     <td>'.$rows2['cantidad_med'].'</td>
                     <td>$ '.$rows2['monto'].'</td>
+                    <td>$ '.$rows2['monto'] * $rows2['cantidad_med'].'</td>
                     ';
             if($rows2['cancelado'] == 0){
                 echo'<td><a href="cancelaciones.php?med_oral='.$id_med_oral.'&u='.$user.'">Cancelar</a></td>

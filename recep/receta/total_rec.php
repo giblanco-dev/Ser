@@ -83,8 +83,7 @@
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
 rec_sueros.cancelado, rec_sueros.id_registro
 FROM rec_sueros
-INNER JOIN sueros on rec_sueros.suero = sueros.id_suero
-WHERE rec_sueros.id_cita = '$id_cita' ";
+INNER JOIN sueros on rec_sueros.suero = sueros.id_suero WHERE rec_sueros.id_cita = '$id_cita'";
 $result = $mysqli->query($sql_rec_sueros);
 $val_sueros = $result->num_rows;
 $total_sueros = 0;

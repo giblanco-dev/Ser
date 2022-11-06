@@ -53,14 +53,22 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
         $mensaje_val_corte = "El usuario de la sesión actual ya ejecutó su corte de caja del día. Ya no puede efectuar cobros";
 }
 
-$result_sql_citas = $mysqli -> query($sql_citas);
+$sql_citas2 = "SELECT cita.id_cita, cita.confirma
+FROM cita
+INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
+INNER JOIN tipos_cita on cita.tipo = tipos_cita.id_tipo_cita
+LEFT JOIN user on cita.medico = user.id
+WHERE cita.fecha = '$hoy' 
+ORDER BY cita.fecha, cita.horario";
+
+$result_sql_citas = $mysqli -> query($sql_citas2);
 $total_citas = $result_sql_citas -> num_rows;
 
 $citas_confirmadas = 0;
 while($contar_citas_confirm = mysqli_fetch_assoc($result_sql_citas)){
     if($contar_citas_confirm['confirma'] == 2){
         $citas_confirmadas ++;
-    }
+    } 
 }
 
 $datos_cita = $mysqli -> query($sql_citas);

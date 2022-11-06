@@ -90,11 +90,11 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                    
                     <div class="row">
                     <div class="input-field col s12">
-                    <input placeholder="Capture nombre de quien recibe" id="mont" type="text" class="validate" min="0" name="val_user" required>
+                    <input placeholder="Usuario" id="mont" type="text" class="validate" min="0" name="val_user" required>
                     <label for="mont">Capture su nombre de Usuario</label>
                     </div>
                     <div class="input-field col s12">
-                    <input placeholder="Capture nombre de quien recibe" id="mont" type="password" class="validate" min="0" name="val_pass" required>
+                    <input placeholder="Contraseña" id="mont" type="password" class="validate" min="0" name="val_pass" required>
                     <label for="mont">Capture su contraseña del sistema</label>
                     </div>
                     <div class="col s12">

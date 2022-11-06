@@ -71,12 +71,16 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
         <tbody>
             <?php
             
-            while($users = mysqli_fetch_assoc($result_sql_users) ){ ?>
+            while($users = mysqli_fetch_assoc($result_sql_users) ){ 
+                $usuario_id = $users['id'];
+
+                ?>
+                
                 <tr>
                 <td style="text-transform: capitalize;"><?php echo $users['nom_completo']; ?></td>
                 <td style="text-transform: capitalize;"><?php echo $users['descripcion']; ?></td>
                 <td class="center-align"><a href=""><i class="material-icons">update</i></a></td>
-                <td class="center-align"><a href=""><i class="material-icons">create</i></a></td>
+                <td class="center-align"><a href="update_user.php?idu=<?php echo $usuario_id; ?>"><i class="material-icons">create</i></a></td>
                 <td class="center-align"><a href=""><i class="material-icons">delete</i></a></td>
                 </tr>  
             <?php
@@ -90,7 +94,7 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
          <div class="col s4" style="margin-left: 1%;">
             <h5 class="center-align">Nuevo Usuario</h5>
             <br>
-            <form action="user/altas.php" method="POST">
+            <form action="logic/alta_user.php" method="POST">
             <div class="row">
             <div class="input-field col s8 offset-s2">
             <input id="last_name" type="text" placeholder="Capturé el nombre" name="nombre">
