@@ -10,6 +10,7 @@ $nav_caja = '
       <li><a href="vale_salida.php"><i class="material-icons right">money_off</i>Vale de Salida</a></li>
       <li><a href="corte_caja.php"><i class="material-icons right">account_balance_wallet</i>Corte de Caja</a></li>
       <li><a href="arqueo.php"><i class="material-icons right">account_balance</i>Arqueo</a></li>
+      <li><a href="pacientes_caja.php"><i class="material-icons right">people</i>Pacientes</a></li>
       <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
     </div>

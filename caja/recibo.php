@@ -296,6 +296,20 @@ if($val == 1){
                             <td><b>Pagado</b></td>
                             <td>$ <?php echo $recibo['abono']; ?></td>
                         </tr>
+                        <?php 
+                        if($recibo['monto_devolucion'] > 0){
+                            ?>
+                        <tr>
+                            <td><b>Devolución</b></td>
+                            <td>$ <?php echo $recibo['monto_devolucion']?></td>
+                        </tr>
+                        <tr>
+                            <td><b>Pagado(-)Devolución</b></td>
+                            <td><b>$ <?php echo $recibo['abono'] - $recibo['monto_devolucion'];  ?></b></td>
+                        </tr>
+                            <?php
+                        }
+                        ?>
                       </tbody>
                   </table>          
 
