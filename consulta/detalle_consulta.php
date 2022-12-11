@@ -292,6 +292,7 @@ if($val_resu > 0){
         while($rows3 = mysqli_fetch_assoc($resumen)){
             if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $val_trat_gen = 1;}
             if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra"; $val_trat_ext = 1;}
+            if($rows3['tipo_fras']== "flo"){$tipo_frasco = "Extra"; $val_trat_flores = 1;}
             $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
             echo '<tr>
                     <td>'.$rows3['des_tratamiento'].'</td>
@@ -342,7 +343,7 @@ if($val_resu > 0){
                 echo '<h6 style="color: red;">No hay registro de tratamiento</h6>';
             }
 
-            if($val_trat_ext == 1){
+            if(($val_trat_ext + $val_trat_flores) >= 1){
                 $sql_det_ext = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
                 FROM rec_med_home
                 WHERE id_cita = '$id_cita' AND cancelado = 0 AND tipo_fras IN ('ext','flo')";

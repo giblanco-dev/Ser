@@ -302,6 +302,8 @@ if($val_resu > 0){
         while($rows3 = mysqli_fetch_assoc($resumen)){
             if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $val_trat_gen = 1;}
             if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra"; $val_trat_ext = 1;}
+            if($rows3['tipo_fras']== "flo"){$tipo_frasco = "Extra"; $val_flores = 1;}
+            
             $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
             echo '<tr>
                     <td>'.$rows3['des_tratamiento'].'</td>
@@ -390,7 +392,42 @@ if($val_resu > 0){
                 echo "<h6>No hay registro de frascos extra</h6>";
             }
 
+            
+
+        if($val_flores == 1){
+                $sql_det_floresb = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
+                FROM rec_med_home
+                WHERE id_cita = '$id_cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+                $res_det_floresb = $mysqli->query($sql_det_floresb);
+                ?>
+            <h6>Detalle Flores de Bach</h6>
+                <table>
+                <thead>
+                     <tr>
+                         <th>Frasco</th>
+                         <th>Medicamentos Frasco</th>
+                     </tr>
+                </thead>
+                <tbody>
+                     <?php 
+                     while($row_det_floresb = mysqli_fetch_assoc($res_det_floresb)){
+                         echo"
+                         <tr>
+                         <td>".$row_det_floresb['frasco']."-Extra</td>
+                         <td>".rtrim($row_det_floresb['MedFrascos'],", ")."</td>
+                        </tr> 
+                         ";
+                     }
+                     ?>
+                 </tbody>
+                </table>
+
+            <?php   }else{
+                echo "<h6>No hay registro de Flores de Bach</h6>";
+            }
+
             ?>
+
 
 
 <?php   }else{

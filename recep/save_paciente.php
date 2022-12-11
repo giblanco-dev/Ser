@@ -15,9 +15,9 @@ require '../app/logic/conn.php';
 include_once 'recep_sections.php';
 $error = '';
 if(!empty($_POST)){
-    $nombres = ucwords(($_POST['nombres']));
-    $a_paterno = ucwords(($_POST['a_paterno']));
-    $a_materno = ucwords(($_POST['a_materno']));
+    $nombres = trim(ucwords(($_POST['nombres'])));
+    $a_paterno = trim(ucwords(($_POST['a_paterno'])));
+    $a_materno = trim(ucwords(($_POST['a_materno'])));
     $genero = $_POST['genero'];
     $calle = ucwords(($_POST['calle']));
     $num_domicilio = $_POST['num_domicilio'];

@@ -69,6 +69,7 @@ if($val_trat_gen == 1){
 }else{
     $cant_tratamientos = 0;
     $tipo_tratamiento = "";
+    $tipo_dosis = "";
     $val_imp_gen = 0;
 }
 
@@ -130,7 +131,7 @@ if($val_flores == 1){
             overflow-y:scroll;
         }
     </style>
-</head>
+</head> 
 <body>
 <?php echo $nav_caja;  
 ?>
@@ -178,7 +179,7 @@ if($val_flores == 1){
                 <p>Frascos Extra: <?php echo $fras_ext; ?></p>
                 <p>Flores de Bach: <?php echo $flores_bach; ?></p>
                 <?php 
-                if($val_trat_gen + $val_trat_ext > 0){
+                if($val_trat_gen + $val_trat_ext + $val_flores > 0){
                     ?>
                 <form action="logic/print_pdf_etiquetas.php" method="post" target="_blank">
                     <input type="hidden" name="cita" value="<?php echo $cita ?>">
@@ -190,7 +191,8 @@ if($val_flores == 1){
                     <input type="hidden" name="nom_paciente" value="<?php echo $paciente; ?>">
                     <input type="hidden" name="fecha_cita" value="<?php echo $fecha_cita; ?>">
                     <?php
-                    $val_impresion = $val_imp_gen + $val_imp_ext;
+                    $val_impresion = $val_imp_gen + $val_imp_ext + $val_imp_flor;
+                    
                     if($val_impresion == 0){
                         echo'
                         <button class="btn waves-effect waves-light" type="submit" name="action">Impresión de Etiquetas
