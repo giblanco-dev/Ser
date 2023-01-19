@@ -38,20 +38,22 @@ if (!isset($_SESSION['id'])) {
  </div>
  </header>
 <div class="row">
-    <div class="col s3" style="margin-top: 6%;">
+    <div class="col s5" style="margin-top: 6%;">
     <ul class="collection with-header">
         <li class="collection-header"><h4>Configuraciones</h4></li>
-        <li class="collection-item"><div>Usuarios<a href="users.php" class="secondary-content"><i class="material-icons">person</i></a></div></li>
-        <li class="collection-item"><div>Medicamentos Homeopáticos<a href="med_homeopaticos.php" class="secondary-content"><i class="material-icons">colorize</i></a></div></li>
-        <li class="collection-item"><div>Tratamientos<a href="tratamientos.php" class="secondary-content"><i class="material-icons">change_history</i></a></div></li>
-        <li class="collection-item"><div>Terapias<a href="terapias.php" class="secondary-content"><i class="material-icons">airline_seat_flat</i></a></div></li>
-        <li class="collection-item"><div>Sueros<a href="sueros.php" class="secondary-content"><i class="material-icons">bubble_chart</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Usuarios<a href="users.php" class="secondary-content"><i class="material-icons">person</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Medicamentos Homeopáticos<a href="med_homeopaticos.php" class="secondary-content"><i class="material-icons">colorize</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Tratamientos<a href="tratamientos.php" class="secondary-content"><i class="material-icons">change_history</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Terapias<a href="terapias.php" class="secondary-content"><i class="material-icons">airline_seat_flat</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Sueros<a href="sueros.php" class="secondary-content"><i class="material-icons">bubble_chart</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Complementos de Suero<a href="complementos.php" class="secondary-content"><i class="material-icons">extension</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Medicamentos y Nutrientes<a href="orales-nutri.php.php" class="secondary-content"><i class="material-icons">card_membership</i></a></div></li>
       </ul>
     </div>
-    <div class="col s9">
+    <div class="col s7">
         <h3 style="color: #2d83a0; font-weight:bold;">Modulos del sistema</h3>
         <div class="row">
-            <div class="col s4">
+            <div class="col s6">
                 <div class="card cyan darken-4 hoverable center-align">
                 <div class="card-content white-text">
                 <span class="card-title">Recepción</span>
@@ -62,7 +64,7 @@ if (!isset($_SESSION['id'])) {
                 </div>
                 </div>
             </div>
-            <div class="col s4">
+            <div class="col s6">
                 <div class="card cyan darken-3 hoverable center-align">
                 <div class="card-content white-text">
                 <span class="card-title">Caja</span>
@@ -84,7 +86,7 @@ if (!isset($_SESSION['id'])) {
                 </div>
                 </div>
             </div-->
-            <div class="col s4">
+            <div class="col s6">
                 <div class="card cyan darken-1 hoverable center-align">
                 <div class="card-content white-text">
                 <span class="card-title">Farmacia</span>
@@ -95,7 +97,7 @@ if (!isset($_SESSION['id'])) {
                 </div>
                 </div>
             </div>
-            <div class="col s4">
+            <div class="col s6">
                 <div class="card cyan darken-4 hoverable center-align">
                 <div class="card-content white-text">
                 <span class="card-title">Reportes</span>

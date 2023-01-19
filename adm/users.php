@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }   
 require_once '../app/logic/conn.php';
-$sql_users = "SELECT user.id, concat(nombre,' ',apellido) nom_completo, user.nivel, niveles.descripcion FROM user 
+$sql_users = "SELECT user.id, concat(nombre,' ',apellido) nom_completo, user.nivel, niveles.descripcion, user.usuario FROM user 
             INNER JOIN niveles on user.nivel = niveles.nivel
             ORDER BY nom_completo";
 $result_sql_users = $mysqli->query($sql_users);
@@ -32,6 +32,12 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
     <link rel="stylesheet" href="../static/icons/iconfont/material-icons.css">
     <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/materialize.js"></script>
+    <script>
+        function abrir(url)
+          { 
+            open(url,'','top=0,left=100,width=1200,height=350') ; 
+          }
+    </script>
 </head>
 <body>
 <header>
@@ -50,17 +56,26 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
 
  
      <div class="row">
-         <div class="col s12 center-align">
+         <div class="col s12 center-align" style="margin-bottom: 0px;">
              <h4 style="color: #2d83a0; font-weight:bold;">Administración de Usuarios</h4>
          </div>
      </div>
      <div class="row">
-         <div class="col s7" style="margin-left: 1%;">
-         <h5 class="center-align">Usuarios Activos</h5>
+         <div class="col s8" style="margin-left: 1%;">
          <div class="table-responsive-2">
-    <table>
+
+        <div class="input-field col s5 center-align">
+          <i class="material-icons prefix">search</i>
+          <input id="search" type="text">
+          <label for="search">Buscar Usuarios</label>
+        </div>
+        <div class="col s3 center-align" style="margin-top: 25px;">
+        <a href="users.php" class="waves-effect waves-light btn-small"><i class="material-icons right">autorenew</i>Actualizar</a>
+        </div>
+    <table id="mytable">
         <thead>
         <tr>
+            <th>Nombre</th>
             <th>Usuario</th>
             <th>Nivel</th>
             <th class="center-align">Restablecer contraseña</th>
@@ -78,10 +93,11 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
                 
                 <tr>
                 <td style="text-transform: capitalize;"><?php echo $users['nom_completo']; ?></td>
+                <td><?php echo $users['usuario']; ?></td>
                 <td style="text-transform: capitalize;"><?php echo $users['descripcion']; ?></td>
-                <td class="center-align"><a href=""><i class="material-icons">update</i></a></td>
-                <td class="center-align"><a href="update_user.php?idu=<?php echo $usuario_id; ?>"><i class="material-icons">create</i></a></td>
-                <td class="center-align"><a href=""><i class="material-icons">delete</i></a></td>
+                <td class="center-align"><a href="logic/process.php?id_proceso=ResetPass&id_user=<?php echo $usuario_id; ?>&nom_user=<?php echo $users['usuario'] ?>"><i class="material-icons">update</i></a></td>
+                <td class="center-align"><a href="javascript:abrir('logic/update_user.php?idu=<?php echo $usuario_id; ?>')"><i class="material-icons">create</i></a></td>
+                <td class="center-align"><a href="logic/process.php?id_proceso=DelUser&id_user=<?php echo $usuario_id; ?>&nom_user=<?php echo $users['usuario'] ?>"><i class="material-icons">delete</i></a></td>
                 </tr>  
             <?php
         }
@@ -91,10 +107,10 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
 
     </div>
          </div>
-         <div class="col s4" style="margin-left: 1%;">
+         <div class="col s3" style="margin-left: 1%;">
             <h5 class="center-align">Nuevo Usuario</h5>
             <br>
-            <form action="logic/alta_user.php" method="POST">
+            <form action="logic/process.php" method="POST">
             <div class="row">
             <div class="input-field col s8 offset-s2">
             <input id="last_name" type="text" placeholder="Capturé el nombre" name="nombre">
@@ -125,6 +141,7 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
             </button>
             </div>
             </div>
+            <input type="hidden" name="id_proceso" value="AltaUsuario">
             </form>
          </div>
      </div>
@@ -149,6 +166,21 @@ $result_sql_nivel = $mysqli->query($sql_nivel);
           </div>
         </footer>
         <script>
+            // Write on keyup event of keyword input element
+            $(document).ready(function(){
+            $("#search").keyup(function(){
+            _this = this;
+            // Show only matching TR, hide rest of them
+            $.each($("#mytable tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+            $(this).hide();
+            else
+            $(this).show();
+            });
+            });
+            });
+            </script>
+            <script>
             $(document).ready(function(){
             $('select').formSelect();
             });

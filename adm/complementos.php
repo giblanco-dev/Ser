@@ -12,8 +12,8 @@ if (!isset($_SESSION['id'])) {
     exit();
 }   
 require_once '../app/logic/conn.php';
-$sql_trat = "SELECT * FROM tipo_trat_hom";
-$result_trat = $mysqli->query($sql_trat);
+$sql_complementos = "SELECT * FROM complementos";
+$result_complementos = $mysqli->query($sql_complementos);
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ $result_trat = $mysqli->query($sql_trat);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tratamientos</title>
+    <title>Complementos</title>
     <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/materialize.css">
     <link rel="stylesheet" href="../static/css/tables.css">
@@ -53,17 +53,24 @@ $result_trat = $mysqli->query($sql_trat);
  
      <div class="row">
          <div class="col s12 center-align">
-             <h4 style="color: #2d83a0; font-weight:bold;">Gestión Tipos de Tratamientos Homeopáticos</h4>
+             <h4 style="color: #2d83a0; font-weight:bold;">Gestión de Complementos</h4>
          </div>
      </div>
-     <div class="row">
-         <div class="col s7 center-align" style="margin-left: 1%;">
-         <a href="tratamientos.php" class="waves-effect waves-light btn-small"><i class="material-icons right">autorenew</i>Actualizar</a>
+     <div class="row" style="margin-top: -20px;">
+         <div class="col s7" style="margin-left: 1%; ">
          <div class="table-responsive-2">
-    <table>
+         <div class="input-field col s5 center-align">
+          <i class="material-icons prefix">search</i>
+          <input id="search" type="text">
+          <label for="search">Buscar complementos</label>
+        </div>
+        <div class="col s5 center-align" style="margin-top: 25px;">
+        <a href="complementos.php" class="waves-effect waves-light btn-small"><i class="material-icons right">autorenew</i>Actualizar</a>
+        </div>
+    <table id="mytable">
         <thead>
         <tr>
-            <th>Tipo de Tratamiento</th>
+            <th>Complemento</th>
             <th>Costo</th>
             <th class="center-align">Actualizar</th>
             <th class="center-align">Eliminar</th>
@@ -72,14 +79,14 @@ $result_trat = $mysqli->query($sql_trat);
         <tbody>
             <?php
             
-            while($tratamientos = mysqli_fetch_assoc($result_trat) ){ 
-                $id_trathome = $tratamientos['id_trat'];
+            while($complementos = mysqli_fetch_assoc($result_complementos) ){ 
+                $id_complemento = $complementos['id_comple'];
               ?>
                 <tr>
-                <td style="text-transform: capitalize;"><?php echo $tratamientos['des_tratamiento']; ?></td>
-                <td style="text-transform: capitalize;">$ <?php echo $tratamientos['costo']; ?></td>
-                <td class="center-align"><a href="javascript:abrir('logic/update_trathomeo.php?idtrath=<?php echo $id_trathome; ?>')"><i class="material-icons">update</i></a></td>
-                <td class="center-align"><a href="logic/process.php?id_proceso=DelTratHome&id_tratamiento=<?php echo $id_trathome; ?>&descrip_trat=<?php echo $tratamientos['des_tratamiento'] ?>"><i class="material-icons">delete</i></a></td>
+                <td style="text-transform: capitalize;"><?php echo $complementos['nom_complemento']; ?></td>
+                <td style="text-transform: capitalize;">$ <?php echo $complementos['precio']; ?></td>
+                <td class="center-align"><a href="javascript:abrir('logic/update_complemento.php?id_complemento=<?php echo $id_complemento; ?>')"><i class="material-icons">update</i></a></td>
+                <td class="center-align"><a href="logic/process.php?id_proceso=Delcomplemento&id_complemento=<?php echo $id_complemento; ?>&descrip_complemento=<?php echo $complementos['nom_complemento']; ?>"><i class="material-icons">delete</i></a></td>
                 </tr>  
             <?php
         }
@@ -90,17 +97,17 @@ $result_trat = $mysqli->query($sql_trat);
     </div>
          </div>
          <div class="col s4" style="margin-left: 1%;">
-            <h5 class="center-align">Nuevo Tipo de Tratamiento</h5>
+            <h5 class="center-align">Nuevo Complemento</h5>
             <br>
             <form action="logic/process.php" method="POST">
             <div class="row">
             <div class="input-field col s8 offset-s2">
-            <input id="des" type="text"  name="nom_trat_homeopatico" required>
-            <label for="des">Descripción</label>
+            <input id="1" type="text"  name="descrip_complemento">
+            <label for="1">Descripción</label>
             </div>
             <div class="input-field col s8 offset-s2">
-            <input id="precio" type="number"  name="precio_trat_homeopatico" required>
-            <label for="precio">$ Costo</label>
+            <input id="2" type="number"  name="precio_complemento">
+            <label for="2">$ Costo</label>
             </div>
            
             <div class="col s5 offset-s6">
@@ -109,7 +116,7 @@ $result_trat = $mysqli->query($sql_trat);
             </button>
             </div>
             </div>
-            <input type="hidden" name="id_proceso" value="registra_trat_homeopatico">
+            <input type="hidden" name="id_proceso" value="alta_complemento">
             </form>
          </div>
      </div>
@@ -134,9 +141,19 @@ $result_trat = $mysqli->query($sql_trat);
           </div>
         </footer>
         <script>
+            // Write on keyup event of keyword input element
             $(document).ready(function(){
-            $('select').formSelect();
+            $("#search").keyup(function(){
+            _this = this;
+            // Show only matching TR, hide rest of them
+            $.each($("#mytable tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+            $(this).hide();
+            else
+            $(this).show();
             });
-        </script>
+            });
+            });
+            </script>
 </body>
 </html>
