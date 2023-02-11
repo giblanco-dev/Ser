@@ -1,7 +1,7 @@
 <?php
 use Dompdf\Dompdf;
-require '../app/logic/conn.php';
-$id_corte = $_GET['crcj'];
+require '../../app/logic/conn.php';
+$id_corte = $_GET['idcorte'];
 $sql_val_corte = "SELECT * FROM cortes_caja WHERE id_corte = '$id_corte'";
                         $res_val_corte = $mysqli->query($sql_val_corte);
                         $val_corte = $res_val_corte->num_rows;
@@ -63,11 +63,11 @@ ob_start();
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="shortcut icon" href="../../static/img/favicon.png" type="image/x-icon">
 
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.css">
    
-    <title>Impresión Corte de Caja-<?php echo $fecha_corte."-".$cajero_corte; ?></title>
+    <title>Detalle Corte de Caja-<?php echo $fecha_corte."-".$cajero_corte; ?></title>
     <style>
         .tabla{
             font-size: 10px !important;
@@ -335,12 +335,12 @@ ob_start();
                         ?>
                         <?php 
                     $sql_med_oral = "SELECT rec_med_orales.*, cita.horario, caja.descuento, 
-                                        (rec_med_orales.monto -(rec_med_orales.monto * (caja.descuento/100))) monto2 
-                                        FROM rec_med_orales 
-                                        INNER JOIN cita ON cita.id_cita = rec_med_orales.id_cita 
-                                        INNER JOIN caja ON rec_med_orales.id_cita = caja.id_cita 
-                                        INNER JOIN med_orales ON rec_med_orales.id_med_oral = med_orales.id_med_oral
-                                        WHERE rec_med_orales.id_cita in ($citas_corte) and cancelado = 0 AND med_orales.egreso = 1";
+                                    (rec_med_orales.monto -(rec_med_orales.monto * (caja.descuento/100))) monto2 
+                                    FROM rec_med_orales 
+                                    INNER JOIN cita ON cita.id_cita = rec_med_orales.id_cita 
+                                    INNER JOIN caja ON rec_med_orales.id_cita = caja.id_cita 
+                                    INNER JOIN med_orales ON rec_med_orales.id_med_oral = med_orales.id_med_oral
+                    WHERE rec_med_orales.id_cita in ($citas_corte) and cancelado = 0 AND med_orales.egreso = 1";
                     $res_det_orales = $mysqli->query($sql_med_oral);
                     $val_med_orales = $res_det_orales->num_rows;
                     $val_total_orales = 0;

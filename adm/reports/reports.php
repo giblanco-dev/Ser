@@ -20,6 +20,7 @@ if (!isset($_SESSION['id'])) {
     <title>Reportes</title>
     <link rel="shortcut icon" href="../../static/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../../static/css/materialize.css">
+    <link rel="stylesheet" href="../../static/css/main.css">
     <link rel="stylesheet" href="../../static/icons/iconfont/material-icons.css">
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
     <script src="../../static/js/materialize.js"></script>
@@ -42,7 +43,8 @@ if (!isset($_SESSION['id'])) {
     <div class="col s2" style="margin-top: 6%;">
     <ul class="collection with-header">
         <li class="collection-header"><h4>Reportes</h4></li>
-        <li class="collection-item"><div>Cortes de Caja<a href="users.php" class="secondary-content"><i class="material-icons">account_balance</i></a></div></li>
+        <li class="collection-item"><div>Cortes de Caja<a href="corte_caja.php" class="secondary-content" target="frame-cont"><i class="material-icons">account_balance</i></a></div></li>
+        
         <!--li class="collection-item"><div>Medicamentos Homeopáticos<a href="med_homeopaticos.php" class="secondary-content"><i class="material-icons">colorize</i></a></div></li>
         <li class="collection-item"><div>Tratamientos<a href="tratamientos.php" class="secondary-content"><i class="material-icons">change_history</i></a></div></li>
         <li class="collection-item"><div>Terapias<a href="terapias.php" class="secondary-content"><i class="material-icons">airline_seat_flat</i></a></div></li>

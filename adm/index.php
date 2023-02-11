@@ -47,7 +47,7 @@ if (!isset($_SESSION['id'])) {
         <li class="collection-item"><div style="font-size: 18px;">Terapias<a href="terapias.php" class="secondary-content"><i class="material-icons">airline_seat_flat</i></a></div></li>
         <li class="collection-item"><div style="font-size: 18px;">Sueros<a href="sueros.php" class="secondary-content"><i class="material-icons">bubble_chart</i></a></div></li>
         <li class="collection-item"><div style="font-size: 18px;">Complementos de Suero<a href="complementos.php" class="secondary-content"><i class="material-icons">extension</i></a></div></li>
-        <li class="collection-item"><div style="font-size: 18px;">Medicamentos y Nutrientes<a href="orales-nutri.php.php" class="secondary-content"><i class="material-icons">card_membership</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Medicamentos y Nutrientes<a href="orales-nutri.php" class="secondary-content"><i class="material-icons">card_membership</i></a></div></li>
       </ul>
     </div>
     <div class="col s7">

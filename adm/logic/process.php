@@ -130,6 +130,30 @@ if($id_proceso == 'alta_complemento'){
 
 } // Termina proceso de alta de Complementos
 
+//  **************************************************** Proceso de alta Med Orales y Nutrientes
+if($id_proceso == 'AltaMedNutri'){
+    $nombre_mednutri = $_POST['nombre_mednutri'];
+    $precio_mednutri = floatval($_POST['precio']);
+    $tipo_mednutri = $_POST['tipo'];
+    $egreso = $_POST['egreso'];
+    
+    $sql_in_mednutri = "INSERT INTO med_orales(precio, activo, nom_med_oral, tipo, egreso) 
+                    VALUES ($precio_mednutri, 1 ,'$nombre_mednutri', '$tipo_mednutri', '$egreso');";
+                   
+    if($mysqli->query($sql_in_mednutri) === True){
+        $titulo = "Registro exitoso";
+        $texto = "Medicamento/Nutriente: ".$nombre_mednutri;
+        $icono = "success";
+        $url_regreso = '../orales-nutri.php';
+    }else{
+        $titulo = "Error al registrar la nueva terapia";
+        $texto = "Intente nuevamente o contacte al administrador del sistema";
+        $icono = "error";
+        $url_regreso = '../orales-nutri.php';
+    }
+
+} // Termina proceso de alta Med Orales y Nutrientes
+
 //  *************************************************************************** Validacion peticiones GET ******************************************************
 }elseif(!empty($_GET)){
     
@@ -275,6 +299,38 @@ if($id_proceso == 'Delcomplemento'){
 
 }   // Termina eliminacion de Complementos de Suero
 
+//  **************************************************** Proceso de inactivar med orales nutri
+if($id_proceso == 'Inactivar_mednutri'){
+    $id_mednutri = $_GET['id_mednutri'];
+    $nom_med_nutri = $_GET['nom_mednutri'];
+    $flag_mednutri = $_GET['flag_mednutri'];
+
+    if($flag_mednutri == 1){
+        $sql_active_mednutri = "UPDATE med_orales set activo = 0 WHERE id_med_oral = '$id_mednutri'";    
+    }else{
+        $sql_active_mednutri = "UPDATE med_orales set activo = 1 WHERE id_med_oral = '$id_mednutri'";    
+    }
+    
+    if($mysqli->query($sql_active_mednutri) === True){
+        if($flag_mednutri == 1){
+            $titulo = "Inactivación correcta";
+        }else{
+            $titulo = "Activación correcta";
+        }
+        
+        $texto = $nom_med_nutri;
+        $icono = "success";
+        $url_regreso = '../orales-nutri.php';
+    }else{
+        $titulo = "Error al eliminar Suero";
+        $texto = "Intente nuevamente o contacte al administrador del sistema";
+        $icono = "error";
+        $url_regreso = '../orales-nutri.php';
+    }
+
+}   // Termina eliminacion de Complementos de Suero
+
+
 }else{
             $titulo = "Error no hay petición GET o POST";
             $texto = "Intente nuevamente o contacte al administrador del sistema";
@@ -290,7 +346,7 @@ if($id_proceso == 'Delcomplemento'){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Consulta</title>
+    <title>Procesos Administración Sistema</title>
     <link rel="shortcut icon" href="../../static/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../../static/css/materialize.css">
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
