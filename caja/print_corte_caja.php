@@ -116,16 +116,21 @@ ob_start();
                             <th>EFECTIVO</th>
                             <!--th>Consulta</th-->
                             <th>TERMINAL</th>
-                            <th>BANCO</th>
+                            <!--th>BANCO</th-->
                             <th>CHEQUE</th>
                             <th>OTRO</th>
                             <th>TOTAL</th>
+                            <th>% Desc</th>
+                            <th>$ Desc</th>
+                            <th>Pag. Real</th>
                             <!--th>MED PAGO</th-->
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $val_abonos = 0;
+                        $total_montos_desc_cita = 0;
+                        $sum_subtotales = 0;
                         $sql_det_cita = "SELECT caja.id_cita,
                         cita.horario,
                         caja.id_cobro,
@@ -184,11 +189,11 @@ ob_start();
                                 
                             echo "<td>$ ".$row_detalle['abono_efectivo']."</td>";
                             echo "<td>$ ".$row_detalle['abono_tarjeta']."</td>";
-                            if($row_detalle['abono_tarjeta'] > 0){
+                            /* if($row_detalle['abono_tarjeta'] > 0){
                                 echo "<td>BANAMEX</td>";
                             }else{
                                 echo "<td></td>";
-                            }
+                            } */
                             echo "<td>$ ".$row_detalle['abono_cheque']."</td>";
                             echo "<td>$ ".$row_detalle['abono_otro']."</td>";
 
@@ -235,7 +240,14 @@ ob_start();
                                 */
                                 ?>
                                 
-                                
+                                <td>$ <?php echo $row_detalle['subtotal'] ?></td>
+                                <td><?php echo $row_detalle['descuento'] ?>%</td>
+                                <?php 
+                                    $sum_subtotales = $sum_subtotales + $row_detalle['subtotal'];
+                                    $monto_descuento_cita = $row_detalle['subtotal']*($row_detalle['descuento']/100);
+                                    $total_montos_desc_cita = $total_montos_desc_cita + $monto_descuento_cita;
+                                ?>
+                                <td>$ <?php echo $monto_descuento_cita; ?></td>
                                 <td>$ <?php echo $row_detalle['abono'] ?></td>
                                 <!--td><?php //echo $row_detalle['medio_pago'] ?></td-->
                             </tr>
@@ -247,9 +259,12 @@ ob_start();
                         <tr>
                             <td style="text-align: center;" colspan="5"><b>TOTALES <?php //echo $val_abonos ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $sum_efectivo; ?></b></td>
-                            <td style="text-align: center;" colspan="2"><b>$ <?php echo $sum_tarjetas; ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $sum_tarjetas; ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $sum_cheques; ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $sum_otros; ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $sum_subtotales; ?></b></td>
+                            <td style="text-align: center;"><b><?php echo round(($total_montos_desc_cita/$sum_subtotales)*100) ?>%</b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $total_montos_desc_cita; ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $val_abonos;?></b></td>
                         </tr>
                     </tbody>

@@ -63,11 +63,11 @@ ob_start();
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../../static/img/favicon.png" type="image/x-icon">
+    
 
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.css">
    
-    <title>Detalle Corte de Caja-<?php echo $fecha_corte."-".$cajero_corte; ?></title>
+    <title>Impresión Corte de Caja-<?php echo $fecha_corte."-".$cajero_corte; ?></title>
     <style>
         .tabla{
             font-size: 10px !important;
@@ -116,16 +116,21 @@ ob_start();
                             <th>EFECTIVO</th>
                             <!--th>Consulta</th-->
                             <th>TERMINAL</th>
-                            <th>BANCO</th>
+                            <!--th>BANCO</th-->
                             <th>CHEQUE</th>
                             <th>OTRO</th>
                             <th>TOTAL</th>
+                            <th>% Desc</th>
+                            <th>$ Desc</th>
+                            <th>Pag. Real</th>
                             <!--th>MED PAGO</th-->
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $val_abonos = 0;
+                        $total_montos_desc_cita = 0;
+                        $sum_subtotales = 0;
                         $sql_det_cita = "SELECT caja.id_cita,
                         cita.horario,
                         caja.id_cobro,
@@ -184,11 +189,11 @@ ob_start();
                                 
                             echo "<td>$ ".$row_detalle['abono_efectivo']."</td>";
                             echo "<td>$ ".$row_detalle['abono_tarjeta']."</td>";
-                            if($row_detalle['abono_tarjeta'] > 0){
+                            /* if($row_detalle['abono_tarjeta'] > 0){
                                 echo "<td>BANAMEX</td>";
                             }else{
                                 echo "<td></td>";
-                            }
+                            } */
                             echo "<td>$ ".$row_detalle['abono_cheque']."</td>";
                             echo "<td>$ ".$row_detalle['abono_otro']."</td>";
 
@@ -235,7 +240,14 @@ ob_start();
                                 */
                                 ?>
                                 
-                                
+                                <td>$ <?php echo $row_detalle['subtotal'] ?></td>
+                                <td><?php echo $row_detalle['descuento'] ?>%</td>
+                                <?php 
+                                    $sum_subtotales = $sum_subtotales + $row_detalle['subtotal'];
+                                    $monto_descuento_cita = $row_detalle['subtotal']*($row_detalle['descuento']/100);
+                                    $total_montos_desc_cita = $total_montos_desc_cita + $monto_descuento_cita;
+                                ?>
+                                <td>$ <?php echo $monto_descuento_cita; ?></td>
                                 <td>$ <?php echo $row_detalle['abono'] ?></td>
                                 <!--td><?php //echo $row_detalle['medio_pago'] ?></td-->
                             </tr>
@@ -247,9 +259,12 @@ ob_start();
                         <tr>
                             <td style="text-align: center;" colspan="5"><b>TOTALES <?php //echo $val_abonos ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $sum_efectivo; ?></b></td>
-                            <td style="text-align: center;" colspan="2"><b>$ <?php echo $sum_tarjetas; ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $sum_tarjetas; ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $sum_cheques; ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $sum_otros; ?></b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $sum_subtotales; ?></b></td>
+                            <td style="text-align: center;"><b><?php echo round(($total_montos_desc_cita/$sum_subtotales)*100) ?>%</b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $total_montos_desc_cita; ?></b></td>
                             <td style="text-align: center;"><b>$ <?php echo $val_abonos;?></b></td>
                         </tr>
                     </tbody>
@@ -335,12 +350,12 @@ ob_start();
                         ?>
                         <?php 
                     $sql_med_oral = "SELECT rec_med_orales.*, cita.horario, caja.descuento, 
-                                    (rec_med_orales.monto -(rec_med_orales.monto * (caja.descuento/100))) monto2 
-                                    FROM rec_med_orales 
-                                    INNER JOIN cita ON cita.id_cita = rec_med_orales.id_cita 
-                                    INNER JOIN caja ON rec_med_orales.id_cita = caja.id_cita 
-                                    INNER JOIN med_orales ON rec_med_orales.id_med_oral = med_orales.id_med_oral
-                    WHERE rec_med_orales.id_cita in ($citas_corte) and cancelado = 0 AND med_orales.egreso = 1";
+                                        (rec_med_orales.monto -(rec_med_orales.monto * (caja.descuento/100))) monto2 
+                                        FROM rec_med_orales 
+                                        INNER JOIN cita ON cita.id_cita = rec_med_orales.id_cita 
+                                        INNER JOIN caja ON rec_med_orales.id_cita = caja.id_cita 
+                                        INNER JOIN med_orales ON rec_med_orales.id_med_oral = med_orales.id_med_oral
+                                        WHERE rec_med_orales.id_cita in ($citas_corte) and cancelado = 0 AND med_orales.egreso = 1";
                     $res_det_orales = $mysqli->query($sql_med_oral);
                     $val_med_orales = $res_det_orales->num_rows;
                     $val_total_orales = 0;
