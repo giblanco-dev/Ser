@@ -124,25 +124,25 @@ if($val == 1){
                 <p>Monto Efectivo</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto Efectivo" type="number" name="abono_efectivo">
+                <input placeholder="Monto Efectivo" type="number" min="0" name="abono_efectivo">
             </div>
             <div class="col s6">
                 <p>Monto Tarjeta</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto Tarjeta" type="number" name="abono_tarjeta">
+                <input placeholder="Monto Tarjeta" type="number" min="0" name="abono_tarjeta">
             </div>
             <div class="col s6">
                 <p>Monto Cheque</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto Cheque" type="number" name="abono_cheque">
+                <input placeholder="Monto Cheque" type="number" min="0" name="abono_cheque">
             </div>
             <div class="col s6">
                 <p>Otras formas de pago</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto otros" type="number" name="abono_otros">
+                <input placeholder="Monto otros" type="number" min="0" name="abono_otros">
             </div>
             </div>
             
@@ -174,25 +174,25 @@ if($val == 1){
                 <p>Monto Efectivo</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto Efectivo" type="number" name="abono_efectivo">
+                <input placeholder="Monto Efectivo" type="number" min="0" name="abono_efectivo">
             </div>
             <div class="col s6">
                 <p>Monto Tarjeta</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto Tarjeta" type="number" name="abono_tarjeta">
+                <input placeholder="Monto Tarjeta" type="number" min="0" name="abono_tarjeta">
             </div>
             <div class="col s6">
                 <p>Monto Cheque</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto Cheque" type="number" name="abono_cheque">
+                <input placeholder="Monto Cheque" type="number" min="0" name="abono_cheque">
             </div>
             <div class="col s6">
                 <p>Otras formas de pago</p>
             </div>
             <div class="col s6">
-                <input placeholder="Monto otros" type="number" name="abono_otros">
+                <input placeholder="Monto otros" type="number" min="0" name="abono_otros">
             </div>
             </div>
             <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
@@ -221,7 +221,7 @@ if($val == 1){
                     </div>
         <?php
         }else{
-            echo '<p>Error contactar con Sistamas (Código de Error SALDVAL)</p>';
+            echo '<p>Error contactar con Sistemas (Código de Error SALDVAL)</p>';
         }
         ?>
     </div>

@@ -32,7 +32,7 @@ if(!empty($_POST)){
     $abono_otros = (float)$_POST['abono_otros'];
     $saldo = (float)$_POST['saldo'];
     $pago = $abono_efectivo + $abono_tarjeta + $abono_cheque + $abono_otros;
-    echo $pago;
+    //echo $pago;
     if($pago > $saldo){
         echo '<script type="text/javascript">
         swal("","Los montos de pago son mayores a el total de la cita,\nVolver a capturar montos", "error");  

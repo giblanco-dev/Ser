@@ -36,7 +36,7 @@ $consulta = $_POST['consulta'];
 $descuento = $_POST['descuentos'];
 
 
-$total_cobro = ($sub_total + $consulta)-(($sub_total + $consulta)*($descuento/100));
+$total_cobro = ($sub_total + $consulta)-(($total_terapias + $total_sueros + $total_homeopaticos + $consulta)*($descuento/100));
 
 //echo "el total es", $total_cobro;
 

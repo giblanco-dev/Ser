@@ -239,7 +239,7 @@ $sum_orales = 0;
 
 
     <div class="col s4">
-    <form action="env_caja.php" method="post" oninput="resultado.value=(parseInt(total.value)+parseInt(consulta.value))-((parseInt(total.value)+parseInt(consulta.value))*(parseInt(descuentos.value)/100))">
+    <form action="env_caja.php" method="post" oninput="resultado.value=(parseInt(total.value)+parseInt(consulta.value))-((parseInt(terapias.value)+parseInt(sueros.value)+parseInt(homeopaticos.value)+parseInt(consulta.value))*(parseInt(descuentos.value)/100))">
     <table class="striped">
         <thead>
             <tr>
@@ -283,7 +283,7 @@ $sum_orales = 0;
         ?>
         <div class="col s6 center-align">
             <p>¿Se incluye consulta?</p>
-            <input type="number" name="consulta" min="0" max="150" step="150" value="0">
+            <input type="number" name="consulta" min="0" value="0">
         </div>
         <div class="col s6">
          <p>Aplicar Descuento %</p>
