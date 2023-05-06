@@ -176,6 +176,25 @@ if($val_cita == 1){
     </form>
 </div>
 <div class="col s4">
+    <blockquote>
+        Historia Clínica
+    </blockquote>
+    <?php
+                    
+                     $sql_hcg = "SELECT * FROM his_clinica_gen where id_paciente = '$id_paciente'";
+                     $result_sql_his = $mysqli -> query($sql_hcg);
+                     $hcg = $result_sql_his -> num_rows;
+
+                    if($hcg == 1){
+                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="_blank">Ver historia clinica</a>';
+                    }elseif($hcg == 0){
+                        echo '<p>Sin Historia Clínica</p>
+                                <a href="captura_hcg.php?id_paciente='.$id_paciente.'&cita='.$id_cita.'" target="_blank">Capturar historia clinica</a>';
+                    }elseif($hcg > 1){
+                        echo '<a href="">Contacte con el Administrador del Sistema</a>';
+                    }
+                    ?>  
+    
     <blockquote>Últimas Citas</blockquote>
     <div class="table-responsive-2">
     <table >

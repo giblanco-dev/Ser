@@ -37,7 +37,7 @@ if(!empty($_POST)){
     $fecha_alta = $_POST['fecha_alta'];
     $usuario_captura = $_POST['usuario_captura'];
 
-    $sql_validacion = "SELECT id_paciente, nombres, a_paterno, fecha_nacimiento, tel_movil FROM paciente WHERE fecha_nacimiento = '$fecha_nacimiento' and tel_movil = '$tel_movil'";
+    $sql_validacion = "SELECT id_paciente, nombres, a_paterno, fecha_nacimiento, tel_movil FROM paciente WHERE fecha_nacimiento = '$fecha_nacimiento' AND tel_movil = '$tel_movil'";
     $result_sql_validacion = $mysqli -> query($sql_validacion);
     $registros = $result_sql_validacion -> num_rows;
 

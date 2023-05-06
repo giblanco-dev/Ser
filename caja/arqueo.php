@@ -199,7 +199,7 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
 
 
                         <?php   }else{
-                            echo '<blockquote>No cobros registrados del día</blockquote>';
+                            echo '<blockquote>No hay cobros registrados del día</blockquote>';
                         }
                         ?>
 
@@ -223,52 +223,121 @@ $sql_val_corte = "SELECT * FROM cortes_caja WHERE cajero_corte = '$id_user' AND 
                 <div class="row">
                     <div class="col s2"></div>
                     <div class="col s8">
-                        <h6>Vales de Salida del día</h6>
-                        <?php
-                        $total_vales = 0;
-                        $consecutivo_vales = 1;
-                        if($val_vales > 0){
-                            
-                            ?>
-                        <table class="tabla">
+                    <h6>Egresos</h6>
+                <table style="width: 80%; margin-left: auto; margin-right: auto;" class="tabla">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Concepto</th>
-                                <th>Cantidad</th>
-                                <th>Autoriza</th>
-                                <th>Recibe</th>
-                                <th>Registra</th>
+                                <th>NO.</th>
+                                <th>HORA</th>
+                                <th>TIPO</th>
+                                <th>RECIBE</th>
+                                <th>COMENTARIOS</th>
+                                <th>MONTO</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php   while($vales_reg = mysqli_fetch_assoc($res_vales)){ 
-                                $total_vales = $total_vales + $vales_reg['cantidad'];
-                                ?>
-                                <tr>
-                                    <td><?php echo $consecutivo_vales; ?></td>
-                                    <td><?php echo $vales_reg['concepto']; ?></td>
-                                    <td><?php echo $vales_reg['beneficiario']; ?></td>
-                                    <td><?php echo $vales_reg['autorizador']; ?></td>
-                                    <td><?php echo $vales_reg['user']; ?></td>
-                                    <td>$ <?php echo $vales_reg['cantidad'];   ?></td>
-                                </tr>
-                            <?php
-                                $consecutivo_vales ++;
-                            }
-            ?>
-                                <tr>
-                                    <th colspan="5" style="text-align: center;">Total</th>
-                                    <th>$ <?php echo $total_vales;?></th>
-                                </tr>
-        </tbody>
-    </table>
-
                         <?php
-                        }else{
-                            echo '<blockquote>No hay vales de salida registrados del día</blockquote>';
-                        }
+                        $contador_egresos = 1;
+                        $val_egresos = 0;
+                        $sql_det_egre = "SELECT caja.id_cita,
+                        cita.horario,
+                        caja.id_cobro,
+                        CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_Paciente,
+                        tipos_cita.descrip_cita,
+                        CONCAT(user.nombre,' ',user.apellido) Nom_Medico,
+                        usuario Medico,
+                        caja.subtotal,
+                        caja.consulta,
+                        caja.descuento,
+                        caja.total_cobro,
+                        caja.abono,
+                        caja.medio_pago
+                        FROM   caja
+                        INNER JOIN cita on caja.id_cita = cita.id_cita
+                        INNER JOIN tipos_cita ON cita.tipo = tipos_cita.id_tipo_cita
+                        INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
+                        LEFT OUTER JOIN user ON cita.medico = user.id
+                        where DATE(fecha_cobro) = '$hoy' AND caja.user_cobro = '$id_user_caja' AND cita.tipo <> 0 ORDER BY fecha_cobro";
+                        $res_det_egre = $mysqli->query($sql_det_egre);
+                        while($row_det_egre = mysqli_fetch_assoc($res_det_egre)){
+                            ?>
+                            <tr>
+                                <td><?php echo $contador_egresos; ?></td>
+                                <td><?php echo $row_det_egre['horario'] ?></td>
+                                <td><?php echo $row_det_egre['descrip_cita'] ?></td>
+                                <td><?php echo strtoupper($row_det_egre['Medico']); ?></td>
+                                <td></td>
+                                <td>$ <?php echo $row_det_egre['abono'] ?></td>
+                            </tr>
+                        <?php 
+                                $contador_egresos ++;
+                                $val_egresos = $val_egresos + $row_det_egre['abono'];
+                            }   // Cierre while de detalle
                         ?>
+                        
+                        <?php 
+                    //$val_egresos = 0;
+                    
+                    $sql_vales = "SELECT * FROM vales_salida WHERE fecha_vale = '$hoy' AND id_user = '$id_user_caja'";
+                    $res_sql_vales = $mysqli->query($sql_vales);
+                    $val_vales = $res_sql_vales->num_rows;
+                    
+                    if($val_vales > 0){
+                        while($row_vales = mysqli_fetch_assoc($res_sql_vales)){
+                            ?>
+                            <tr>
+                                <td><?php echo $contador_egresos; ?></td>
+                                <td>N/A</td>
+                                <td>VALE SAL</td>
+                                <td><?php echo $row_vales['beneficiario']; ?></td>
+                                <td><?php echo $row_vales['concepto']; ?></td>
+                                <td>$ <?php echo $row_vales['cantidad']; ?></td>
+                                
+                            </tr>
+                    <?php    
+                                $contador_egresos ++;
+                                $val_egresos = $val_egresos + $row_vales['cantidad'];
+                        }
+                            }
+                        
+                        ?>
+                        <?php 
+                    $sql_med_oral = "SELECT rec_med_orales.*, cita.horario, caja.descuento, 
+                                        rec_med_orales.monto monto2 
+                                        FROM rec_med_orales 
+                                        INNER JOIN cita ON cita.id_cita = rec_med_orales.id_cita 
+                                        INNER JOIN caja ON rec_med_orales.id_cita = caja.id_cita 
+                                        INNER JOIN med_orales ON rec_med_orales.id_med_oral = med_orales.id_med_oral
+                                        WHERE DATE(fecha_cobro) = '$hoy' AND caja.user_cobro = '$id_user_caja' and cancelado = 0 AND med_orales.egreso = 1";
+                    $res_det_orales = $mysqli->query($sql_med_oral);
+                    $val_med_orales = $res_det_orales->num_rows;
+                    $val_total_orales = 0;
+                    if($val_med_orales > 0){
+                        
+                        while($row_med_orales = mysqli_fetch_assoc($res_det_orales)){
+                            ?>
+                            <tr>
+                                <td><?php echo $contador_egresos; ?></td>
+                                <td><?php echo $row_med_orales['horario']; ?></td>
+                                <td>Med. Oral/Nutri</td>
+                                <td>MMARTINEZ</td>
+                                <td><?php echo $row_med_orales['med_oral']," || Cant", $row_med_orales['cantidad_med']  ?></td>
+                                <td>$ <?php echo $row_med_orales['monto2'] * $row_med_orales['cantidad_med']; ?></td>
+                                
+                            </tr>
+                    <?php    
+                                $contador_egresos ++;
+                                $val_total_orales = $val_total_orales + ($row_med_orales['monto2'] * $row_med_orales['cantidad_med']);
+                }
+                    }
+                ?>
+                        
+                        <tr>
+                            <td style="text-align: center;" colspan="5"><b>TOTAL EGRESOS</b></td>
+                            <td style="text-align: center;"><b>$ <?php echo $val_egresos + $val_total_orales; ?></b></td>
+                        </tr>
+                        </tbody>
+                </table>
                         
                     </div>
                     <div class="col s2 left-align">

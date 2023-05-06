@@ -88,6 +88,7 @@ $val_trat_gen = 0;
                         Historia Clínica
                     </blockquote>
                     <?php
+                    
                      $sql_hcg = "SELECT * FROM his_clinica_gen where id_paciente = '$id_paciente'";
                      $result_sql_his = $mysqli -> query($sql_hcg);
                      $hcg = $result_sql_his -> num_rows;

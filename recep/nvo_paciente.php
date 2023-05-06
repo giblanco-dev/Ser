@@ -51,7 +51,7 @@ include_once 'recep_sections.php';
           <label for="inputs_pac">Apellido Materno</label>
         </div>
         <div class=" col s3">
-          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate">
+          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate" required>
           <label for="inputs_pac">Fecha de Nacimiento</label>
         </div>
         <div class=" col s2">

@@ -350,7 +350,7 @@ ob_start();
                         ?>
                         <?php 
                     $sql_med_oral = "SELECT rec_med_orales.*, cita.horario, caja.descuento, 
-                                        (rec_med_orales.monto -(rec_med_orales.monto * (caja.descuento/100))) monto2 
+                                        rec_med_orales.monto monto2 
                                         FROM rec_med_orales 
                                         INNER JOIN cita ON cita.id_cita = rec_med_orales.id_cita 
                                         INNER JOIN caja ON rec_med_orales.id_cita = caja.id_cita 

@@ -98,7 +98,7 @@ if($val == 1){
         </div>
         <div class="row" style="margin-top: -10px;">
             <div class="col-12">
-                <table class="table table-bordered table-sm">
+                <table class="table table-bordered table-sm" style="font-size: 12px;">
                     <thead>
                         <tr>
                             <th>Tratamiento</th>
