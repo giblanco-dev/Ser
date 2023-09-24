@@ -28,6 +28,7 @@ if($paciente_val == 1){
 
 $val_trat_ext = 0;
 $val_trat_gen = 0;
+$val_flores = 0;
 
 $sql_pago = "SELECT caja.*,
             CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,

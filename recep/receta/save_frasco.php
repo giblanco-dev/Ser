@@ -43,7 +43,7 @@ if(!empty($_POST)){
                   $result_in_med_h =  '<p>Los medicamentos del frasco No. '.$no_frasco.' se han ingresado correctamente</p>';
                   echo '<script type="text/javascript">window.location.href="med-homeopaticos.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
                 }else{
-                  $result_in_med_h = '<p>Hay un duplicado con los medicamentos del frasco '.$no_frasco.' de la cita '.$cita.' reportar estos datos al administrador.</p>';
+                  echo $result_in_med_h = '<p>Hay un duplicado con los medicamentos del frasco '.$no_frasco.' de la cita '.$cita.' reportar estos datos al administrador.</p>';
                 }
             }
           }

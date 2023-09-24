@@ -69,8 +69,17 @@ if($med_val == 0){
                     </select></td>
                 </tr>
                 <tr>
-                  <td colspan="5"><a href="save_med_hom.php?c=<?php echo $cita ?>&u=<?php echo $usuario?>" class="waves-effect waves-light btn">Resumen Medicamentos Homeopáticos</a></td>
-                  <td><input type="submit" class="btn" value="Guardar Frasco"></td>
+                  
+                  <td colspan="2"><input type="submit" class="btn" value="Guardar Frasco"></td>
+                  <td colspan="2">
+                  <?php 
+                  if($no_frasco == 1){
+                    ?>
+                    <a href="med_home_copytrat.php?c=<?php echo $cita ?>&u=<?php echo $usuario?>&p=<?php echo $paciente?>" class="waves-effect waves-light btn">Copiar Tratamiento Homeopático</a>
+                  <?php }
+                  ?>
+                  </td>
+                  <td colspan="2"><a href="save_med_hom.php?c=<?php echo $cita ?>&u=<?php echo $usuario?>" class="waves-effect waves-light btn">Resumen Medicamentos Homeopáticos</a></td>
                 </tr>
                
             </tbody>

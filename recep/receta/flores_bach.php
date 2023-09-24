@@ -59,8 +59,9 @@ if($med_val == 0){
                     
                 </tr>
                 <tr>
-                  <td colspan="5"><a href="save_med_hom.php?c=<?php echo $cita ?>&u=<?php echo $usuario?>" class="waves-effect waves-light btn">Resumen Medicamentos Homeopáticos</a></td>
-                  <td><input type="submit" class="btn" value="Guardar Frasco"></td>
+                <td colspan="4"><input type="submit" class="btn" value="Guardar Frasco"></td>  
+                  <td colspan="2"><a href="save_med_hom.php?c=<?php echo $cita ?>&u=<?php echo $usuario?>" class="waves-effect waves-light btn">Resumen Medicamentos Homeopáticos</a></td>
+                  
                 </tr>
                
             </tbody>
