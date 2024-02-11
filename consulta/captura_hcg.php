@@ -37,6 +37,14 @@ if($pacientes == 1){
     $id_paciente = $row_paciente['id_paciente'];
 }
 
+$sql_hcg = "SELECT * FROM his_clinica_gen where id_paciente = '$id_paciente'";
+                     $result_sql_his = $mysqli -> query($sql_hcg);
+                     $hcg_val = $result_sql_his -> num_rows;
+                    
+                     if($hcg_val == 1){
+                        $row_hgcold = $result_sql_his->fetch_assoc();
+                     }
+
 include_once 'consulta_sections.php';
 ?>
 <!DOCTYPE html>
@@ -79,8 +87,8 @@ include_once 'consulta_sections.php';
             </blockquote>
         </div>
         <div class="input-field col s8">
-            <textarea id="textarea" class="materialize-textarea" name="hcg2" required></textarea>
-            <label for="textarea">Capture los antecedentes heredo familiares</label>
+            <input type="text" id="textarea2" class="materialize-textarea" name="hcg2" required <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg2'].'"';} ?>>
+            <label for="textarea2">Capture los antecedentes heredo familiares</label>
         </div>
     </div>
     <div class="row">
@@ -90,8 +98,8 @@ include_once 'consulta_sections.php';
             </blockquote>
         </div>
         <div class="input-field col s8">
-            <textarea id="textarea" class="materialize-textarea" name="hcg3" required></textarea>
-            <label for="textarea">Capture los antecedentes personales no patológicos</label>
+            <input type="text" id="textarea3" class="materialize-textarea" name="hcg3" required <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg3'].'"';} ?>>
+            <label for="textarea3">Capture los antecedentes personales no patológicos</label>
         </div>
     </div>
     <div class="row">
@@ -101,8 +109,8 @@ include_once 'consulta_sections.php';
             </blockquote>
         </div>
         <div class="input-field col s8">
-            <textarea id="textarea" class="materialize-textarea" name="hcg4" required></textarea>
-            <label for="textarea">Capture los antecedentes personales patológicos</label>
+            <input type="text" id="textarea4" class="materialize-textarea" name="hcg4" required <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg4'].'"';} ?>>
+            <label for="textarea4">Capture los antecedentes personales patológicos</label>
         </div>
     </div>
     <div class="row">
@@ -112,8 +120,8 @@ include_once 'consulta_sections.php';
             </blockquote>
         </div>
         <div class="input-field col s8">
-            <textarea id="textarea" class="materialize-textarea" name="hcg5" required></textarea>
-            <label for="textarea">Capture los antecedentes gineco-obstetricos</label>
+            <input type="text" id="textarea5" class="materialize-textarea" name="hcg5" required <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg5'].'"';} ?>>
+            <label for="textarea5">Capture los antecedentes gineco-obstetricos</label>
         </div>
     </div>
     <div class="row">
@@ -123,8 +131,8 @@ include_once 'consulta_sections.php';
             </blockquote>
         </div>
         <div class="input-field col s8">
-            <textarea id="textarea" class="materialize-textarea" name="hcg6" required></textarea>
-            <label for="textarea">Capture el padecimiento actual</label>
+            <input type="text" id="textarea6" class="materialize-textarea" name="hcg6" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg6'].'"';} ?>>
+            <label for="textarea6">Capture el padecimiento actual</label>
         </div>
     </div>
     <div class="row">
@@ -137,42 +145,42 @@ include_once 'consulta_sections.php';
         <div class="col s9">
             <div class="row">
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg7" required></textarea>
-                <label for="textarea">Respiratorio</label>
+                <input type="text" id="textarea7" class="materialize-textarea" name="hcg7" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg7'].'"';} ?>>
+                <label for="textarea7">Respiratorio</label>
                 </div>
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg8" required></textarea>
-                <label for="textarea">Gastroinstestinal</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg9" required></textarea>
-                <label for="textarea">Genitourinario</label>
-                </div>
-                <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg10" required></textarea>
-                <label for="textarea">Hematopogénico y linfatico</label>
+                <input type="text" id="textarea8" class="materialize-textarea" name="hcg8" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg8'].'"';} ?>>
+                <label for="textarea8">Gastroinstestinal</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg11" required></textarea>
-                <label for="textarea">Endocrino</label>
+                <input type="text" id="textarea9" class="materialize-textarea" name="hcg9" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg9'].'"';} ?>>
+                <label for="textarea9">Genitourinario</label>
                 </div>
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg12" required></textarea>
-                <label for="textarea">Nervioso</label>
+                <input type="text" id="textarea10" class="materialize-textarea" name="hcg10" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg10'].'"';} ?>>
+                <label for="textarea10">Hematopogénico y linfatico</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg13" required></textarea>
-                <label for="textarea">Músculos esquelético</label>
+                <input type="text" id="textarea11" class="materialize-textarea" name="hcg11" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg11'].'"';} ?>>
+                <label for="textarea11">Endocrino</label>
                 </div>
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg14" required></textarea>
-                <label for="textarea">Piel, mucosa y anexos</label>
+                <input type="text" id="textarea12" class="materialize-textarea" name="hcg12" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg12'].'"';} ?>>
+                <label for="textarea12">Nervioso</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                <input type="text" id="textarea13" class="materialize-textarea" name="hcg13" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg13'].'"';} ?>>
+                <label for="textarea13">Músculos esquelético</label>
+                </div>
+                <div class="input-field col s6">
+                <input type="text" id="textarea14" class="materialize-textarea" name="hcg14" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg14'].'"';} ?>" >
+                <label for="textarea14">Piel, mucosa y anexos</label>
                 </div>
             </div>
         </div>
@@ -187,28 +195,28 @@ include_once 'consulta_sections.php';
     </div>
     <div class="row">
         <div class="input-field col s2">
-          <input id="txt" type="text" class="validate" name="hcg15">
-          <label for="txt">T/A</label>
+          <input id="txt15" type="text" class="validate" name="hcg15" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg15'].'"';} ?>>
+          <label for="txt15">T/A</label>
         </div>
         <div class="input-field col s2">
-          <input id="txt" type="text" class="validate" name="hcg16">
-          <label for="txt">TEMP</label>
+          <input id="txt16" type="text" class="validate" name="hcg16" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg16'].'"';} ?>>
+          <label for="txt16">TEMP</label>
         </div>
         <div class="input-field col s2">
-          <input id="txt" type="text" class="validate" name="hcg17">
-          <label for="txt">FRE C</label>
+          <input id="txt17" type="text" class="validate" name="hcg17" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg17'].'"';} ?>>
+          <label for="txt17">FRE C</label>
         </div>
         <div class="input-field col s2">
-          <input id="txt" type="text" class="validate" name="hcg18">
-          <label for="txt">FRE R</label>
+          <input id="txt18" type="text" class="validate" name="hcg18" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg18'].'"';} ?>>
+          <label for="txt18">FRE R</label>
         </div>
         <div class="input-field col s2">
-          <input id="txt" type="text" class="validate" name="hcg19">
-          <label for="txt">PESO</label>
+          <input id="txt19" type="text" class="validate" name="hcg19" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg19'].'"';} ?>>
+          <label for="txt19">PESO</label>
         </div>
         <div class="input-field col s2">
-          <input id="txt" type="text" class="validate" name="hcg20">
-          <label for="txt">TALLA</label>
+          <input id="txt20" type="text" class="validate" name="hcg20" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg20'].'"';} ?>>
+          <label for="txt20">TALLA</label>
         </div>
     </div>
     <div class="row">
@@ -221,38 +229,38 @@ include_once 'consulta_sections.php';
     <div class="col s9">
             <div class="row">
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg21" required></textarea>
-                <label for="textarea">Habitus exterior</label>
+                <input type="text" id="textarea21" class="materialize-textarea" name="hcg21" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg21'].'"';} ?>>
+                <label for="textarea21">Habitus exterior</label>
                 </div>
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg22" required></textarea>
-                <label for="textarea">Cabeza y cuello</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg23" required></textarea>
-                <label for="textarea">Torax</label>
-                </div>
-                <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg24" required></textarea>
-                <label for="textarea">Abdomen</label>
+                <input type="text" id="textarea22" class="materialize-textarea" name="hcg22" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg22'].'"';} ?>>
+                <label for="textarea22">Cabeza y cuello</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg25" required></textarea>
-                <label for="textarea">Genitales</label>
+                <input type="text" id="textarea23" class="materialize-textarea" name="hcg23" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg23'].'"';} ?>>
+                <label for="textarea23">Torax</label>
                 </div>
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg26" required></textarea>
-                <label for="textarea">Extremidades</label>
+                <input type="text" id="textarea24" class="materialize-textarea" name="hcg24" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg24'].'"';} ?>>
+                <label for="textarea24">Abdomen</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg27" required></textarea>
-                <label for="textarea">Piel</label>
+                <input type="text" id="textarea25" class="materialize-textarea" name="hcg25" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg25'].'"';} ?>>
+                <label for="textarea25">Genitales</label>
+                </div>
+                <div class="input-field col s6">
+                <input type="text" id="textarea26" class="materialize-textarea" name="hcg26" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg26'].'"';} ?>>
+                <label for="textarea26">Extremidades</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                <input type="text" id="textarea27" class="materialize-textarea" name="hcg27" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg27'].'"';} ?>>
+                <label for="textarea27">Piel</label>
                 </div>
             </div>
     </div>
@@ -265,8 +273,8 @@ include_once 'consulta_sections.php';
             </blockquote>
         </div>
         <div class="input-field col s8">
-            <textarea id="textarea" class="materialize-textarea" name="hcg28" required></textarea>
-            <label for="textarea">Capture los resultados</label>
+            <input type="text" id="textarea28" class="materialize-textarea" name="hcg28" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg28'].'"';} ?>>
+            <label for="textarea28">Capture los resultados</label>
         </div>
     </div>
     <div class="row">
@@ -276,8 +284,8 @@ include_once 'consulta_sections.php';
             </blockquote>
         </div>
         <div class="input-field col s8">
-            <textarea id="textarea" class="materialize-textarea" name="hcg29" required></textarea>
-            <label for="textarea">Capture los diágnosticos</label>
+            <input type="text" id="textarea29" class="materialize-textarea" name="hcg29" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg29'].'"';} ?>>
+            <label for="textarea29">Capture los diágnosticos</label>
         </div>
     </div>
     <div class="row">
@@ -290,23 +298,23 @@ include_once 'consulta_sections.php';
     <div class="col s9">
     <div class="row">
                 <div class="input-field col s12">
-                <textarea id="textarea" class="materialize-textarea" name="hcg30" required></textarea>
-                <label for="textarea">Terapéutica empleada y resultados (previos)</label>
+                <input type="text" id="textarea30" class="materialize-textarea" name="hcg30" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg30'].'"';} ?>>
+                <label for="textarea30">Terapéutica empleada y resultados (previos)</label>
                 </div>
             </div>
             <div class="row">
             <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg31" required></textarea>
-                <label for="textarea">Terapéutica actual</label>
+                <input type="text" id="textarea31" class="materialize-textarea" name="hcg31" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg31'].'"';} ?>>
+                <label for="textarea31">Terapéutica actual</label>
                 </div>
                 <div class="input-field col s6">
-                <textarea id="textarea" class="materialize-textarea" name="hcg32" required></textarea>
-                <label for="textarea">Prónosticos</label>
+                <input type="text" id="textarea32" class="materialize-textarea" name="hcg32" <?php if($hcg_val == 1){ echo 'value="'.$row_hgcold['hcg32'].'"';} ?>>
+                <label for="textarea32">Prónosticos</label>
                 </div>
             </div>
             <div class="row">
             <div class="input-field col s12">
-                <select name="medico">
+                <select name="medico" required>
                 <option value="" disabled selected>Selecciona el médico</option>
                 <option value="emartinez">Dr. Enrique Mtz</option>
                 <option value="gleon">Dr. Guillermo León</option>
@@ -323,7 +331,7 @@ include_once 'consulta_sections.php';
     <div class="row center-align">
     <div class="divider" style="margin-bottom: 3%;"></div>
     <div class="col s12">
-    <button class="btn-large waves-effect waves-light" type="submit" name="action">Guardar Historia Clínica
+    <button class="btn-large waves-effect waves-light" type="submit" name="action">Guardar/Actualizar Historia Clínica
                 <i class="material-icons right">save</i>
             </button>
     </div>

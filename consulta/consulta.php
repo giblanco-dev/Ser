@@ -156,7 +156,17 @@ if($val_cita == 1){
            }else{
         ?>
         <blockquote>Nota de evolución <span style="color: red;">(Obligatorio)</span></blockquote>
-        <textarea name="nota_evo" id="" cols="30" rows="50" required autocomplete="off"></textarea>
+        <div class="input-field col s12">
+                <select name="NotaRap">
+                <option value="" selected>Selecciona Nota Rápida</option>
+                <option value="Paciente en evolución">Paciente en evolución</option>
+                <option value="Estable">Paciente estable</option>
+                <option value="Reservado">Reservado</option>
+                <option value="Seguimiento">Seguimiento</option>
+                </select>
+                <label>Opciones Predefinidas</label>
+            </div>
+        <textarea name="nota_evo" id="" cols="30" rows="50" autocomplete="off"></textarea>
         <?php 
         if($row_cita['nota_evolucion'] != ''){
             echo '<p><b>Nota previa: '.$row_cita['nota_evolucion'].'</b></p>';
@@ -186,7 +196,8 @@ if($val_cita == 1){
                      $hcg = $result_sql_his -> num_rows;
 
                     if($hcg == 1){
-                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="_blank">Ver historia clinica</a>';
+                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="_blank">Ver historia clinica</a><br>';
+                        echo '<a href="captura_hcg.php?id_paciente='.$id_paciente.'&cita='.$id_cita.'" target="_blank">Actualizar historia clinica</a>';
                     }elseif($hcg == 0){
                         echo '<p>Sin Historia Clínica</p>
                                 <a href="captura_hcg.php?id_paciente='.$id_paciente.'&cita='.$id_cita.'" target="_blank">Capturar historia clinica</a>';

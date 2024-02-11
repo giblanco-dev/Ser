@@ -24,7 +24,7 @@ if(!empty($_POST)){
         $comentarios = $_POST['nota_evo'];
         $nota = $folio."-".$medico."|".$comentarios;
     }else{
-        $nota = $_POST['nota_evo'];
+        $nota = $_POST['NotaRap'].' '.$_POST['nota_evo'];
     }
 
     //echo $id_cita;

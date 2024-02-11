@@ -50,7 +50,7 @@ if(!empty($_POST)){
             VALUES ( '$id_paciente', CURRENT_TIMESTAMP, '$hcg2','$hcg3','$hcg4','$hcg5','$hcg6','$hcg7','$hcg8','$hcg9','$hcg10','$hcg11', '$hcg12', '$hcg13',
             '$hcg14','$hcg15','$hcg16','$hcg17', '$hcg18', '$hcg19', '$hcg20', '$hcg21', '$hcg22', '$hcg23', '$hcg24', '$hcg25', '$hcg26', '$hcg27', '$hcg28',
             '$hcg29','$hcg30','$hcg31','$hcg32','$medico', '$usuario_captura');";
-            
+
             if ($mysqli->query($sql_save_historia) === TRUE) {
                 echo '<script type="text/javascript" async="async">alert("Se ha registrado correctamente la Historia Clinica del Paciente CSA'.$id_paciente.'");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';
             } else {
@@ -58,7 +58,22 @@ if(!empty($_POST)){
             }
         
         }else{
-            echo '<script type="text/javascript" async="async">alert("El paciente ya cuenta el registro de su Historia Clínica");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';
+            $sql_save_historia = "UPDATE his_clinica_gen SET  fecha_captura = 'CURRENT_TIMESTAMP', hcg2 = '$hcg2', hcg3 = '$hcg3', hcg4 = '$hcg4', hcg5 = '$hcg5', 
+            hcg6 = '$hcg6', hcg7 = '$hcg7', hcg8 = '$hcg8', hcg9 = '$hcg9', hcg10 = '$hcg10', hcg11 = '$hcg11', hcg12 = '$hcg12', hcg13 = '$hcg13', hcg14 = '$hcg14', 
+            hcg15 = '$hcg15', hcg16 = '$hcg16', hcg17 = '$hcg17', hcg18 = '$hcg18', hcg19 = '$hcg19', hcg20 = '$hcg20', hcg21 = '$hcg21', hcg22 = '$hcg22', hcg23 = '$hcg23', 
+            hcg24 = '$hcg24', hcg25 = '$hcg25', hcg26 = '$hcg26', hcg27 = '$hcg27', hcg28 = '$hcg28', hcg29 = '$hcg29', hcg30 = '$hcg30', hcg31 = '$hcg31', hcg32 = '$hcg32',
+            medico = '$medico', usuario_captura = '$usuario_captura' WHERE id_paciente = '$id_paciente';";
+
+            //echo $sql_save_historia;
+            
+            if ($mysqli->query($sql_save_historia) === TRUE) {
+                //echo "OK";
+                echo '<script type="text/javascript" async="async">alert("Se ha actualizado correctamente la Historia Clinica del Paciente CSA'.$id_paciente.'");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';
+            } else {
+                //echo "Error";
+                echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';
+            }
+            
         } 
     }else{
         echo '<script type="text/javascript" async="async">alert("No se ha recibido una petición por parte del sistema contacte con el administrador del sistema");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';

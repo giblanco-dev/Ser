@@ -18,7 +18,7 @@ require_once '../../app/logic/conn.php';
 if(!empty($_GET)){
 $id_registro = $_GET['id_mednutri'];
 $sql_actualiza = "SELECT *,
-                    IF(tipo = 'm','Medicamento Oral','Nutriente') Descrip_tipo,
+                    IF(tipo = 'm','Med Oral','Nutriente') Descrip_tipo,
                     IF(activo = 1, 'Activo', 'Inactivo') Estatus,
                     IF(egreso = 1, 'SI','NO') Descrip_Egreso
                     FROM med_orales WHERE id_med_oral =  '$id_registro'";
@@ -103,7 +103,7 @@ if(!empty($_POST)){
                   <div class=" input-field col s3">
                         <select name="tipo" required>
                         <option value="" disabled selected>Seleccione el tipo</option>
-                        <option value="m">Medicamento</option>
+                        <option value="m">Med Oral</option>
                         <option value="n">Nutriente</option>
                         </select>
                         <label>Tipo</label>

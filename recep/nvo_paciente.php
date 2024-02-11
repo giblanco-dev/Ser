@@ -39,7 +39,7 @@ include_once 'recep_sections.php';
     <form action="save_paciente.php" method="POST" class="col s12" autocomplete="off">
       <div class="row">
         <div class=" col s3">
-          <input style="text-transform: capitalize;" placeholder="Nombres" id="first_name" name="nombres" type="text" required>
+          <input style="text-transform: capitalize;" placeholder="Nombres" id="first_name" name="nombres" type="text" required autocomplete="off">
           <label for="first_name">Nombre(s)</label>
         </div>
         <div class=" col s2">
@@ -51,7 +51,7 @@ include_once 'recep_sections.php';
           <label for="inputs_pac">Apellido Materno</label>
         </div>
         <div class=" col s3">
-          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate" required>
+          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate">
           <label for="inputs_pac">Fecha de Nacimiento</label>
         </div>
         <div class=" col s2">
@@ -92,6 +92,7 @@ include_once 'recep_sections.php';
       <div class=" col s2">
     <select name="estado">
       <option value="--">Estado</option>
+      <option value="Aguascalientes">Aguascalientes</option>
       <option value="Baja California">Baja California</option>
       <option value="Baja California Sur">Baja California Sur</option>
       <option value="Campeche">Campeche</option>
@@ -140,7 +141,7 @@ include_once 'recep_sections.php';
           <label for="icon_telephone"><i class="material-icons prefix">contact_phone</i>  Telefóno de Casa </label>
         </div>
         <div class=" col s2">
-          <input id="icon_telephone" type="tel" name="tel_movil" class="validate" minlength="10" maxlength="10" required>
+          <input id="icon_telephone" type="tel" name="tel_movil" class="validate" minlength="10" maxlength="10">
           <label for="icon_telephone"><i class="material-icons prefix">phone_android</i>  Telefóno Móvil</label>
         </div>
         <div class=" col s2">
@@ -184,7 +185,7 @@ include_once 'recep_sections.php';
         </div>
       
         <div class=" col s3">
-          <input id="inputs_pac" type="date" name="fecha_alta" class="validate" required>
+          <input id="inputs_pac" type="date" name="fecha_alta" class="validate" value="<?php echo date("Y-m-d"); ?>">
           <label for="inputs_pac">Fecha de original de Alta</label>
         </div>
         </div>

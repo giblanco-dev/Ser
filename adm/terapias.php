@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }   
 require_once '../app/logic/conn.php';
-$sql_tera = "SELECT * FROM terapias WHERE activo = 1;";
+$sql_tera = "SELECT * FROM terapias WHERE activo = 1 ORDER BY nom_terapia;";
 $result_tera = $mysqli->query($sql_tera);
 
 ?>

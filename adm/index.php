@@ -42,8 +42,8 @@ if (!isset($_SESSION['id'])) {
     <ul class="collection with-header">
         <li class="collection-header"><h4>Configuraciones</h4></li>
         <li class="collection-item"><div style="font-size: 18px;">Usuarios<a href="users.php" class="secondary-content"><i class="material-icons">person</i></a></div></li>
-        <li class="collection-item"><div style="font-size: 18px;">Medicamentos Homeopáticos<a href="med_homeopaticos.php" class="secondary-content"><i class="material-icons">colorize</i></a></div></li>
-        <li class="collection-item"><div style="font-size: 18px;">Tratamientos<a href="tratamientos.php" class="secondary-content"><i class="material-icons">change_history</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Catálogo Med. Homeo<a href="med_homeopaticos.php" class="secondary-content"><i class="material-icons">colorize</i></a></div></li>
+        <li class="collection-item"><div style="font-size: 18px;">Tratamientos Homeopáticos<a href="tratamientos.php" class="secondary-content"><i class="material-icons">change_history</i></a></div></li>
         <li class="collection-item"><div style="font-size: 18px;">Terapias<a href="terapias.php" class="secondary-content"><i class="material-icons">airline_seat_flat</i></a></div></li>
         <li class="collection-item"><div style="font-size: 18px;">Sueros<a href="sueros.php" class="secondary-content"><i class="material-icons">bubble_chart</i></a></div></li>
         <li class="collection-item"><div style="font-size: 18px;">Complementos de Suero<a href="complementos.php" class="secondary-content"><i class="material-icons">extension</i></a></div></li>

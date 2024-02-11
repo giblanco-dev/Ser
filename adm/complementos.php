@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }   
 require_once '../app/logic/conn.php';
-$sql_complementos = "SELECT * FROM complementos";
+$sql_complementos = "SELECT * FROM complementos ORDER BY nom_complemento";
 $result_complementos = $mysqli->query($sql_complementos);
 
 ?>

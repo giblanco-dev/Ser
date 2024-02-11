@@ -110,7 +110,8 @@ include_once '../app/logic/conn.php';
                     </blockquote>
                     <?php 
                     if($hcg == 1){
-                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="blank">Ver historia clinica</a>';
+                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="blank">Ver historia clinica</a><br>';
+                        echo '<a href="captura_hcg.php?id_paciente='.$id_paciente.'" target="_blank">Actualizar historia clinica</a>';
                     }elseif($hcg == 0){
                         echo '<p style="color: red; font-size: 20px;"><b>Sin Historia Clínica</b></p>
                                 <a href="captura_hcg.php?id_paciente='.$id_paciente.'&ori=8" target="blank" class="btn">Capturar historia clinica</a>';

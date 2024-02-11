@@ -68,8 +68,8 @@ if($val == 1){
         </div>
         <div class="row">
             <div class="col-6">
-            <p style="text-transform: capitalize; font-size:18 px;"><b><?php echo $recibo['Nom_paciente']; ?>
-            <br>CMA<?php echo $recibo['id_paciente']?></b></p>
+            <p style="text-transform: capitalize; font-size: 20px;"><b><?php echo $recibo['Nom_paciente']; ?></p>
+            <p style="font-size: 12px;">CMA<?php echo $recibo['id_paciente']?></b></p>
             </div>
             <div class="col-6">
             <?php 

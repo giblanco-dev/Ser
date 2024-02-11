@@ -95,7 +95,8 @@ $val_trat_flores = 0;
                      $hcg = $result_sql_his -> num_rows;
 
                     if($hcg == 1){
-                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="_blank">Ver historia clinica</a>';
+                        echo '<a href="print_h_clinica.php?id_paciente='.$id_paciente.'" target="_blank">Ver historia clinica</a><br>';
+                        echo '<a href="captura_hcg.php?id_paciente='.$id_paciente.'&cita='.$id_cita.'" target="_blank">Actualizar historia clinica</a>';
                     }elseif($hcg == 0){
                         echo '<p>Sin Historia Clínica</p>
                                 <a href="captura_hcg.php?id_paciente='.$id_paciente.'&cita='.$id_cita.'">Capturar historia clinica</a>';
