@@ -157,7 +157,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                             <th class="center-align" colspan="2">
                             <div class="input-field col s12">
                             <i class="material-icons prefix">search</i>
-                            <input id="search" type="text" class="validate">
+                            <input id="search" type="text" class="validate" autocomplete="off" >
                             <label for="search">Buscar pacientes</label>
                             </div>
                             </th>

@@ -126,7 +126,7 @@ $datos_cita = $mysqli -> query($sql_citas);
                     <tbody>
                         <?php 
                         while($citas_dia = mysqli_fetch_assoc($datos_cita)){
-                            if($citas_dia['confirma'] == 2){
+                            
                                 $idp = $citas_dia['id_paciente'];
                                 $idc = $citas_dia['id_cita'];
                         ?>
@@ -135,14 +135,16 @@ $datos_cita = $mysqli -> query($sql_citas);
                             <td style="text-transform: capitalize;"><?php echo $citas_dia['horario']; ?></td>
                             
                             <?php
-                            if($citas_dia['consulta'] == 0){
-                                echo '<td><div class="chip"><a href="consulta.php?idp='.$idp.'&idc='.$idc.'">Seguimiento</a></div></td>';
+                            if($citas_dia['confirma'] == 2){
+                                if($citas_dia['consulta'] == 0){
+                                    echo '<td><div class="chip"><a href="consulta.php?idp='.$idp.'&idc='.$idc.'">Seguimiento</a></div></td>';
+                                }else{
+                                    echo '<td><div class="chip cyan #2d83a0"><a class="white-text" href="consulta.php?idp='.$idp.'&idc='.$idc.'">Actualizar Seguimiento</a></div></td>';
+                                }
                             }else{
-                                echo '<td><div class="chip cyan #2d83a0"><a class="white-text" href="consulta.php?idp='.$idp.'&idc='.$idc.'">Actualizar Seguimiento</a></div></td>';
-                            }
+                                echo '<td><div class="chip">El paciente no ha llegado</div></td>';
                             }
                             ?>
-                            
                         </tr>
 
                         <?php 

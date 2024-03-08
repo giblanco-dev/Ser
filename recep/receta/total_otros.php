@@ -22,7 +22,7 @@ $usuario = $_GET['u'];
       </div>
       <div class="col s6">
       <form action="env_caja.php" method="post" oninput="resultado.value=(parseInt(sub_total.value))-(parseInt(sub_total.value)*(parseInt(descuentos.value)/100))">
-      <input type="number" name="sub_total" id="" placeholder="Ingrese el monto a cobrar $" min="50" style="max-width: 300px;">
+      <input type="number" name="sub_total" id="" placeholder="Ingrese el monto a cobrar $" min="0" style="max-width: 300px;">
          <p>Aplicar Descuento %</p>
          <input type="number" name="descuentos" min="0" max="100" step="5" style="max-width: 300px;" value="0">
          <br><br>
