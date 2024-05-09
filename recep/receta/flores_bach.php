@@ -56,7 +56,21 @@ if($med_val == 0){
                     <td><select id='buscador3' style='width: 200px;' name="Med3">
                         <option value='0'> --- </option>
                     </select></td>
-                    
+                    <td>
+                        <label>
+                        <input name="tipo" type="radio" value="flo" checked />
+                        <span>Gotas</span>
+                        </label>
+                    </td>
+                    <td>
+                        <label>
+                        <input name="tipo" type="radio" value="floc" />
+                        <span>Concentrado</span>
+                        </label>
+                    </td>
+                    <td>
+
+                    </td>
                 </tr>
                 <tr>
                 <td colspan="4"><input type="submit" class="btn" value="Guardar Frasco"></td>  
@@ -72,7 +86,6 @@ if($med_val == 0){
 
         <input type="hidden" name="c" value="<?php echo $cita; ?>">
         <input type="hidden" name="u" value="<?php echo $usuario; ?>">
-        <input type="hidden" name="tipo" value="flo">
         <input type="hidden" name="Med2" value="0">
         <input type="hidden" name="Med3" value="0">
         <input type="hidden" name="Med4" value="0">

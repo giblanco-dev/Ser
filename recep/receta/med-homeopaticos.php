@@ -140,14 +140,17 @@ if($med_val == 0){
           <?php 
          $sql_tf = "SELECT id_trat, des_tratamiento FROM tipo_trat_hom WHERE id_trat < 6 ORDER BY id_trat";
           $trat = $mysqli->query($sql_tf);
+          $cont_temp = 1;
             while($row_trat = mysqli_fetch_assoc($trat)){
+              if($cont_temp == 1){$checked = 'checked';}else{$checked = '';}
              echo '
              <p>
              <label>
-               <input name="tipo_trat" type="radio" value="'.$row_trat['id_trat'].'" />
+               <input name="tipo_trat" type="radio" value="'.$row_trat['id_trat'].'" '.$checked.' />
                <span>'.$row_trat['des_tratamiento'].'</span>
              </label>
            </p>';
+           $cont_temp ++;
             }
              ?> 
             <div class="divider">

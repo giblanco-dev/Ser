@@ -85,7 +85,8 @@ if($val_fras > 0){
                 $medicamentos = $rows2['med1'].' '.$rows2['med2'].' '.$rows2['med3'].' '.$rows2['med4'].' '.$rows2['med5'];
                 if($rows2['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $no_frasco = $rows2['frasco'];}
                 if($rows2['tipo_fras']== "ext"){$tipo_frasco = "Extra";$no_frasco = $rows2['frasco'].' Ex';}
-                if($rows2['tipo_fras']== "flo"){$tipo_frasco = "Flor Bach";$no_frasco = ' Flor '.$rows2['frasco'];}
+                if($rows2['tipo_fras']== "flo"){$tipo_frasco = "Flor Bach Gotas";$no_frasco = ' Flor '.$rows2['frasco'];}
+                if($rows2['tipo_fras']== "floc"){$tipo_frasco = "Flor Bach Conce";$no_frasco = ' Flor '.$rows2['frasco'];}
                 echo '<tr>
                         <td>'.$no_frasco.'</td>
                         <td>'.$tipo_frasco.'</td>

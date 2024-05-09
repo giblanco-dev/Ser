@@ -92,13 +92,13 @@ if($val_trat_ext == 1){
 $sql_flores = "SELECT resu_med_home.*, tipo_trat_hom.des_tratamiento
 FROM resu_med_home
 INNER JOIN tipo_trat_hom ON resu_med_home.id_tipo_trat = tipo_trat_hom.id_trat
-WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras in ('flo','floc')";
 $res_flores = $mysqli->query($sql_flores);
 $val_flores = $res_flores->num_rows;
 
-if($val_flores == 1){
+if($val_flores > 0){
     $flores = mysqli_fetch_assoc($res_flores);
-    $flores_bach = $flores['cant_tratamientos'];
+    $flores_bach = $val_flores;
     $val_imp_flor = $flores['flag_impr_et'];
 }else{
     $flores_bach = 0;
@@ -280,25 +280,32 @@ if($val_flores == 1){
             ?>
             <br>
             <h6>Detalle Flores de Bach</h6>
-            <?php if($val_flores == 1){
+            <?php if($val_flores > 0){
                 $sql_det_flor = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
                                 FROM rec_med_home
-                                WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+                                WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras in ('flo','floc')";
                 $res_det_flor = $mysqli->query($sql_det_flor);
              ?>
              <table>
                  <thead>
                      <tr>
                          <th>Frasco</th>
+                         <th>Tipo</th>
                          <th>Medicamentos Frasco</th>
                      </tr>
                  </thead>
                  <tbody>
                      <?php 
                      while($row_det_flor = mysqli_fetch_assoc($res_det_flor)){
+                        if($row_det_flor['tipo_fras'] == 'flo'){
+                            $tipo_flor = 'Gotas';
+                        }else{
+                            $tipo_flor = 'Concentrado';
+                        }
                          echo"
                          <tr>
                          <td>".$row_det_flor['frasco']."</td>
+                         <td>".$tipo_flor."</td>
                          <td>".rtrim($row_det_flor['MedFrascos'],", ")."</td>
                         </tr> 
                          ";

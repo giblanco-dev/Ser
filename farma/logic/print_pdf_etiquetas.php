@@ -101,7 +101,7 @@ if(!empty($_POST)){
         }
     }
     
-    if($flag_trat_ext == 1){
+    if($flag_trat_ext > 0){
         $sql_det_ext = "SELECT frasco, tipo_fras, med1, med2, med3, med4, med5
                     FROM rec_med_home
                     WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'ext'";
@@ -145,20 +145,25 @@ if(!empty($_POST)){
     }
     
     
-    if($flag_flores >= 1){
+    if($flag_flores > 0){
         $sql_det_flor = "SELECT frasco, tipo_fras, med1, med2, med3, med4, med5
                     FROM rec_med_home
-                    WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras = 'flo'";
+                    WHERE id_cita = '$cita' AND cancelado = 0 AND tipo_fras in ('flo','floc')";
                     $res_det_flor = $mysqli->query($sql_det_flor);
                     $cont_flores = 0;
                     $total_reg_flo = $res_det_flor->num_rows;
         while($row_det_flor = mysqli_fetch_assoc($res_det_flor)){
             // Comienza impresión de tabla con etiquetas del tratamiento general
+            if($row_det_flor['tipo_fras'] == 'flo'){
+                $tipo_flor = 'Flor B Gotas';
+            }else{
+                $tipo_flor = 'Flor B Conce';
+            }
             ?>
         <table>
                 <caption style="font-size: 12px;"><?php echo $nom_paciente; ?></caption>
                 <tr>
-                    <td style="font-size: 11px;">Flor B</td>
+                    <td style="font-size: 11px;"><?php echo $tipo_flor; ?></td>
                     <td style="font-size: 11px;">Fecha: <?php echo $fecha_cita; ?></td>
                 </tr>
                 <tr>

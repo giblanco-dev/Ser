@@ -33,10 +33,10 @@ if(!empty($_POST)){
       $med5 = '';  
     }
 
- 
+  $val_meds = $med1.$med2.$med3.$med4.$med;
     
 
-    if($num_frasco < 11){
+    if($num_frasco < 11 and $val_meds != ''){
       $sql_in = "INSERT INTO rec_med_home (frasco, tipo_fras, id_cita, med1, med2, med3, med4, med5, user_registra)
                             VALUES('$num_frasco', '$tipo_fras','$cita','$med1','$med2','$med3','$med4','$med5','$user')";
                 if($mysqli->query($sql_in)=== True){
@@ -45,6 +45,8 @@ if(!empty($_POST)){
                 }else{
                   echo $result_in_med_h = '<p>Hay un duplicado con los medicamentos del frasco '.$no_frasco.' de la cita '.$cita.' reportar estos datos al administrador.</p>';
                 }
+            }else{
+              echo '<script type="text/javascript">window.location.href="med-homeopaticos.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
             }
           }
 ?>

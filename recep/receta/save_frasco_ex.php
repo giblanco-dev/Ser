@@ -3,7 +3,7 @@ require '../../app/logic/conn.php';
 if(!empty($_POST)){
     $user = $_POST['u'];
     $cita = $_POST['c'];
-    $tipo_fras = $_POST['tipo'];
+    echo $tipo_fras = $_POST['tipo'];
     $num_frasco = $_POST['n_frasco'];
     $paciente = $_POST['p'];
 
@@ -33,17 +33,20 @@ if(!empty($_POST)){
       $med5 = '';  
     }
 
- 
-    
+  // Colocar validación de medicamentos vacíos
+  $val_meds = $med1.$med2.$med3.$med4.$med;
 
-    if($num_frasco < 11){
+    if($num_frasco < 11 and $val_meds != ''){
       $sql_in = "INSERT INTO rec_med_home (frasco, tipo_fras, id_cita, med1, med2, med3, med4, med5, user_registra)
                             VALUES('$num_frasco', '$tipo_fras','$cita','$med1','$med2','$med3','$med4','$med5','$user')";
+                    echo $sql_in;
                 if($mysqli->query($sql_in)=== True){
                     if($tipo_fras == 'ext'){
                         $tipo_trat = 6;
                     }elseif($tipo_fras == 'flo'){
                         $tipo_trat = 7;
+                    }elseif($tipo_fras == 'floc'){
+                        $tipo_trat = 8;
                     }
 
                     
@@ -66,7 +69,10 @@ if(!empty($_POST)){
                                             echo '<script type="text/javascript">window.location.href="med_hom_ex.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
                                         break;
                                         case 7:
-                                            echo '<script type="text/javascript">window.location.href="flores_bach.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
+                                            //echo '<script type="text/javascript">window.location.href="flores_bach.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
+                                        break;
+                                        case 8:
+                                            //echo '<script type="text/javascript">window.location.href="flores_bach.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
                                         break;
                                     }
                                 }else{
@@ -81,7 +87,10 @@ if(!empty($_POST)){
                                     case 6:
                                         echo '<script type="text/javascript">window.location.href="med_hom_ex.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
                                     break;
-                                    case 7:
+                                    //case 7:
+                                        echo '<script type="text/javascript">window.location.href="flores_bach.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
+                                    break;
+                                    //case 8:
                                         echo '<script type="text/javascript">window.location.href="flores_bach.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
                                     break;
                                 }
