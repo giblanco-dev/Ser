@@ -24,16 +24,34 @@
 <?php
 include_once '../app/logic/conn.php';
 if(!empty($_POST)){
+    $id_cobro = $_POST['id_cobro'];
+    $sql_val_pago = "SELECT saldo, status_pago FROM caja WHERE id_cobro = '$id_cobro'";
+    $res_val_pago = $mysqli->query($sql_val_pago);
+    $val_pago_ok = $res_val_pago->num_rows;
 
+    if($val_pago_ok == 1){
+        $row_val_pago = mysqli_fetch_assoc($res_val_pago);
+        $saldo = $row_val_pago['saldo'];
+        $status_pag = $row_val_pago['status_pago']; 
+    }
 
     $abono_efectivo = (float)$_POST['abono_efectivo'];
     $abono_tarjeta = (float)$_POST['abono_tarjeta'];
     $abono_cheque = (float)$_POST['abono_cheque'];
     $abono_otros = (float)$_POST['abono_otros'];
-    $saldo = (float)$_POST['saldo'];
+    
     $pago = $abono_efectivo + $abono_tarjeta + $abono_cheque + $abono_otros;
     //echo $pago;
-    if($pago > $saldo){
+    if($val_pago_ok > 1){
+        echo '<script type="text/javascript">
+        swal("","Cobro duplicado o no existe informar a sistemas y porporcionar ID'.$id_cobro.'", "error");  
+        </script>';
+    }elseif($saldo == 0 and $status_pag == 'SI'){
+        echo '<script type="text/javascript">
+        swal("","La cita ya fue pagada, por favor actualice la página", "warning");  
+        </script>';
+
+    }elseif($pago > $saldo){
         echo '<script type="text/javascript">
         swal("","Los montos de pago son mayores a el total de la cita,\nVolver a capturar montos", "error");  
         </script>';
@@ -60,7 +78,7 @@ if(!empty($_POST)){
     $user = $_POST['user'];
     $id_cita = $_POST['id_cita'];
 
-    $sql_up = "UPDATE caja SET abono = abono + '$pago', saldo = saldo - '$pago', medio_pago = '$med_pago_ok',
+    $sql_up = "UPDATE caja SET abono = abono + '$pago', saldo = saldo - '$pago', medio_pago = CONCAT(medio_pago,' ','$med_pago_ok'),
                 abono_efectivo = '$abono_efectivo', abono_tarjeta = '$abono_tarjeta', abono_cheque = '$abono_cheque',
                 abono_otro = '$abono_otros', user_cobro = '$user',
                 fecha_cobro = now() 

@@ -33,9 +33,24 @@ $usuario = $_GET['u'];
         <output name="resultado" for="total consulta"></output>
         </blockquote>
          <div class="right-align">
-         <button class="btn waves-effect waves-light" type="submit" name="action">Enviar para cobro
-            <i class="material-icons right">send</i>
-        </button>
+          <?php
+          $val_pago = "SELECT pagado FROM cita WHERE id_cita = '$cita'";
+          $res_val_pago = $mysqli->query($val_pago);
+          $row_val = mysqli_fetch_assoc($res_val_pago);
+          $pagado = $row_val['pagado'];
+
+        if($pagado == 0){
+          echo '<button class="btn waves-effect waves-light" type="submit" name="action">Enviar para cobro
+                  <i class="material-icons right">send</i>
+              </button>';
+
+        }elseif($pagado == 1){
+          echo '<a class="waves-effect waves-light btn"><i class="material-icons right">check</i>Pagado</a>';
+      }else{
+          echo 'ERROR Favor de contactar a Sistemas CodError Status Pago no Válido';
+      }
+        ?>
+         
          </div>
         </div>
 

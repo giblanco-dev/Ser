@@ -130,7 +130,7 @@ if($med_val == 0){
            </p>
            <p>
              <label>
-               <input name="tipo_dosis" type="radio" value="Normal" />
+               <input name="tipo_dosis" type="radio" value="Sin Alcohol" />
                <span>Sin Alcohol</span>
              </label>
            </p>

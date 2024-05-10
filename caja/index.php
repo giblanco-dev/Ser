@@ -172,9 +172,9 @@ $datos_cita = $mysqli -> query($sql_citas);
                                 echo '<td><div class="chip  cyan darken-4 white-text">
                                             <a class="white-text" href="cobro.php?c='.$citas_dia['id_cita'].'&u='.$id_user.'" target="frame-cont">Pagado</a>
                                         </div></td>';
-                                        echo '<td><div class="chip  red white-text">
+                                        /*echo '<td><div class="chip  red white-text">
                                         <a class="white-text" href="devolucion.php?c='.$citas_dia['id_cita'].'">Devolución</a>
-                                        </div></td>';
+                                        </div></td>';*/
                             }
                             ?>
                         </tr>

@@ -234,8 +234,8 @@ if($val == 1){
                             $res_dettrat_hom = $mysqli->query($sql_detalle_trat_hom);
                             while($tra_home = mysqli_fetch_assoc($res_dettrat_hom)){
                                 if($tra_home['tipo_fras'] == 'gen'){
-                                    $tratamiento_home = 'Medicamento Homeopático';
-                                    $canttida_trat_home = $tra_home['cant_tratamientos'].' Dosis '.$tra_home['tipo_dosis'];
+                                    $tratamiento_home = 'Medicamento Homeopático <br> <b>Dosis '.$tra_home['tipo_dosis'].'<b>';
+                                    $canttida_trat_home = $tra_home['cant_tratamientos'];
                                 }else{
                                     $tratamiento_home = $tra_home['des_tratamiento'];
                                     $canttida_trat_home = $tra_home['cant_tratamientos'];
