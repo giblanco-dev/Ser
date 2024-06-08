@@ -52,12 +52,12 @@ $res_sueros = $mysqli->query($sql_sueros);
                     <tr>
                     <input type="hidden" name="'.$sueros['id_suero'].'[]" value="'.$sueros['id_suero'].'">
                     <td><input type="checkbox" name="'.$sueros['id_suero'].'[]" ></td>
-                    <td>'.$sueros['nom_suero'].'</td>
+                    <td style="font-size: 12px;">'.$sueros['nom_suero'].'</td>
                     ';
-                    for($i = 1; $i <= 5; $i++){
+                    for($i = 1; $i <= 6; $i++){
                         $sql_compl = "SELECT * FROM complementos";
                         $res_compl = $mysqli->query($sql_compl);
-                        echo'<td><select name="'.$sueros['id_suero'].'[]" style="font-size:11px;">';
+                        echo'<td style="width: 100px;"><select style="width: 160px;" name="'.$sueros['id_suero'].'[]" style="font-size:11px;">';
                         echo'<option value="0">--</option>';
                         while($comple = mysqli_fetch_assoc($res_compl)){
                             echo '<option value="'.$comple['id_comple'].'">'.$comple['nom_complemento'].' / '.intval($comple['precio']).'</option>';

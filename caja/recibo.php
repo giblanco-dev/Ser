@@ -154,6 +154,8 @@ if($val == 1){
                             (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
                             (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
                             (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
+                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
+                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio6,
                             rec_sueros.cancelado, rec_sueros.id_registro
                             FROM rec_sueros
                             INNER JOIN sueros on rec_sueros.suero = sueros.id_suero 
@@ -186,6 +188,10 @@ if($val == 1){
                                     if($row_suero['Complemento5'] != NULL){
                                         $no_complementos ++;
                                         $monto_complementos = $monto_complementos + $row_suero['Precio5'];
+                                    }
+                                    if($row_suero['Complemento6'] != NULL){
+                                        $no_complementos ++;
+                                        $monto_complementos = $monto_complementos + $row_suero['Precio6'];
                                     }
                                 
 

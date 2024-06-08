@@ -65,7 +65,7 @@ if($med_val == 0){
                     <td>
                         <label>
                         <input name="tipo" type="radio" value="floc" />
-                        <span>Concentrado</span>
+                        <span>Globúlos</span>
                         </label>
                     </td>
                     <td>

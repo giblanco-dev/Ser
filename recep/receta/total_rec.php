@@ -81,6 +81,8 @@
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
+(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp6) Precio6,
 rec_sueros.cancelado, rec_sueros.id_registro
 FROM rec_sueros
 INNER JOIN sueros on rec_sueros.suero = sueros.id_suero WHERE rec_sueros.id_cita = '$id_cita'";
@@ -91,27 +93,28 @@ if($val_sueros > 0){
     echo '
     <table>
     <tr>
-    <td colspan="6" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
+    <td colspan="7" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
     <tr>
     <tr>
         <td><b>Suero/Precio</b></td>
-        <td colspan="5"><b>Complementos</b></td>
+        <td colspan="6"><b>Complementos</b></td>
         <td><b>Subtotal</b></td>
       </tr>';
       
     while($row = mysqli_fetch_assoc($result)){
        
         echo'
-        <tr>
+        <tr style="font-size: 12px;">
         <td>'.$row['nom_suero'].'<br> $'.$row['precio'].'</td>
         <td>'.$row['Complemento1'].'<br>$'.$row['Precio1'].'</td>
         <td>'.$row['Complemento2'].'<br>$'.$row['Precio2'].'</td>
         <td>'.$row['Complemento3'].'<br>$'.$row['Precio3'].'</td>
         <td>'.$row['Complemento4'].'<br>$'.$row['Precio4'].'</td>
-        <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>';
+        <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>
+        <td>'.$row['Complemento6'].'<br>$'.$row['Precio6'].'</td>';
 
         if($row['cancelado'] == 0){
-            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'];
+            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'] + $row['Precio6'];
             echo '<td>$'.$sub_total.'</td>
         <tr>';
             $total_sueros = $total_sueros + $sub_total;

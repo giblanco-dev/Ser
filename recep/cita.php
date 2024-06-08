@@ -196,7 +196,7 @@ if($val_cita > 0){
             <p>Otros</p>
             <label>
                 <input name="medico" value="91" type="radio" required/>
-                <span>Factor de Crecimiento</span>
+                <span>Cobro Extra</span>
             </label>
             <br>
             <label>

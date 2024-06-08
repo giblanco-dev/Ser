@@ -38,20 +38,20 @@ while($sueros = mysqli_fetch_assoc($res_sueros)){
 
         if($valida == 0){
             //print_r($array);
-            $sql_sv = "INSERT INTO rec_sueros(suero, comp1, comp2, comp3, comp4, comp5, id_cita, user_registra)
-                        VALUES ('$array[0]','$array[2]', '$array[3]','$array[4]', '$array[5]', '$array[6]','$id_cita','$user')";
+            $sql_sv = "INSERT INTO rec_sueros(suero, comp1, comp2, comp3, comp4, comp5, comp6, id_cita, user_registra)
+                        VALUES ('$array[0]','$array[2]', '$array[3]','$array[4]', '$array[5]', '$array[6]', '$array[7]','$id_cita','$user')";
                 if($mysqli -> query($sql_sv) === true){
-                    echo '<p>El suero: '.$array[7].', fue registrado correctamente con sus complementos</p>';
+                    echo '<p>El suero: '.$array[8].', fue registrado correctamente con sus complementos</p>';
                 }else{
                     echo '<p>Ha ocurrido un error favor de comunicarse con el administrador del sistema</p>';
                 }
         }elseif($valida == 1){
             $suero_prev = mysqli_fetch_assoc($val);
                     $sql_up = "UPDATE rec_sueros SET comp1 = '$array[2]', comp2 = '$array[3]', comp3 = '$array[4]',
-                                                    comp4 = '$array[5]', comp5 = '$array[6]', user_registra = '$user'
+                                                    comp4 = '$array[5]', comp5 = '$array[6]', comp6 = '$array[7]', user_registra = '$user'
                                WHERE suero = '$array[0]' and id_cita = '$id_cita'";
                     if($mysqli -> query($sql_up) === true){
-                        echo '<p>El suero: '.$array[7].', ya había sido registrada previamente, se han actualizado los complementos</p>';
+                        echo '<p>El suero: '.$array[8].', ya había sido registrada previamente, se han actualizado los complementos</p>';
                     }else{
                         echo '<p>Ha ocurrido un error al actualizar favor de comunicarse con el administrador del sistema</p>';
                     }
@@ -74,6 +74,8 @@ $sql_rec_sueros = "SELECT sueros.nom_suero, sueros.precio,
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
+(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp6) Precio6,
 rec_sueros.cancelado, rec_sueros.id_registro
 FROM rec_sueros
 INNER JOIN sueros on rec_sueros.suero = sueros.id_suero
@@ -94,7 +96,7 @@ if($val_sueros > 0){
       $total = 0;
     while($row = mysqli_fetch_assoc($result)){
         if($row['cancelado'] == 0){
-            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'];
+            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'] + $row['Precio6'];
             $cancela = '<a href="cancelaciones.php?c_suero='.$row['id_registro'].'&u='.$user.'">Cancelar</a>';
         }else{
             $sub_total = 0;
@@ -102,7 +104,7 @@ if($val_sueros > 0){
         }
         
         echo'
-        <tr>
+        <tr style="font-size: 12px;">
         <td>'.$row['nom_suero'].'</td>
         <td>$'.$row['precio'].'</td>
         <td>'.$row['Complemento1'].'<br>$'.$row['Precio1'].'</td>
@@ -110,6 +112,7 @@ if($val_sueros > 0){
         <td>'.$row['Complemento3'].'<br>$'.$row['Precio3'].'</td>
         <td>'.$row['Complemento4'].'<br>$'.$row['Precio4'].'</td>
         <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>
+        <td>'.$row['Complemento6'].'<br>$'.$row['Precio6'].'</td>
         <td>$'.$sub_total.'</td>
         <td>'.$cancela.'</td>
         </tr>';
