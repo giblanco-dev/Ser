@@ -19,9 +19,19 @@ $res_sueros = $mysqli->query($sql_sueros);
         input[type=checkbox] {
         transform: scale(1.5);
         }
-        table{
-            border-spacing: 1em;
+        
+        table {
+            border-collapse: collapse;
         }
+        td {
+            border-bottom: 2px solid black;
+            padding: 10px;
+        }
+  tr:nth-child(even) {
+    background-color: #f2f2f2; /* sombreado gris claro */
+  }
+
+  
         .btn{
             color: #FFF; 
             background: #2d83a0;
@@ -51,12 +61,15 @@ $res_sueros = $mysqli->query($sql_sueros);
                     echo'
                     <tr>
                     <input type="hidden" name="'.$sueros['id_suero'].'[]" value="'.$sueros['id_suero'].'">
-                    <td><input type="checkbox" name="'.$sueros['id_suero'].'[]" ></td>
-                    <td style="font-size: 12px;">'.$sueros['nom_suero'].'</td>
+                    <td rowspan="2"><input type="checkbox" name="'.$sueros['id_suero'].'[]" ></td>
+                    <td rowspan="2" style="font-size: 14px; font-weight:bold;">'.$sueros['nom_suero'].'</td>
                     ';
-                    for($i = 1; $i <= 7; $i++){
+                    for($i = 1; $i <= 10; $i++){
                         $sql_compl = "SELECT * FROM complementos";
                         $res_compl = $mysqli->query($sql_compl);
+                        if($i == 6){
+                            echo '</tr><tr>';
+                        }
                         echo'<td style="width: 100px;"><select style="width: 160px;" name="'.$sueros['id_suero'].'[]" style="font-size:11px;">';
                         echo'<option value="0">--</option>';
                         while($comple = mysqli_fetch_assoc($res_compl)){
@@ -65,7 +78,9 @@ $res_sueros = $mysqli->query($sql_sueros);
                         echo'</select></td>';
                     }
               echo '</tr>';
+              
               echo '<input type="hidden" name="'.$sueros['id_suero'].'[]" value="'.$sueros['nom_suero'].'">';
+              
             }
             ?>
         </table>

@@ -92,6 +92,8 @@ if($val_cita > 0){
             $sql_new_cita = "INSERT INTO cita(id_cita, id_paciente, medico, fecha, horario, registrado, user_registra, tipo, confirma, consulta)
             VALUES (NULL, '$paciente', '$medico', '$fecha_cita', '$horario', CURRENT_TIMESTAMP, '$id_user', '$tipo_cita', 2, 1)";
 
+            echo $sql_new_cita;
+
                 if($mysqli -> query($sql_new_cita) === true){
                     $mensaje_cita = '<h4>Cita registrada correctamente</h4>';
                     
@@ -102,11 +104,12 @@ if($val_cita > 0){
 
                     $sql_reg_consulta = "INSERT INTO consulta (id_cita, ta, peso, id_medico) VALUES ('$id_cita_extra','/','x',3)";
                     $sql_nota_evo = "UPDATE consulta SET nota_evolucion = '$nota' WHERE id_cita = '$id_cita_extra'";
+                    
 
                     if($mysqli->query($sql_reg_consulta) === True AND $mysqli->query($sql_nota_evo) === True){
                         $mensaje_consulta = "";
                     }else{
-                        $mensaje_consulta = "Error al actualizar los datos de cosulta";
+                        $mensaje_consulta = "Error al actualizar los datos de consulta";
                     }
 
                     $mensaje = $mensaje_cita.' - '.$mensaje_consulta;

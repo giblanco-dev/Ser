@@ -229,6 +229,12 @@ if($val == 1){
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp6) Precio6,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp7) Complemento7,
 (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp7) Precio7,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp8) Complemento8,
+(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp8) Precio8,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp9) Complemento9,
+(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp9) Precio9,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp10) Complemento10,
+(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp10) Precio10,
 rec_sueros.cancelado, rec_sueros.id_registro
 FROM rec_sueros
 INNER JOIN sueros on rec_sueros.suero = sueros.id_suero
@@ -240,37 +246,43 @@ if($val_sueros > 0){
     echo '
     <table>
     <tr>
-    <td colspan="6" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
+    <td colspan="7" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
     <tr>
     <tr>
+        <td><b>Subtotal</b></td>
         <td><b>Suero/Precio</b></td>
         <td colspan="7"><b>Complementos</b></td>
-        <td><b>Subtotal</b></td>
+        
       </tr>';
       
     while($row = mysqli_fetch_assoc($result)){
+
+        echo '<tr style="font-size: 12px;">';
+        if($row['cancelado'] == 0){
+            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'] + $row['Precio6'] + $row['Precio7']
+                                        + $row['Precio8'] + $row['Precio9'] + $row['Precio10'];
+            echo '<td rowspan="2">$'.$sub_total.'</td>';
+        
+            $total_sueros = $total_sueros + $sub_total;
+        }else{
+            echo '<td rowspan="2">Cancelado</td>';
+        }
        
         echo'
-        <tr>
-        <td>'.$row['nom_suero'].'<br> $'.$row['precio'].'</td>
+        <td rowspan="2">'.$row['nom_suero'].'<br> $'.$row['precio'].'</td>
         <td>'.$row['Complemento1'].'<br>$'.$row['Precio1'].'</td>
         <td>'.$row['Complemento2'].'<br>$'.$row['Precio2'].'</td>
         <td>'.$row['Complemento3'].'<br>$'.$row['Precio3'].'</td>
         <td>'.$row['Complemento4'].'<br>$'.$row['Precio4'].'</td>
         <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>
+        </tr>
+        <tr style="font-size: 12px;">
         <td>'.$row['Complemento6'].'<br>$'.$row['Precio6'].'</td>
-        <td>'.$row['Complemento7'].'<br>$'.$row['Precio7'].'</td>';;
-
-        if($row['cancelado'] == 0){
-            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'] + $row['Precio6'] + $row['Precio7'];
-            echo '<td>$'.$sub_total.'</td>
-        <tr>';
-            $total_sueros = $total_sueros + $sub_total;
-        }else{
-            echo '<td>Cancelado</td>
-            <tr>';
-            
-        }
+        <td>'.$row['Complemento7'].'<br>$'.$row['Precio7'].'</td>
+        <td>'.$row['Complemento8'].'<br>$'.$row['Precio8'].'</td>
+        <td>'.$row['Complemento9'].'<br>$'.$row['Precio9'].'</td>
+        <td>'.$row['Complemento10'].'<br>$'.$row['Precio10'].'</td>';
+        
         
         
     }

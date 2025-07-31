@@ -1,7 +1,7 @@
 <?php
 $server = "localhost";
 $username = "root";
-$password = "";
+$password = "xTNhJSP0)Ai}";
 $dbname = "ser";
 
 // creamos la conexion con MySQL

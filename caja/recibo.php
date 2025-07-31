@@ -156,6 +156,14 @@ if($val == 1){
                             (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
                             (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
                             (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio6,
+                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp7) Complemento7,
+                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp7) Precio7,
+                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp8) Complemento8,
+                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp8) Precio8,
+                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp9) Complemento9,
+                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp9) Precio9,
+                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp10) Complemento10,
+                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp10) Precio10,
                             rec_sueros.cancelado, rec_sueros.id_registro
                             FROM rec_sueros
                             INNER JOIN sueros on rec_sueros.suero = sueros.id_suero 
@@ -193,7 +201,22 @@ if($val == 1){
                                         $no_complementos ++;
                                         $monto_complementos = $monto_complementos + $row_suero['Precio6'];
                                     }
-                                
+                                    if($row_suero['Complemento7'] != NULL){
+                                        $no_complementos ++;
+                                        $monto_complementos = $monto_complementos + $row_suero['Precio7'];
+                                    }
+                                    if($row_suero['Complemento8'] != NULL){
+                                        $no_complementos ++;
+                                        $monto_complementos = $monto_complementos + $row_suero['Precio8'];
+                                    }
+                                    if($row_suero['Complemento9'] != NULL){
+                                        $no_complementos ++;
+                                        $monto_complementos = $monto_complementos + $row_suero['Precio9'];
+                                    }
+                                    if($row_suero['Complemento10'] != NULL){
+                                        $no_complementos ++;
+                                        $monto_complementos = $monto_complementos + $row_suero['Precio10'];
+                                    }
 
                                     echo '
                                 <tr>

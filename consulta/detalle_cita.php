@@ -148,19 +148,15 @@ if($paciente_val == 1){
 
     $sql_rec_sueros = "SELECT sueros.nom_suero, sueros.precio,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp1) Complemento1,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp1) Precio1,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp2) Complemento2,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp2) Precio2,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp3) Complemento3,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp3) Precio3,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp4) Complemento4,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp6) Precio6,
 (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp7) Complemento7,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp7) Precio7,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp8) Complemento8,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp9) Complemento9,
+(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp10) Complemento10,
 rec_sueros.cancelado, rec_sueros.id_registro
 FROM rec_sueros
 INNER JOIN sueros on rec_sueros.suero = sueros.id_suero
@@ -176,21 +172,26 @@ if($val_sueros > 0){
     <tr>
     <tr>
         <td><b>Suero</b></td>
-        <td colspan="7"><b>Complementos</b></td>
+        <td colspan="5"><b>Complementos</b></td>
       </tr>';
       
     while($row = mysqli_fetch_assoc($result)){
        
         echo'
         <tr>
-        <td>'.$row['nom_suero'].'</td>
+        <td rowspan="2">'.$row['nom_suero'].'</td>
         <td>'.$row['Complemento1'].'</td>
         <td>'.$row['Complemento2'].'</td>
         <td>'.$row['Complemento3'].'</td>
         <td>'.$row['Complemento4'].'</td>
         <td>'.$row['Complemento5'].'</td>
+        </tr>
+        <tr>
         <td>'.$row['Complemento6'].'</td>
-        <td>'.$row['Complemento7'].'</td>';
+        <td>'.$row['Complemento7'].'</td>
+        <td>'.$row['Complemento8'].'</td>
+        <td>'.$row['Complemento9'].'</td>
+        <td>'.$row['Complemento10'].'</td>';
     }
         echo'
         </table><br>';
