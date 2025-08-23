@@ -47,7 +47,7 @@ switch($medico){
         $tipo_cita = 90;
         $flag_ex = 0;
     break;
-    case 8:
+    case 32:
         $medico_cita = $medico;
         $tipo_cita = 90;
         $flag_ex = 0;
