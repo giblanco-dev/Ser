@@ -155,7 +155,7 @@ if($val == 1){
                             (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
                             (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
                             (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio6,
+                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp6) Precio6,
                             (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp7) Complemento7,
                             (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp7) Precio7,
                             (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp8) Complemento8,
