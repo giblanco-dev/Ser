@@ -4,90 +4,134 @@ $cita = $_GET['c'];
 $usuario = $_GET['u'];
 $sql_sueros = "SELECT * FROM sueros";
 $res_sueros = $mysqli->query($sql_sueros);
+
+$sql_sueros_cargados = "SELECT rs.id_cita, s.nom_suero, rs.id_registro
+                            FROM rec_sueros rs 
+                            JOIN sueros s ON rs.suero = s.id_suero 
+                            WHERE rs.id_cita = '$cita' AND rs.cancelado = 0";
+$res_sueros_cargados = $mysqli->query($sql_sueros_cargados);
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/main.css">
+    <link rel="stylesheet" href="../../static/css/materialize.css">
+    <script src="../../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../../static/js/materialize.js"></script>
     <title>Sueros</title>
-    <style>
-        body{
-            font-family: 'Roboto', sans-serif;
-        }
-        input[type=checkbox] {
-        transform: scale(1.5);
-        }
-        
-        table {
-            border-collapse: collapse;
-        }
-        td {
-            border-bottom: 2px solid black;
-            padding: 10px;
-        }
-  tr:nth-child(even) {
-    background-color: #f2f2f2; /* sombreado gris claro */
-  }
-
-  
-        .btn{
-            color: #FFF; 
-            background: #2d83a0;
-            float: right; 
-            margin-right: 1.5em; 
-            margin-top: 1.5em;
-            border: 2px solid #2d83a0;
-            border-radius: 3px;
-            padding: 5px;
-        }
-        .btn:hover{
-            background-color: #008CBA;
-        }
-    </style>
 </head>
 <body>
-    <div style="width: 100%;">
-    <form action="save_sueros.php" method="POST">
-        <h2 style="display: inline-block;">Sueros</h2>
-        <input type="submit" class="btn" value="Guardar/Revisar Sueros Capturados">
-        <table>
-            <?php 
-            $cont = 0;
-            while($sueros = mysqli_fetch_assoc($res_sueros)){
-                $cont ++;
+    <div class="container" style="width: 100%;">
+            <div class="row">
+                <div class="col s12">
+                <h4 style="display: inline-block;">Sueros</h4>
+            </div>
+              <form action="save_sueros.php" method="POST">
+                <div class="col s4">
+                    <label for="suero">Seleccione el suero</label>
+                    <select name="suero" id="suero" class="form-control" required>
+                        <?php while($suero = $res_sueros->fetch_assoc()){ ?>
+                            <option value="<?php echo $suero['id_suero']; ?>"><?php echo $suero['nom_suero']; ?></option>
+                        <?php } ?>
+                    </select>
                 
-                    echo'
-                    <tr>
-                    <input type="hidden" name="'.$sueros['id_suero'].'[]" value="'.$sueros['id_suero'].'">
-                    <td rowspan="2"><input type="checkbox" name="'.$sueros['id_suero'].'[]" ></td>
-                    <td rowspan="2" style="font-size: 14px; font-weight:bold;">'.$sueros['nom_suero'].'</td>
-                    ';
-                    for($i = 1; $i <= 10; $i++){
-                        $sql_compl = "SELECT * FROM complementos";
-                        $res_compl = $mysqli->query($sql_compl);
-                        if($i == 6){
-                            echo '</tr><tr>';
+                    <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
+                    <input type="hidden" name="user" value="<?php echo $usuario; ?>">
+                    </div>
+                    <div class="col s3" style="margin-top: 3%; padding-left: 3%;">
+                            <button type="submit" class="btn btn-primary" id="envio">Guardar Suero<i class="material-icons right">save</i></button>
+                    </div>
+                
+                </form>
+                </div>
+                <div class="row">
+                <div class="col s12">
+                <h6>Sueros Cargados</h6>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Suero</th>
+                            <th>Agregar Complemento</th>
+                            <th>Complementos</th>
+                            <th>Total<br>Complementos</th>
+                            <th>Total<br>Sueros</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+
+                        while($suero_cargado = $res_sueros_cargados->fetch_assoc()){ 
+                            $id_regsuero = $suero_cargado['id_registro'];
+                            $nom_suero = $suero_cargado['nom_suero'];
+                            $id_cita = $suero_cargado['id_cita'];
+
+                            ?>
+                                
+                                    <tr>
+                                        <td><a href="cancel_suero_comple.php?c=<?php echo $id_cita; ?>&u=<?php echo $usuario; ?>&rs=<?php echo $id_regsuero; ?>" class="btn-small">Cancelar</a></td>
+                                        <td><?php echo $nom_suero; ?></td>
+                                        <td>
+                                            <form action="save_complemento.php" method="post">
+                                            <select style="font-size: 10px;;" name="id_comple" required>
+                                                <?php 
+                                                $sql_complementos = "SELECT concat(nom_complemento,' (',precio,')') nom_complemento, id_comple FROM complementos;";
+                                                $res_complementos = $mysqli->query($sql_complementos);
+                                                while($complemento = $res_complementos->fetch_assoc()){ ?>
+                                                <option value="<?php echo $complemento['id_comple']; ?>"><?php echo $complemento['nom_complemento']; ?></option>
+                                            <?php } ?>
+                                            </select>
+                                            <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
+                                            <input type="hidden" name="user" value="<?php echo $usuario; ?>">
+                                            <input type="hidden" name="id_regsuero" value="<?php echo $id_regsuero; ?>">
+                                            <button class="btn-small" type="submit" id="envio">Guardar Complemento</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <?php 
+                                            $sql_complementos_cargados = "SELECT DISTINCT id_registro , id_complemento , c.nom_complemento , id_regsuero 
+                                                            FROM reg_complementos 
+                                                            INNER join complementos c on id_complemento = c.id_comple 
+                                                            WHERE id_cita = '$id_cita' and id_regsuero = '$id_regsuero';";
+                                                            $res_complementos_cargados = $mysqli->query($sql_complementos_cargados);
+                                                            
+                                            while($complemento_cargado = $res_complementos_cargados->fetch_assoc()){
+                                                $id_comple = $complemento_cargado['id_registro'];
+                                                $nom_comple = $complemento_cargado['nom_complemento'];
+                                                echo $nom_comple." - <a href='cancel_suero_comple.php?c=$id_cita&u=$usuario&rs=$id_regsuero&rc=$id_comple''>Eliminar</a><br>"; 
+                                                
+                                                }
+                                            ?>
+
+                                        </td>
+                                    </tr>
+                                
+
+                        <?php
                         }
-                        echo'<td style="width: 100px;"><select style="width: 160px;" name="'.$sueros['id_suero'].'[]" style="font-size:11px;">';
-                        echo'<option value="0">--</option>';
-                        while($comple = mysqli_fetch_assoc($res_compl)){
-                            echo '<option value="'.$comple['id_comple'].'">'.$comple['nom_complemento'].' / '.intval($comple['precio']).'</option>';
-                        }
-                        echo'</select></td>';
-                    }
-              echo '</tr>';
-              
-              echo '<input type="hidden" name="'.$sueros['id_suero'].'[]" value="'.$sueros['nom_suero'].'">';
-              
-            }
-            ?>
-        </table>
-        <input type="hidden" name="id_cita" value="<?php echo $cita; ?>">
-        <input type="hidden" name="user" value="<?php echo $usuario; ?>">
+                        ?>
+                    </tbody>
+                </table>
+                            
+            </div>
+            </div>
+            
         
-        </form>
+        
     </div>
+
+    <script>
+   $(document).ready(function(){
+    $('select').formSelect();
+    $('.modal').modal();
+  });
+</script>
 </body>
 </html>
