@@ -29,9 +29,9 @@ $res_1 = $mysqli->query($sql_1);
 
 while($rows = mysqli_fetch_assoc($res_1)){  
     $id = $rows['id_med_oral'];
-    $array = $_POST[$id];
-    
-    if($array[1] > 0){
+    if (isset($_POST[$id]) && is_array($_POST[$id])) {
+        $array = $_POST[$id];
+        if(isset($array[1]) && $array[1] > 0){
         $sql_val = "SELECT * FROM rec_med_orales WHERE id_med_oral = '$array[0]' and id_cita = '$array[5]' AND cancelado = 0";
         $val = $mysqli->query($sql_val);
         $valida = $val->num_rows;
@@ -59,6 +59,7 @@ while($rows = mysqli_fetch_assoc($res_1)){
             }
         
     }
+}
 }
 ?>
 </div>

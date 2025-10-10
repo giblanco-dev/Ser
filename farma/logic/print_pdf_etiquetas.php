@@ -195,7 +195,7 @@ if(!empty($_POST)){
 </html>
 <?php
 
-if(($update_flag_imp + $update_flag_imp_2 + $update_flag_imp_3) == 0){
+if((intval($update_flag_imp) + intval($update_flag_imp_2) + intval($update_flag_imp_3)) == 0){
 
 $html_etiquetas = ob_get_clean();
 
