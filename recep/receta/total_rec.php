@@ -70,30 +70,20 @@
 
     // ******************** Inicia totales de Sueros y Complementos *****************
 
-    $sql_rec_sueros = "SELECT sueros.nom_suero, sueros.precio,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp1) Complemento1,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp1) Precio1,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp2) Complemento2,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp2) Precio2,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp3) Complemento3,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp3) Precio3,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp4) Complemento4,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp6) Precio6,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp7) Complemento7,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp7) Precio7,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp8) Complemento8,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp8) Precio8,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp9) Complemento9,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp9) Precio9,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp10) Complemento10,
-(Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp10) Precio10,
-rec_sueros.cancelado, rec_sueros.id_registro
-FROM rec_sueros
-INNER JOIN sueros on rec_sueros.suero = sueros.id_suero WHERE rec_sueros.id_cita = '$id_cita'";
+    $sql_rec_sueros = "SELECT rs.id_cita
+		, s.nom_suero
+        , rs.id_registro
+        , s.precio
+        , (SELECT GROUP_CONCAT(concat(c.nom_complemento,'($',c.precio,')') SEPARATOR ' - ') FROM rec_complementos rc 
+				INNER JOIN complementos c on rc.id_complemento = c.id_comple
+				where id_regsuero = rs.id_registro and id_cita = rs.id_cita) complementos
+        , (SELECT SUM(c.precio) FROM rec_complementos rc 
+				INNER JOIN complementos c on rc.id_complemento = c.id_comple
+				where id_regsuero = rs.id_registro and id_cita = rs.id_cita) total_complementos
+        FROM rec_sueros rs 
+        JOIN sueros s ON rs.suero = s.id_suero 
+        WHERE rs.id_cita = $id_cita AND rs.cancelado = 0 order by rs.id_registro desc";
+
 $result = $mysqli->query($sql_rec_sueros);
 $val_sueros = $result->num_rows;
 $total_sueros = 0;
@@ -104,42 +94,23 @@ if($val_sueros > 0){
     <td colspan="7" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
     <tr>
     <tr>
-        <td><b>Subtotal</b></td>
-        <td><b>Suero/Precio</b></td>
-        <td colspan="7"><b>Complementos</b></td>
-        
+        <td><b>Suero</b></td>
+        <td><b>Precio Suero</b></td>
+        <td><b>Complementos</b></td>
+        <td><b>Total<br>Comple</b></td>
+        <td><b>Total</b></td>
       </tr>';
       
     while($row = mysqli_fetch_assoc($result)){
 
         echo '<tr style="font-size: 12px;">';
-        if($row['cancelado'] == 0){
-            $sub_total = $row['precio'] + $row['Precio1'] + $row['Precio2'] + $row['Precio3'] + $row['Precio4'] + $row['Precio5'] + $row['Precio6'] + $row['Precio7']
-                                        + $row['Precio8'] + $row['Precio9'] + $row['Precio10'];
-            echo '<td rowspan="2">$'.$sub_total.'</td>';
-        
-            $total_sueros = $total_sueros + $sub_total;
-        }else{
-            echo '<td rowspan="2">Cancelado</td>';
-        }
-       
         echo'
-        <td rowspan="2">'.$row['nom_suero'].'<br> $'.$row['precio'].'</td>
-        <td>'.$row['Complemento1'].'<br>$'.$row['Precio1'].'</td>
-        <td>'.$row['Complemento2'].'<br>$'.$row['Precio2'].'</td>
-        <td>'.$row['Complemento3'].'<br>$'.$row['Precio3'].'</td>
-        <td>'.$row['Complemento4'].'<br>$'.$row['Precio4'].'</td>
-        <td>'.$row['Complemento5'].'<br>$'.$row['Precio5'].'</td>
-        </tr>
-        <tr style="font-size: 12px;">
-        <td>'.$row['Complemento6'].'<br>$'.$row['Precio6'].'</td>
-        <td>'.$row['Complemento7'].'<br>$'.$row['Precio7'].'</td>
-        <td>'.$row['Complemento8'].'<br>$'.$row['Precio8'].'</td>
-        <td>'.$row['Complemento9'].'<br>$'.$row['Precio9'].'</td>
-        <td>'.$row['Complemento10'].'<br>$'.$row['Precio10'].'</td>';
-        
-        
-        
+        <td>'.$row['nom_suero'].'</td>
+        <td>$'.number_format(($row['precio']),2).'</td>
+        <td>'.$row['complementos'].'</td>
+        <td>$'.number_format(($row['total_complementos']),2).'</td>
+        <td>$'.number_format(($row['precio'] + $row['total_complementos']),2).'</td>';
+        $total_sueros += $row['precio'] + $row['total_complementos'];
     }
         echo'
         <tr style="background-color: lightgrey;">

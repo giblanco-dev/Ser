@@ -35,7 +35,7 @@ if(!empty($_POST)){
         $nivel = $row_cajero['nivel'];
         $id_user_caja = $row_cajero['id'];
 
-        if($nivel == 'caja' AND $id_user_caja = $id_cajero){
+        if(($nivel == 'caja' or $nivel == 'admin') AND $id_user_caja = $id_cajero){
                 //echo "Cajero correcto validado";
 
                 $sql_cobros = "SELECT user_cobro, COUNT(user_cobro) No_Cobros, SUM(abono) Cobrado, GROUP_CONCAT(id_cita) Citas_Cobradas, GROUP_CONCAT(id_cobro) Detalle_Cobros FROM caja

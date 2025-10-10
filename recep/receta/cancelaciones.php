@@ -32,13 +32,44 @@ if(!empty($_GET['c_terapia'])){
 if(!empty($_GET['c_suero'])){
     $id_suero = $_GET['c_suero'];
     $user_update = $_GET['u'];
+    $cita = $_GET['c'];
     $sql_cancela_sueros = "UPDATE rec_sueros SET cancelado = 1, user_registra = '$user_update' WHERE id_registro = '$id_suero'";
-    if ($mysqli->query($sql_cancela_sueros) === TRUE) {
+    $sql_cancela_complementos = "DELETE FROM rec_complementos WHERE id_regsuero = '$id_suero'";
+    
+    if ($mysqli->query($sql_cancela_sueros) === TRUE AND $mysqli->query($sql_cancela_complementos) === TRUE){
         echo '<script type="text/javascript">
-        swal("Listo", "Los complementos y el suero '.$id_suero.' ha sido cancelado", "error");  
+        swal({
+            title: "Cancelado",
+            text: "Los complementos y el suero '.$id_suero.'",
+            icon: "error",
+        }).then(function() {
+            window.location.href = "sueros.php?c='.$cita.'&u='.$user_update.'";
+        });
         </script>';
     }else{
-        echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="../"</script>';
+        echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="sueros.php?c='.$cita.'&u='.$user_update.'"</script>';
+    }
+}
+
+// ************************** CANCELACIONES COMPLEMENTOS ***************************
+if(!empty($_GET['c_comple'])){
+    $id_comple = $_GET['c_comple'];
+    $user_update = $_GET['u'];
+    $cita = $_GET['c'];
+    $sql_cancela_complementos = "DELETE FROM rec_complementos WHERE id_registro = '$id_comple'";
+    
+    if ($mysqli->query($sql_cancela_complementos) === TRUE){
+        echo '<script type="text/javascript">
+        swal({
+            title: "Eliminado",
+            text: "El complemento '.$id_comple.'",
+            icon: "error",
+        }).then(function() {
+            window.location.href = "sueros.php?c='.$cita.'&u='.$user_update.'";
+        });
+        </script>';
+    }else{
+        echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="sueros.php?c='.$cita.'&u='.$user_update.'"</script>';
     }
 }
 

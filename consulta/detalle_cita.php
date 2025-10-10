@@ -144,23 +144,22 @@ if($paciente_val == 1){
         echo '<h5>No se registraron <b>terapias</b> de la receta de esta cita.</h5>';
     }
 
+ 
+// ******************** Inicia totales de Sueros y Complementos *****************
+
     // ******************** Inicia totales de Sueros y Complementos *****************
 
-    $sql_rec_sueros = "SELECT sueros.nom_suero, sueros.precio,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp1) Complemento1,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp2) Complemento2,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp3) Complemento3,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp4) Complemento4,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp7) Complemento7,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp8) Complemento8,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp9) Complemento9,
-(Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp10) Complemento10,
-rec_sueros.cancelado, rec_sueros.id_registro
-FROM rec_sueros
-INNER JOIN sueros on rec_sueros.suero = sueros.id_suero
-WHERE rec_sueros.id_cita = '$id_cita' ";
+        $sql_rec_sueros = "SELECT rs.id_cita
+		, s.nom_suero
+        , rs.id_registro
+        , s.precio
+        , (SELECT GROUP_CONCAT(nom_complemento SEPARATOR ' - ') FROM rec_complementos rc 
+				INNER JOIN complementos c on rc.id_complemento = c.id_comple
+				where id_regsuero = rs.id_registro and id_cita = rs.id_cita) complementos
+        FROM rec_sueros rs 
+        JOIN sueros s ON rs.suero = s.id_suero 
+        WHERE rs.id_cita = $id_cita AND rs.cancelado = 0 order by rs.id_registro desc";
+
 $result = $mysqli->query($sql_rec_sueros);
 $val_sueros = $result->num_rows;
 $total_sueros = 0;
@@ -168,37 +167,28 @@ if($val_sueros > 0){
     echo '
     <table>
     <tr>
-    <td colspan="6" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
+    <td colspan="7" style="background-color: #00e5ff;"><b>Sueros-Complementos Registrados</b></td>
     <tr>
     <tr>
         <td><b>Suero</b></td>
-        <td colspan="5"><b>Complementos</b></td>
+        <td><b>Complementos</b></td>
       </tr>';
       
     while($row = mysqli_fetch_assoc($result)){
-       
-        echo'
-        <tr>
-        <td rowspan="2">'.$row['nom_suero'].'</td>
-        <td>'.$row['Complemento1'].'</td>
-        <td>'.$row['Complemento2'].'</td>
-        <td>'.$row['Complemento3'].'</td>
-        <td>'.$row['Complemento4'].'</td>
-        <td>'.$row['Complemento5'].'</td>
-        </tr>
-        <tr>
-        <td>'.$row['Complemento6'].'</td>
-        <td>'.$row['Complemento7'].'</td>
-        <td>'.$row['Complemento8'].'</td>
-        <td>'.$row['Complemento9'].'</td>
-        <td>'.$row['Complemento10'].'</td>';
-    }
-        echo'
-        </table><br>';
-}else{
-    echo '<h5>No se registraron <b>sueros</b> de la receta de esta cita</h5>';
-}
 
+        echo '<tr style="font-size: 12px;">';
+        echo'
+        <td>'.$row['nom_suero'].'</td>
+        <td>'.$row['complementos'].'</td>';
+        echo '</tr>';
+        
+        
+    }
+    echo '</table>';
+
+}else{
+    echo '<p>No se registraron <b>sueros</b> de la receta de esta cita</p>';
+}
 // *********************** Inicia totales de Medicamentos Homeopaticos *********
 
 $sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado FROM resu_med_home

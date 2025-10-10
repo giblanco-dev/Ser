@@ -143,81 +143,29 @@ if($val == 1){
                                 }    
                             }
                             // Se imprimen sueros y complementos
-                            $sql_rec_sueros = "SELECT sueros.nom_suero, sueros.precio,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp1) Complemento1,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp1) Precio1,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp2) Complemento2,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp2) Precio2,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp3) Complemento3,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp3) Precio3,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp4) Complemento4,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp4) Precio4,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp5) Complemento5,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp5) Precio5,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp6) Complemento6,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp6) Precio6,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp7) Complemento7,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp7) Precio7,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp8) Complemento8,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp8) Precio8,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp9) Complemento9,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp9) Precio9,
-                            (Select complementos.nom_complemento from complementos WHERE complementos.id_comple = rec_sueros.comp10) Complemento10,
-                            (Select complementos.precio from complementos WHERE complementos.id_comple = rec_sueros.comp10) Precio10,
-                            rec_sueros.cancelado, rec_sueros.id_registro
-                            FROM rec_sueros
-                            INNER JOIN sueros on rec_sueros.suero = sueros.id_suero 
-                            WHERE rec_sueros.id_cita = '$id_cita' AND cancelado = 0";
+                            $sql_rec_sueros = "SELECT rs.id_cita
+                                                , s.nom_suero
+                                                , rs.id_registro
+                                                , s.precio
+                                                , (SELECT count(rc.id_registro) FROM rec_complementos rc 
+                                                        where id_regsuero = rs.id_registro and id_cita = rs.id_cita) cant_complementos
+                                                , (SELECT SUM(c.precio) FROM rec_complementos rc 
+                                                        INNER JOIN complementos c on rc.id_complemento = c.id_comple
+                                                        where id_regsuero = rs.id_registro and id_cita = rs.id_cita) total_complementos
+                                                FROM rec_sueros rs 
+                                                JOIN sueros s ON rs.suero = s.id_suero 
+                                                WHERE rs.id_cita = $id_cita AND rs.cancelado = 0 order by rs.id_registro desc";
+
                             $result_suero_comp = $mysqli->query($sql_rec_sueros);
                             $val_sueros = $result_suero_comp->num_rows;
-                            $total_sueros = 0;
-                            
-                            
-                            if($val_sueros > 0){
-                                $no_complementos = 0;
-                                $monto_complementos = 0;
-                                while($row_suero = mysqli_fetch_assoc($result_suero_comp)) {
-                                    if($row_suero['Complemento1'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio1'];
-                                    }
-                                    if($row_suero['Complemento2'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio2'];
-                                    }
-                                    if($row_suero['Complemento3'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio3'];
-                                    }
-                                    if($row_suero['Complemento4'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio4'];
-                                    }
-                                    if($row_suero['Complemento5'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio5'];
-                                    }
-                                    if($row_suero['Complemento6'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio6'];
-                                    }
-                                    if($row_suero['Complemento7'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio7'];
-                                    }
-                                    if($row_suero['Complemento8'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio8'];
-                                    }
-                                    if($row_suero['Complemento9'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio9'];
-                                    }
-                                    if($row_suero['Complemento10'] != NULL){
-                                        $no_complementos ++;
-                                        $monto_complementos = $monto_complementos + $row_suero['Precio10'];
-                                    }
 
+                            if($val_sueros > 0){
+                                $cantidad_complementos = 0;
+                                $monto_complementos = 0;
+
+                                while($row_suero = mysqli_fetch_assoc($result_suero_comp)){
+                                    $cantidad_complementos += $row_suero['cant_complementos'];
+                                    $monto_complementos += $row_suero['total_complementos'];
                                     echo '
                                 <tr>
                                     <td>'.$row_suero['nom_suero'].'</td>
@@ -225,17 +173,17 @@ if($val == 1){
                                     <td>$ '.$row_suero['precio'].'</td>
                                     <td>$ '.$row_suero['precio'].'</td>
                                 </tr>
-                                ';  
-                                }
+                                ';      
+                            }
                                     echo '
                                     <tr>
-                                        <td>Complementos de suero</td>
-                                        <td>'.$no_complementos.'</td>
-                                        <td>$ '.$monto_complementos.'</td>
-                                        <td>$ '.$monto_complementos.'</td>
+                                        <td>Complemento(s) de suero(s) </td>
+                                        <td>'.$cantidad_complementos.'</td>
+                                        <td>$ '.number_format($monto_complementos,2).'</td>
+                                        <td>$ '.number_format($monto_complementos,2).'</td>
                                     </tr>
                                     ';  
-
+                                
 
                             }
 
