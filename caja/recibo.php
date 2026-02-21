@@ -16,6 +16,7 @@ $val = $res_pago->num_rows;
 //echo "<br>",$val;
 if($val == 1){
     $recibo = mysqli_fetch_assoc($res_pago);
+    
 ?>
 
 <!DOCTYPE html>

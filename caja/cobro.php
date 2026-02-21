@@ -117,7 +117,7 @@ if($val == 1){
         </thead>
         </table>
         <?php 
-        if($status == 'NO' and $saldo >= 0){
+        if($status == 'NO' and $saldo > 0){
         ?>
         <form action="pagar.php" method="POST">
             <p><b>Pagar (Capturar importes)</b></p>
@@ -172,31 +172,14 @@ if($val == 1){
             <p><b>Pagar (Capturar importe)</b></p>
             <!--input type="number" name="pago" id="" value="<?php //echo $saldo; ?>"-->
             <div class="row">
-            <div class="col s6">
-                <p>Monto Efectivo</p>
+                 <blockquote>
+                            La cita cuenta con descuento del <?php echo $descuento; ?> % y el saldo es $0.
+                </blockquote>
             </div>
-            <div class="col s6">
-                <input placeholder="Monto Efectivo" type="number" min="0" name="abono_efectivo" step="0.001">
-            </div>
-            <div class="col s6">
-                <p>Monto Tarjeta</p>
-            </div>
-            <div class="col s6">
-                <input placeholder="Monto Tarjeta" type="number" min="0" name="abono_tarjeta" step="0.001">
-            </div>
-            <div class="col s6">
-                <p>Monto Cheque</p>
-            </div>
-            <div class="col s6">
-                <input placeholder="Monto Cheque" type="number" min="0" name="abono_cheque" step="0.001">
-            </div>
-            <div class="col s6">
-                <p>Otras formas de pago</p>
-            </div>
-            <div class="col s6">
-                <input placeholder="Monto otros" type="number" min="0" name="abono_otros" step="0.001">
-            </div>
-            </div>
+            <input type="hidden" name="abono_efectivo" value="0">
+            <input type="hidden" name="abono_tarjeta" value="0">
+            <input type="hidden" name="abono_cheque" value="0">
+            <input type="hidden" name="abono_otros" value="0">
             <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
             <input type="hidden" name="user" value="<?php echo $id_user; ?>">
             <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">

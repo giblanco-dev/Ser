@@ -52,7 +52,7 @@ if(!empty($_POST)){
         swal("","Cobro duplicado o no existe, informar a sistemas y proporcionar ID '.$id_cobro.'", "error");  
         </script>';
         exit;
-    }elseif($saldo <= 0 or $status_pag == 'SI'){
+    }elseif($saldo == 0 and $status_pag == 'SI'){
         echo '<script type="text/javascript">
         swal("","La cita ya fue pagada o no tiene saldo pendiente, por favor actualice la página", "warning");  
         </script>';
@@ -82,6 +82,9 @@ if(!empty($_POST)){
     }
     if($abono_otros > 0){
         $med_pago = $med_pago.'OTR/';
+    }
+    if($pago == 0){
+        $med_pago = $med_pago.'N/A/';
     }
 
     $med_pago_ok = rtrim($med_pago,"/");
