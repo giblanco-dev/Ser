@@ -14,6 +14,21 @@
     include_once '../../app/logic/conn.php';
     $id_cita = $_GET['c'];
     $usuario = $_GET['u'];
+
+    $sql_val_des = "SELECT c.id_paciente
+        , if(p.familiar_desc > u.max_desc_med, p.familiar_desc, u.max_desc_med ) descuento
+        FROM cita c 
+        INNER JOIN paciente p on c.id_paciente = p.id_paciente
+        INNER JOIN user u on c.medico = u.id
+        WHERE c.id_cita = '$id_cita'";
+    $res_val_des = $mysqli->query($sql_val_des);
+    $row_val_des = mysqli_fetch_assoc($res_val_des);
+    if($res_val_des->num_rows == 1){
+        $descuento = $row_val_des['descuento'];
+    }else{
+        $descuento = 30;
+    }
+
     ?>
     
     <div class="row">
@@ -276,7 +291,7 @@ $sum_orales = 0;
         </div>
         <div class="col s6">
          <p>Aplicar Descuento %</p>
-         <input type="number" name="descuentos" min="0" max="100" step="5" value="0">
+         <input type="number" name="descuentos" min="0" max="<?php echo $descuento;?>" step="5" value="0">
         </div>
         <div class="col s12">
         <blockquote style="font-size: 16px; font-weight:bold;">

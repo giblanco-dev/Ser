@@ -161,7 +161,7 @@ if($val == 1){
             <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">
             <input type="hidden" name="saldo" value="<?php echo $saldo; ?>">
             <div class="center-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action">Pagar
+            <button class="btn waves-effect waves-light" type="submit" name="action" id="btn_pagar">Pagar
             <i class="material-icons right">payment</i>
             </button>
             </div>
@@ -202,7 +202,7 @@ if($val == 1){
             <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">
             <input type="hidden" name="saldo" value="<?php echo $saldo; ?>">
             <div class="center-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action">Pagar
+            <button class="btn waves-effect waves-light" type="submit" name="action" id="btn_pagar">Pagar
             <i class="material-icons right">payment</i>
             </button>
             </div>
@@ -232,6 +232,14 @@ if($val == 1){
     <script type="text/javascript">
 	$(document).ready(function(){
         $('select').formSelect();
+
+        $('#btn_pagar').on('click', function() {
+            var btn = $(this);
+            btn.addClass('disabled');
+            setTimeout(function() {
+                btn.prop('disabled', true);
+            }, 10);
+        });
 	});
 </script>
 </body>

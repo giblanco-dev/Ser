@@ -49,17 +49,19 @@ if(!empty($_POST)){
     //echo $pago;
     if($val_pago_ok > 1){
         echo '<script type="text/javascript">
-        swal("","Cobro duplicado o no existe informar a sistemas y porporcionar ID'.$id_cobro.'", "error");  
+        swal("","Cobro duplicado o no existe, informar a sistemas y proporcionar ID '.$id_cobro.'", "error");  
         </script>';
-    }elseif($saldo == 0 and $status_pag == 'SI'){
+        exit;
+    }elseif($saldo <= 0 or $status_pag == 'SI'){
         echo '<script type="text/javascript">
-        swal("","La cita ya fue pagada, por favor actualice la página", "warning");  
+        swal("","La cita ya fue pagada o no tiene saldo pendiente, por favor actualice la página", "warning");  
         </script>';
-
+        exit;
     }elseif($pago > $saldo){
         echo '<script type="text/javascript">
-        swal("","Los montos de pago son mayores a el total de la cita,\nVolver a capturar montos", "error");  
+        swal("","Los montos de pago son mayores al total de la cita,\nVolver a capturar montos", "error");  
         </script>';
+        exit;
     }elseif($pago < $saldo){
         echo '<script type="text/javascript">
         swal("","Los montos de pago son menores a el total de la cita,\nVolver a capturar montos", "error");  
