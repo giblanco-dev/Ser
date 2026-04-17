@@ -125,8 +125,8 @@ if($val_cita > 0){
         }
 
     }else{
-        $sql_new_cita = "INSERT INTO cita(id_cita, id_paciente, medico, fecha, horario, registrado, user_registra, tipo, confirma)
-    VALUES (NULL, '$paciente', '$medico', '$fecha_cita', '$horario', CURRENT_TIMESTAMP, '$id_user', '$tipo_cita', 1)";
+        $sql_new_cita = "INSERT INTO cita(id_cita, id_paciente, medico, fecha, horario, registrado, user_registra, tipo, confirma, consulta)
+    VALUES (NULL, '$paciente', '$medico', '$fecha_cita', '$horario', CURRENT_TIMESTAMP, '$id_user', '$tipo_cita', 1, 1)";
 
             if($mysqli -> query($sql_new_cita) === true){
                 $mensaje = '<h4>Cita registrada correctamente</h4>';

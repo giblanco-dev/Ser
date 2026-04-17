@@ -30,7 +30,7 @@ $val = $res_consulta->num_rows;
                     <th>Oxígeno</th>
                     <th>Peso</th>
                     <th>Talla</th>
-                    <th>Edad</th>
+                    
                 </tr>
             </thead>
             
@@ -59,14 +59,29 @@ $val = $res_consulta->num_rows;
                         <td><input class="ancho" type="number" min="1" name="oxi" value="<?php echo $svitales['oxi'] ?>"></td>
                         <td><input class="ancho" type="number" min="1" name="peso" value="<?php echo $svitales['peso'] ?>"></td>
                         <td><input class="ancho" type="number" min="1" name="talla" step="0.01" value="<?php echo $svitales['talla'] ?>"></td>
-                        <td><input class="ancho" type="number" min="1" name="edad" value="<?php echo $svitales['edad'] ?>"></td>
                         <input type="hidden" name="user" value="<?php echo $usuario; ?>">
                         <input type="hidden" name="cita2" value="<?php echo $cita; ?>">
                     </tr>
                     <tr>
+                        <th colspan="2">Edad</th>
                         <th colspan="3">Alergias</th>
                     </tr>
                     <tr>
+                        <td><input class="ancho" type="number" min="1" name="edad" value="<?php echo $svitales['edad'] ?>"></td>
+                        <td>
+                        <p>
+                            <label>
+                                <input name="periodo" type="radio" value="meses"/>
+                                <span>Meses</span>
+                            </label>
+                            </p>
+                        <p>
+                            <label>
+                                <input name="periodo" type="radio" value="años" />
+                                <span>Años</span>
+                            </label>
+                            </p>
+                        </td>
                         <td colspan="3"><input class="ancho" type="text" name="alergias" value="<?php echo $svitales['alergias'] ?>"></td>
                     </tr>
                     <tr>

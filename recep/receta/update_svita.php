@@ -26,9 +26,10 @@ if(!empty($_POST)){
     $cita2 = $_POST['cita2'];
     $edad = $_POST['edad'];
     $alergias = $_POST['alergias'];
+    $periodo = $_POST['periodo'];
 
     $sql_svitales = "UPDATE consulta SET ta = '$t_a', temp = '$temp', fre_c = '$frec_c', fre_r = '$fre_r', oxi = '$oxi', peso = '$peso', talla = '$talla', user_act_svitales = '$user_upd',
-                    edad = '$edad', alergias = '$alergias'
+                    edad = '$edad', periodo = '$periodo', alergias = '$alergias'
                      WHERE id_cita = '$cita2'";
 
     if($mysqli->query($sql_svitales) === TRUE){
