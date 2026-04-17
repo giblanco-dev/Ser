@@ -7,6 +7,7 @@ if (!isset($_SESSION['id'])) {
             $id_user = $_SESSION['id'];
             $usuario = $_SESSION['name_usuario'];
             $nivel = $_SESSION['nivel'];
+            $his_clin = $_SESSION['hist_clin_med'];
 }else{
     //header('Location: ../index.php');
     //exit();
@@ -14,7 +15,7 @@ if (!isset($_SESSION['id'])) {
 include_once 'consulta_sections.php';
 include_once '../app/logic/conn.php';
 
-$sql_medico = "SELECT id, concat(nombre,' ',apellido) medico FROM user WHERE nivel = 'medico' AND id = '$id_user'";
+$sql_medico = "SELECT id, concat(nombre,' ',apellido) medico, hist_clin_med FROM user WHERE nivel = 'medico' AND id = '$id_user'";
 $result_sql_medico = $mysqli -> query($sql_medico);
 
 // Información de citas del día
@@ -165,7 +166,7 @@ $datos_cita = $mysqli -> query($sql_citas);
 <!-- ***************************** TERMINA CONTENIDO ****************************** -->
 
 
-<?php echo $footer_consulta;  ?>
+<?php echo $footer_consulta_index;  ?>
 
 
 <script>

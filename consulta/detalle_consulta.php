@@ -7,6 +7,7 @@ if (!isset($_SESSION['id'])) {
             $id_user = $_SESSION['id'];
             $usuario = $_SESSION['name_usuario'];
             $nivel = $_SESSION['nivel'];
+            $his_clin = $_SESSION['hist_clin_med'];
 }else{
     header('Location: ../index.php');
     exit();

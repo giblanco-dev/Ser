@@ -7,7 +7,7 @@ if(!empty($_POST))
   $error = '';
 
   $sql = "SELECT CONCAT(user.nombre,' ',user.apellido) nombre_completo, user.usuario, user.password, user.id,
-        niveles.descripcion, niveles.ruta, niveles.id nivel_id, user.agenda
+        niveles.descripcion, niveles.ruta, niveles.id nivel_id, user.agenda, user.hist_clin_med
         FROM user INNER JOIN niveles ON user.nivel = niveles.nivel 
         WHERE user.usuario = '$usuario' and user.password = '$password'";
 
@@ -27,6 +27,7 @@ if(!empty($_POST))
             $_SESSION['name_usuario'] = $row['nombre_completo'];
             $_SESSION['nivel'] = $row['nivel_id'];
             $_SESSION['agenda'] = $row['agenda'];
+            $_SESSION['hist_clin_med'] = $row['hist_clin_med'];
             $ruta = $row['ruta'];
             echo "La ruta es", $ruta;
             header('Location: '.$ruta.'');

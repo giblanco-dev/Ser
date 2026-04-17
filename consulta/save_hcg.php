@@ -37,6 +37,8 @@ if(!empty($_POST)){
     $hcg32 = $_POST['hcg32'];
     $medico = $_POST['medico'];
     $usuario_captura = $_POST['usuario_captura'];
+    $flag_hcg = $_POST['flag_hcg'] ?? 0;
+
 
     $sql_validacion = "SELECT id_paciente FROM his_clinica_gen WHERE id_paciente = '$id_paciente'";
     $result_sql_validacion = $mysqli -> query($sql_validacion);
@@ -47,7 +49,7 @@ if(!empty($_POST)){
         $sql_save_historia = "INSERT INTO his_clinica_gen(id_paciente, fecha_captura, hcg2, hcg3, hcg4, hcg5, hcg6, hcg7, hcg8,
             hcg9, hcg10, hcg11, hcg12, hcg13, hcg14, hcg15, hcg16, hcg17, hcg18, hcg19, hcg20, hcg21, hcg22, hcg23, hcg24, hcg25, hcg26,
             hcg27, hcg28, hcg29, hcg30, hcg31, hcg32, medico, usuario_captura) 
-            VALUES ( '$id_paciente', CURRENT_TIMESTAMP, '$hcg2','$hcg3','$hcg4','$hcg5','$hcg6','$hcg7','$hcg8','$hcg9','$hcg10','$hcg11', '$hcg12', '$hcg13',
+            VALUES ( '$id_paciente', NOW(), '$hcg2','$hcg3','$hcg4','$hcg5','$hcg6','$hcg7','$hcg8','$hcg9','$hcg10','$hcg11', '$hcg12', '$hcg13',
             '$hcg14','$hcg15','$hcg16','$hcg17', '$hcg18', '$hcg19', '$hcg20', '$hcg21', '$hcg22', '$hcg23', '$hcg24', '$hcg25', '$hcg26', '$hcg27', '$hcg28',
             '$hcg29','$hcg30','$hcg31','$hcg32','$medico', '$usuario_captura');";
 
@@ -58,7 +60,7 @@ if(!empty($_POST)){
             }
         
         }else{
-            $sql_save_historia = "UPDATE his_clinica_gen SET  fecha_captura = 'CURRENT_TIMESTAMP', hcg2 = '$hcg2', hcg3 = '$hcg3', hcg4 = '$hcg4', hcg5 = '$hcg5', 
+            $sql_save_historia = "UPDATE his_clinica_gen SET  fecha_captura = NOW(), hcg2 = '$hcg2', hcg3 = '$hcg3', hcg4 = '$hcg4', hcg5 = '$hcg5', 
             hcg6 = '$hcg6', hcg7 = '$hcg7', hcg8 = '$hcg8', hcg9 = '$hcg9', hcg10 = '$hcg10', hcg11 = '$hcg11', hcg12 = '$hcg12', hcg13 = '$hcg13', hcg14 = '$hcg14', 
             hcg15 = '$hcg15', hcg16 = '$hcg16', hcg17 = '$hcg17', hcg18 = '$hcg18', hcg19 = '$hcg19', hcg20 = '$hcg20', hcg21 = '$hcg21', hcg22 = '$hcg22', hcg23 = '$hcg23', 
             hcg24 = '$hcg24', hcg25 = '$hcg25', hcg26 = '$hcg26', hcg27 = '$hcg27', hcg28 = '$hcg28', hcg29 = '$hcg29', hcg30 = '$hcg30', hcg31 = '$hcg31', hcg32 = '$hcg32',
@@ -66,10 +68,79 @@ if(!empty($_POST)){
 
             //echo $sql_save_historia;
             
-            if ($mysqli->query($sql_save_historia) === TRUE) {
-                //echo "OK";
-                echo '<script type="text/javascript" async="async">alert("Se ha actualizado correctamente la Historia Clinica del Paciente CSA'.$id_paciente.'");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';
-            } else {
+            if ($mysqli->query($sql_save_historia) === TRUE){
+
+                if($flag_hcg == 0){
+                    //echo "<br>Flag == 0";
+                    echo '<script type="text/javascript" async="async">alert("Se ha actualizado correctamente la Historia Clinica del Paciente CSA'.$id_paciente.'");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';    
+                }
+                elseif($flag_hcg == 1){
+                                            echo '<!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta charset="UTF-8">
+                            <style>
+                                body {
+                                    margin: 0;
+                                    padding: 0;
+                                    font-family: Arial, sans-serif;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    min-height: 100vh;
+                                    background: linear-gradient(135deg, #00e5ff 0%, #2d83a0 100%);
+                                }
+                                .container {
+                                    background: white;
+                                    padding: 40px;
+                                    border-radius: 8px;
+                                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                                    text-align: center;
+                                    max-width: 600px;
+                                    width: 90%;
+                                }
+                                .message {
+                                    font-size: 24px;
+                                    color: #333;
+                                    margin-bottom: 30px;
+                                    line-height: 1.6;
+                                }
+                                .code {
+                                    font-size: 32px;
+                                    color: #2d83a0;
+                                    font-weight: bold;
+                                    margin: 20px 0;
+                                }
+                                .button {
+                                    background-color: #2d83a0;
+                                    color: white;
+                                    border: none;
+                                    padding: 15px 40px;
+                                    font-size: 24px;
+                                    border-radius: 5px;
+                                    cursor: pointer;
+                                    transition: background-color 0.3s;
+                                }
+                                .button:hover {
+                                    background-color: #2d83a0;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <p class="message">Historia Clínica Capturada</p>
+                                <p class="message">Favor de Indicar al paciente el código:</p>
+                                <p class="code">'.$id_paciente.'</p>
+                                <p class="message">Para que pueda proceder con la firma del documento en la tablet</p>
+                                <button class="button" onclick="window.close();">Cerrar</button>
+                            </div>
+                        </body>
+                        </html>';
+                }
+
+                
+            } 
+            else {
                 //echo "Error";
                 echo '<script type="text/javascript" async="async">alert("Ha ocurrido un error, intente nuevamente \n , de lo contrario contacte con el administrador del sistema");window.location.href="detalle_consulta.php?c='.$id_cita.'&p='.$id_paciente.'"</script>';
             }

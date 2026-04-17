@@ -7,6 +7,7 @@ if (!isset($_SESSION['id'])) {
             $id_user = $_SESSION['id'];
             $usuario = $_SESSION['name_usuario'];
             $nivel = $_SESSION['nivel'];
+            $his_clin = $_SESSION['hist_clin_med'];
 }else{
     header('Location: ../index.php');
     exit();
@@ -15,7 +16,8 @@ if (!isset($_SESSION['id'])) {
 require '../app/logic/conn.php';
 
 if(isset($_GET['id_paciente'])){
-    $id_cita = $_GET['cita'];
+    $id_cita = $_GET['cita'] ?? 0;
+    $flag_hcg = $_GET['flag_hcg'] ?? 0;
     $id_paciente = $_GET['id_paciente'];
     $sql_paciente = "SELECT id_paciente, CONCAT(nombres,' ',a_paterno,' ',a_materno) nombre_completo FROM paciente WHERE id_paciente = '$id_paciente'";
 }else{
@@ -324,6 +326,7 @@ include_once 'consulta_sections.php';
                 <input type="hidden" name="usuario_captura" value="<?php echo $id_user?>">
                 <input type="hidden" name="id_paciente" value="<?php echo $id_paciente?>">
                 <input type="hidden" name="id_cita" value="<?php echo $id_cita?>">
+                <input type="hidden" name="flag_hcg" value="<?php echo $flag_hcg?>">
             </div>
             </div>
     </div>
