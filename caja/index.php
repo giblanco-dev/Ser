@@ -175,6 +175,14 @@ $datos_cita = $mysqli -> query($sql_citas);
                                         /*echo '<td><div class="chip  red white-text">
                                         <a class="white-text" href="devolucion.php?c='.$citas_dia['id_cita'].'">Devolución</a>
                                         </div></td>';*/
+                            
+                            }elseif($citas_dia['pagado'] == 2){
+                                echo '<td><div class="chip  grey darken-3 white-text">
+                                            <a class="white-text" href="cobro.php?c='.$citas_dia['id_cita'].'&u='.$id_user.'" target="frame-cont">Cancelado</a>
+                                        </div></td>';
+                                        /*echo '<td><div class="chip  red white-text">
+                                        <a class="white-text" href="devolucion.php?c='.$citas_dia['id_cita'].'">Devolución</a>
+                                        </div></td>';*/
                             }
                             ?>
                         </tr>

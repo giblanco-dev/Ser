@@ -25,9 +25,10 @@
 include_once '../app/logic/conn.php';
 if(!empty($_POST)){
     $id_cobro = $_POST['id_cobro'];
-    $sql_val_pago = "SELECT saldo, status_pago, abono_efectivo, abono_tarjeta, abono_cheque, abono_otro, medio_pago FROM caja WHERE id_cobro = '$id_cobro'";
+    $sql_val_pago = "SELECT saldo, status_pago, abono_efectivo, abono_tarjeta, abono_cheque, abono_otro, medio_pago descuento FROM caja WHERE id_cobro = '$id_cobro'";
     $res_val_pago = $mysqli->query($sql_val_pago);
     $val_pago_ok = $res_val_pago->num_rows;
+    $flag_cancelado = $_POST['cancelado'] ?? 0 ;
 
     if($val_pago_ok == 1){
         $row_val_pago = mysqli_fetch_assoc($res_val_pago);
@@ -37,7 +38,9 @@ if(!empty($_POST)){
         $tarjeta_ant = $row_val_pago['abono_tarjeta'];
         $cheque_anterior = $row_val_pago['abono_cheque'];
         $otro_ant = $row_val_pago['abono_otro'];
-        $medio_pago_ant = $row_val_pago['medio_pago'];
+        $medio_pago_ant = $row_val_pago['medio_pago'] ?? 'N/A';
+        $descuento = $row_val_pago['descuento'];
+
     }
 
     $abono_efectivo = (float)$_POST['abono_efectivo'];
@@ -119,7 +122,12 @@ if(!empty($_POST)){
         if($saldo == 0){
             $sql_liq = "UPDATE caja SET status_pago = 'SI', fecha_cobro = now(), user_cobro = '$user' 
             WHERE id_cobro = '$id_cobro'";
-            $sql_cita = "UPDATE cita SET pagado = 1 WHERE id_cita = '$id_cita'";
+            if($flag_cancelado == 1){
+                $sql_cita = "UPDATE cita SET pagado = 2 WHERE id_cita = '$id_cita'";
+            }else{
+                $sql_cita = "UPDATE cita SET pagado = 1 WHERE id_cita = '$id_cita'";
+            }
+            
 
             if($mysqli->query($sql_liq)===True AND $mysqli->query($sql_cita)===True){
                 $pas1 ++;

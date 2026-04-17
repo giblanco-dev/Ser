@@ -221,7 +221,11 @@ $datos_cita = $mysqli -> query($sql_citas);
                                         }elseif($citas_dia['pagado'] == 1){
                                             echo'
                                             <td><div class="chip  light-blue darken-4 white-text">Pagado</div></td>
-                                            ';    
+                                            ';
+                                        }elseif($citas_dia['pagado'] == 2){
+                                            echo'
+                                            <td><div class="chip  grey darken-3 white-text">Cancelada</div></td>
+                                            ';      
                                         }else{
                                             echo '
                                             <td><div class="chip  red darken-1 white-text"><a class="white-text">Error ponerse en contacto con Sistemas</a></div></td>

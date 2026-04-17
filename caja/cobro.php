@@ -19,7 +19,7 @@ $usuario = $_GET['u'];
 
 $sql_caja = "SELECT caja.*,
             CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nom_paciente,
-            DATE_FORMAT(fecha_cobro, '%H:%i') AS horario
+            DATE_FORMAT(fecha_cobro, '%H:%i') AS horario, cita.pagado
             FROM caja
             INNER JOIN cita ON caja.id_cita = cita.id_cita
             INNER JOIN paciente ON cita.id_paciente = paciente.id_paciente
@@ -39,6 +39,7 @@ if($val == 1){
     $id_cobro = $row_caja['id_cobro'];
     $medio_pago = $row_caja['medio_pago'];
     $hora_pago = $row_caja['horario'];
+    $pagado = $row_caja['pagado'];
 }else{
     
     $paciente = "ERROR CONTACTAR CON SISTEMAS";
@@ -193,7 +194,22 @@ if($val == 1){
 
             <?php
         }elseif($status == 'SI' and $saldo == 0){
-            echo '<div class="center-align">
+            
+            if($pagado == 2){
+                echo '<div class="center-align">
+                    <br>
+                    <button class="waves-effect waves-light btn grey darken-3"><i class="material-icons right">check</i>Cobro cancelado</button>';
+                    ?>
+                    <br>
+                    <br>
+                    <p><b>Medios de Pago: <?php echo $medio_pago; ?></b></p>
+                    <p><b>Hora de cancelación: <?php echo $hora_pago; ?></b></p>
+                    </div>
+
+                    <?php
+            }else{
+
+             echo '<div class="center-align">
                     <br>
                     <a class="waves-effect waves-light btn"><i class="material-icons right">check</i>Pagado</a>';
                     ?>
@@ -205,8 +221,40 @@ if($val == 1){
                     <p><b>Medios de Pago: <?php echo $medio_pago; ?></b></p>
                     <p><b>Hora de Pago: <?php echo $hora_pago; ?></b></p>
                     </div>
-        <?php
-        }else{
+            <?php    
+            }
+
+           
+        
+        }elseif($status == 'NO' and $saldo == 0 and $descuento < 100){
+                ?>
+        <form action="pagar.php" method="POST">
+            <p><b>Pagar (Capturar importe)</b></p>
+            <div class="row">
+                 <blockquote>
+                            La cita cuenta con descuento del <?php echo $descuento; ?> % y el saldo es $0 <br>
+                            Revisar con recepción o en su defecto cancelar el cobro para que el sistema cierre la cita correctamente.
+                </blockquote>
+            </div>
+            <input type="hidden" name="abono_efectivo" value="0">
+            <input type="hidden" name="abono_tarjeta" value="0">
+            <input type="hidden" name="abono_cheque" value="0">
+            <input type="hidden" name="abono_otros" value="0">
+            <input type="hidden" name="id_cobro" value="<?php echo $id_cobro; ?>">
+            <input type="hidden" name="user" value="<?php echo $id_user; ?>">
+            <input type="hidden" name="id_cita" value="<?php echo $id_cita; ?>">
+            <input type="hidden" name="saldo" value="<?php echo $saldo; ?>">
+            <input type="hidden" name="cancelado" value="1">
+            <div class="center-align">
+            <button class="btn waves-effect waves-light" type="submit" name="action" id="btn_pagar">Cancelar Cobro
+            <i class="material-icons right">cancel</i>
+            </button>
+            </div>
+        </form>
+
+            <?php
+        }
+        else{
             echo '<p>Error contactar con Sistemas (Código de Error SALDVAL)</p>';
         }
         ?>
