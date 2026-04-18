@@ -19,6 +19,7 @@ $id_paciente = $_GET['id_paciente'];
 $sql_h_clin = "SELECT his_clinica_gen.*,
 CONCAT(paciente.nombres,' ',paciente.a_paterno,' ',paciente.a_materno) Nombre_completo,
 paciente.genero, paciente.fecha_nacimiento, paciente.id_paciente, paciente.fecha_captura,
+paciente.url_firma, paciente.fecha_consetimiento,
 CONCAT(user.nombre,' ',user.apellido) Medico
 FROM his_clinica_gen
 INNER JOIN paciente ON his_clinica_gen.id_paciente = paciente.id_paciente
@@ -65,6 +66,14 @@ $val_his_clin = $res_h_clin->num_rows;
             
             .no-print {
                 display: none !important;
+            }
+            
+            .signature-image {
+                max-height: 60px;
+                min-height: 35px;
+                border: none;
+                padding: 0;
+                background-color: transparent;
             }
         }
 
@@ -230,9 +239,22 @@ $val_his_clin = $res_h_clin->num_rows;
 
         .signature-line {
             border-top: 1px solid #000;
-            margin-top: 40px;
+            margin-top: 15px;
             padding-top: 5px;
             font-size: 10px;
+        }
+
+        .signature-image {
+            max-width: 100%;
+            max-height: 80px;
+            min-height: 40px;
+            display: block;
+            margin: 10px auto;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background-color: #fafafa;
+            border-radius: 4px;
         }
 
         .no-data {
@@ -489,7 +511,13 @@ $val_his_clin = $res_h_clin->num_rows;
                 <div class="signature-line">Médico Responsable<br/><small><?php echo $row_h_c['Medico'] ?? '____________________'; ?></small></div>
             </div>
             <div class="signature-box">
-                <div class="signature-line">Fecha y firma del paciente<br/><small><?php echo date('d/m/Y'); ?></small></div>
+                <?php if(!empty($row_h_c['url_firma'])): ?>
+                    <img src="http://localhost:8080/FirmaDocsSer/<?php echo htmlspecialchars($row_h_c['url_firma']); ?>" alt="Firma del paciente" class="signature-image">
+                <?php else: ?>
+                    <div style="height: 60px; margin: 10px auto; display: flex; align-items: center; justify-content: center; color: #ccc;">Sin firma registrada</div>
+                <?php endif; ?>
+                <div class="signature-line">Firma del Paciente</div>
+                <div style="margin-top: 5px; font-size: 10px;"><small><?php echo $row_h_c['fecha_consetimiento'] ? date('d/m/Y', strtotime($row_h_c['fecha_consetimiento'])) : '—'; ?></small></div>
             </div>
         </div>
 
