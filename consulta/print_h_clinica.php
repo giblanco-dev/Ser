@@ -512,7 +512,7 @@ $val_his_clin = $res_h_clin->num_rows;
             </div>
             <div class="signature-box">
                 <?php if(!empty($row_h_c['url_firma'])): ?>
-                    <img src="http://localhost:8080/FirmaDocsSer/<?php echo htmlspecialchars($row_h_c['url_firma']); ?>" alt="Firma del paciente" class="signature-image">
+                    <img src="http://192.168.68.88/FirmaDocsSer/<?php echo htmlspecialchars($row_h_c['url_firma']); ?>" alt="Firma del paciente" class="signature-image">
                 <?php else: ?>
                     <div style="height: 60px; margin: 10px auto; display: flex; align-items: center; justify-content: center; color: #ccc;">Sin firma registrada</div>
                 <?php endif; ?>

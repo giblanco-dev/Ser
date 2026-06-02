@@ -8,7 +8,7 @@ $res_sueros = $mysqli->query($sql_sueros);
 $sql_sueros_cargados = "SELECT rs.id_cita, s.nom_suero, rs.id_registro, s.precio
                             FROM rec_sueros rs 
                             JOIN sueros s ON rs.suero = s.id_suero 
-                            WHERE rs.id_cita = '$cita' AND rs.cancelado = 0 order by rs.id_registro desc;";
+                            WHERE rs.id_cita = '$cita' AND (rs.cancelado = 0 or rs.cancelado is null) order by rs.id_registro desc;";
 $res_sueros_cargados = $mysqli->query($sql_sueros_cargados);
 
 

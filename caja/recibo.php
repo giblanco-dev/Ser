@@ -155,7 +155,7 @@ if($val == 1){
                                                         where id_regsuero = rs.id_registro and id_cita = rs.id_cita) total_complementos
                                                 FROM rec_sueros rs 
                                                 JOIN sueros s ON rs.suero = s.id_suero 
-                                                WHERE rs.id_cita = $id_cita AND rs.cancelado = 0 order by rs.id_registro desc";
+                                                WHERE rs.id_cita = $id_cita AND (rs.cancelado = 0 or rs.cancelado is null) order by rs.id_registro desc";
 
                             $result_suero_comp = $mysqli->query($sql_rec_sueros);
                             $val_sueros = $result_suero_comp->num_rows;
