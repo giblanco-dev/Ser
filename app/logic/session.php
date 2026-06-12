@@ -29,7 +29,7 @@ if(!empty($_POST))
             $_SESSION['agenda'] = $row['agenda'];
             $_SESSION['hist_clin_med'] = $row['hist_clin_med'];
             $ruta = $row['ruta'];
-            echo "La ruta es", $ruta;
+            //echo "La ruta es", $ruta;
             header('Location: '.$ruta.'');
           }
     
