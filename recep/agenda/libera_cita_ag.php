@@ -21,7 +21,8 @@ $medico = $_GET['m'];
 $fecha_agenda = $_GET['fa'];
 $id_cita = $_GET['c'];
 
-$sql_cancela_cita = "DELETE FROM cita WHERE id_cita = '$id_cita' AND confirma = 1 and pagado = 0;";
+$sql_cancela_cita = "DELETE FROM cita WHERE id_cita = '$id_cita' AND confirma = 1 and (pagado = 0 or pagado is null);";
+
 if ($mysqli->query($sql_cancela_cita) === TRUE) {
    
     $sql_libera_ag = "DELETE FROM agenda WHERE id_agenda = $id_agenda";

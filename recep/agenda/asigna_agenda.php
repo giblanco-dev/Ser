@@ -34,9 +34,9 @@ if($_POST['flag'] == 1 and $_POST['new_paciente'] == 0){
 
     if($id_paciente != 0){
         $sql_insert_agenda = "INSERT INTO agenda(FechaAgenda, medico, id_paciente, Horario, telefono, 
-                                                user_registra, fecha_registro, NumDiaSemana, Dia) 
+                                                user_registra, fecha_registro, NumDiaSemana, Dia, folio) 
                                     VALUES ('$fecha_agenda','$medico','$id_paciente','$horario','$tel_agenda',
-                                            '$id_user',now(),$num_dia,'$des_dia')";
+                                            '$id_user',now(),$num_dia,'$des_dia','')";
         if($mysqli->query($sql_insert_agenda) === true){    
             header('Location: ../agenda?medico='.$medico.'&fecha='.$fecha_agenda);                    
         }else{
@@ -81,9 +81,9 @@ if($_POST['flag'] == 1 and $_POST['new_paciente'] == 0){
 
     if($continua == 1){
         $sql_insert_agenda = "INSERT INTO agenda(FechaAgenda, medico, id_paciente, Horario, telefono, 
-                                                user_registra, fecha_registro, NumDiaSemana, Dia) 
+                                                user_registra, fecha_registro, NumDiaSemana, Dia, folio) 
                                     VALUES ('$fecha_agenda','$medico','$id_paciente_new','$horario','$tel_new',
-                                            '$id_user',now(),$num_dia,'$des_dia')";
+                                            '$id_user',now(),$num_dia,'$des_dia','')";
         if($mysqli->query($sql_insert_agenda) === true){    
             header('Location: ../agenda?medico='.$medico.'&fecha='.$fecha_agenda);                    
         }else{
