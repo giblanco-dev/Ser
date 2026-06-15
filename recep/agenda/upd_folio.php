@@ -14,13 +14,29 @@ if (!isset($_SESSION['id'])) {
 
 include_once '../../app/logic/conn.php';
 
+// Inicializar variables por defecto
+$id_agenda = null;
+$medico = null;
+$fecha_agenda = null;
+$cita = null;
+$paciente = null;
+$horario = null;
+$monto = 0;
+$status_pago = '';
+$mensaje_pago = '';
+
 if(!empty($_GET))
 {
-$id_agenda = $_GET['iag'];
-
-$medico = $_GET['m'];
-$fecha_agenda = $_GET['fa'];
-$cita = $_GET['c'];
+    // Validar que existan los parámetros requeridos
+    if(!isset($_GET['iag']) || !isset($_GET['m']) || !isset($_GET['fa']) || !isset($_GET['c'])) {
+        header('Location: ../agenda');
+        exit();
+    }
+    
+    $id_agenda = $_GET['iag'];
+    $medico = $_GET['m'];
+    $fecha_agenda = $_GET['fa'];
+    $cita = $_GET['c'];
 
 if($id_agenda != 'sna'){
 $sql_data_cita = "SELECT DISTINCT HOR.IdDr
@@ -90,6 +106,11 @@ if($val_data_cita == 1){
 }
 
 if(!empty($_POST)){
+    // Validar que existan los parámetros POST requeridos
+    if(!isset($_POST['iag2']) || !isset($_POST['m2']) || !isset($_POST['fecha2']) || !isset($_POST['c2'])) {
+        die('Error: Faltan parámetros requeridos en la solicitud');
+    }
+    
     $folio = $_POST['folio'];
     $monto = $_POST['monto'];
     $id_agenda2 = $_POST['iag2'];
@@ -104,12 +125,11 @@ if(!empty($_POST)){
     }
     
 
-
 if($mysqli->query($sql_upd_fol) === true){    
     header('Location: ../agenda?medico='.$medico.'&fecha='.$fecha_ag);                   
 }else{
     echo '<script>alert("Error no se pudo actualizar el folio y el monto");
-            window.location.href="../agenda?medico='.$medico.'&fecha='.$fecha_agenda.'";</script>';
+            window.location.href="../agenda?medico='.$medico.'&fecha='.$fecha_ag.'";</script>';
 }
 
 }
@@ -139,7 +159,11 @@ if($mysqli->query($sql_upd_fol) === true){
       <a href="#" class="responsive-img" class="brand-logo"><img src="../../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><a href="../"><i class="material-icons right">home</i>Inicio</a></li>
-      <li><a href="../agenda?medico=<?php echo $medico; ?>&fecha=<?php echo $fecha_agenda; ?>"><i class="material-icons right">arrow_back</i>Regresar</a></li>
+      <?php if($medico && $fecha_agenda) { ?>
+      <li><a href="../agenda?medico=<?php echo htmlspecialchars($medico); ?>&fecha=<?php echo htmlspecialchars($fecha_agenda); ?>"><i class="material-icons right">arrow_back</i>Regresar</a></li>
+      <?php } else { ?>
+      <li><a href="../agenda"><i class="material-icons right">arrow_back</i>Regresar</a></li>
+      <?php } ?>
       <li><a href="../../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
     </div>
@@ -147,14 +171,28 @@ if($mysqli->query($sql_upd_fol) === true){
  </div>
  </header>
 <div class="container">
+<?php 
+    // Mostrar error si no hay parámetros requeridos
+    if(empty($id_agenda) || empty($medico) || empty($fecha_agenda) || empty($cita)) {
+        echo '<div class="row" style="margin-top: 50px;">';
+        echo '  <div class="col s12">';
+        echo '    <div class="card-panel red lighten-2" style="color: white; border-radius: 4px;">';
+        echo '      <h5 style="color: white; font-weight: bold;">⚠️ Error: Acceso Inválido</h5>';
+        echo '      <p>Los parámetros requeridos no fueron proporcionados correctamente.</p>';
+        echo '      <p><a href="../agenda" class="btn white" style="color: #c62828;">Volver a Agenda</a></p>';
+        echo '    </div>';
+        echo '  </div>';
+        echo '</div>';
+    } else {
+?>
 
     <div class="row">
        
         <div class="col s12">
             <div class="center-align">
                 <h5 style="color: #2d83a0; font-weight:bold;">Folio y monto de cita <br><br>
-                Paciente: <?php echo $paciente;?><br>
-                Horario: <?php echo $fecha_agenda; ?> - <?php echo $horario; ?>
+                Paciente: <?php echo htmlspecialchars($paciente ?? 'N/A');?><br>
+                Horario: <?php echo htmlspecialchars($fecha_agenda); ?> - <?php echo htmlspecialchars($horario ?? 'N/A'); ?>
                 </h5>
             </div>
         </div>
@@ -174,7 +212,7 @@ if($mysqli->query($sql_upd_fol) === true){
                 <div class="col s3"></div>
                 <div class="input-field col s6">
                     <br>
-                    <input placeholder="Capture el monto" id="mon"  type="number" class="validate" name="monto" value="<?php echo $monto; ?>" autocomplete="ÑÖcompletes" step="0.01" required>
+                    <input placeholder="Capture el monto" id="mon"  type="number" class="validate" name="monto" value="<?php echo htmlspecialchars($monto); ?>" autocomplete="ÑÖcompletes" step="0.01" required>
                     <label for="mon">Monto <?php echo $mensaje_pago; ?></label>
                 </div>
                 <div class="col s3"></div>
@@ -188,15 +226,16 @@ if($mysqli->query($sql_upd_fol) === true){
                 </div>
                 <div class="col s3"></div>
                 </div>
-                <input type="hidden" name="fecha2" value="<?php echo $fecha_agenda; ?>">
-                <input type="hidden" name="m2" value="<?php echo $medico; ?>">
-                <input type="hidden" name="iag2" value="<?php echo $id_agenda;?>">
-                <input type="hidden" name="c2" value="<?php echo $cita;?>">
+                <input type="hidden" name="fecha2" value="<?php echo htmlspecialchars($fecha_agenda ?? ''); ?>">
+                <input type="hidden" name="m2" value="<?php echo htmlspecialchars($medico ?? ''); ?>">
+                <input type="hidden" name="iag2" value="<?php echo htmlspecialchars($id_agenda ?? ''); ?>">
+                <input type="hidden" name="c2" value="<?php echo htmlspecialchars($cita ?? ''); ?>">
             </form>
 
             <br>
             <br>
 
+<?php } ?>
 </div>
 <footer class="page-footer">
           <div class="container">
