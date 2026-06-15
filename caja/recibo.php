@@ -128,7 +128,7 @@ if($val == 1){
                             $id_cita = $recibo['id_cita'];
                             $sql_terapias = "SELECT terapia, no_terapias, terapias.precio, rec_terapias.monto FROM rec_terapias 
                             INNER JOIN terapias ON rec_terapias.id_terapia = terapias.id_terapia
-                            WHERE id_cita = '$id_cita' AND cancelado = 0";
+                            WHERE id_cita = '$id_cita' AND (cancelado = 0 or cancelado is null)";
                             $res_terapias = $mysqli->query($sql_terapias);
                             $val_terapias = $res_terapias->num_rows;
                             if($val_terapias > 0){
@@ -208,7 +208,7 @@ if($val == 1){
                             (costo * cant_tratamientos) total_tipotrat_hom
                             FROM `resu_med_home` 
                             INNER JOIN tipo_trat_hom ON resu_med_home.id_tipo_trat = tipo_trat_hom.id_trat
-                            WHERE id_cita = '$id_cita' and cancelado = 0";
+                            WHERE id_cita = '$id_cita' and (cancelado = 0 or cancelado is null)";
                             $res_dettrat_hom = $mysqli->query($sql_detalle_trat_hom);
                             while($tra_home = mysqli_fetch_assoc($res_dettrat_hom)){
                                 if($tra_home['tipo_fras'] == 'gen'){
@@ -231,7 +231,7 @@ if($val == 1){
                             }
                             if($recibo['total_orales']>0){
                             $sql_deta_medoral = "SELECT id_med_oral, med_oral, cantidad_med, monto, (cantidad_med*monto) total_med_oral 
-                                                    FROM `rec_med_orales` where id_cita = '$id_cita' and cancelado = 0";    
+                                                    FROM `rec_med_orales` where id_cita = '$id_cita' and (cancelado = 0 or cancelado is null)";    
                                 $res_det_medoral = $mysqli->query($sql_deta_medoral);
                                 while($row_det_med_oral = mysqli_fetch_assoc($res_det_medoral)){
                                     echo '
