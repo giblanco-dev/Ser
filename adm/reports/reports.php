@@ -44,6 +44,7 @@ if (!isset($_SESSION['id'])) {
     <ul class="collection with-header">
         <li class="collection-header"><h4>Reportes</h4></li>
         <li class="collection-item"><div>Cortes de Caja<a href="corte_caja.php" class="secondary-content" target="frame-cont"><i class="material-icons">account_balance</i></a></div></li>
+        <li class="collection-item"><div>Cortes de Caja <strong>(Recovery)</strong><a href="corte_caja_recovery.php" class="secondary-content" target="frame-cont"><i class="material-icons">account_balance</i></a></div></li>
         
         <!--li class="collection-item"><div>Medicamentos Homeopáticos<a href="med_homeopaticos.php" class="secondary-content"><i class="material-icons">colorize</i></a></div></li>
         <li class="collection-item"><div>Tratamientos<a href="tratamientos.php" class="secondary-content"><i class="material-icons">change_history</i></a></div></li>

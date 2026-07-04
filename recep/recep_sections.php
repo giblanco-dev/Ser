@@ -12,6 +12,7 @@ $nav_recep = '
       <li><a href="pacientes.php"><i class="material-icons right">people</i>Pacientes</a></li>
       <li><a href="all_citas.php"><i class="material-icons right">format_list_bulleted</i>Citas</a></li>
       <li><a href="agenda/" target="_blank"><i class="material-icons right">perm_contact_calendar</i>Agenda</a></li>
+      <li><a href="busca_paciente.php"><i class="material-icons right">people</i>Recovery</a></li>
       <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
     </div>

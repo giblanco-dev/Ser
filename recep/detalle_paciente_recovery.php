@@ -61,7 +61,7 @@ $result_sql_citas = $mysqli->query($sql_citas);
 <div class="container">
 <div class="row center-align">
     <div class="col s12">
-    <h4 style="color: #2d83a0; font-weight:bold;">Información del paciente (Recovery): 
+    <h4 style="color: #2d83a0; font-weight:bold;">Información <strong>recuperada</strong> del paciente: 
         <span style="text-transform: capitalize;"><?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']; ?></span></h4>
                 <div class="divider"></div>
     </div>
@@ -108,7 +108,7 @@ $result_sql_citas = $mysqli->query($sql_citas);
                     <td><?php echo date("d/m/Y", strtotime($citas_pac['fecha'])); ?></td>
                     <td><?php echo $citas_pac['medico_cita'];   ?></td>
                     <td><?php echo $citas_pac['descrip_cita']; ?></td>
-                    <td><a href="detalle_cita_recep.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente; ?>">Ver detalle</a></td>
+                    <td><a href="detalle_cita_recep_recovery.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente; ?>">Ver detalle</a></td>
                 </tr>
             <?php
             }
