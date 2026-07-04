@@ -80,8 +80,8 @@ if(!empty($_POST)){
                                 }
 
                         }else{
-                            $sql_intrat =  "INSERT INTO resu_med_home (id_cita, tipo_fras, id_tipo_trat, cant_tratamientos, user_registra)
-                            VALUES('$cita','$tipo_fras','$tipo_trat',1,'$user')";
+                            $sql_intrat =  "INSERT INTO resu_med_home (id_cita, tipo_fras, id_tipo_trat, tipo_dosis, cant_tratamientos, user_registra)
+                            VALUES('$cita','$tipo_fras','$tipo_trat','',1,'$user')";
                             if($mysqli->query($sql_intrat)=== TRUE){
                                 switch ($tipo_trat){
                                     case 6:

@@ -46,7 +46,7 @@ if(!empty($_POST)){
                   echo $result_in_med_h = '<p>Hay un duplicado con los medicamentos del frasco '.$no_frasco.' de la cita '.$cita.' reportar estos datos al administrador.</p>';
                 }
             }else{
-              echo '<script type="text/javascript">window.location.href="med-homeopaticos.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
+              //echo '<script type="text/javascript">window.location.href="med-homeopaticos.php?c=',$cita,'&u=',$user,'&p=',$paciente,'"</script>';
             }
           }
 ?>

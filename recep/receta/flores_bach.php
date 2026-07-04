@@ -7,7 +7,7 @@ $paciente = $_GET['p'];
 $result_in_med_h = '';
 $mensaje_excede = '';
 
-$sql_val_med_cap = "SELECT *, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos FROM rec_med_home WHERE tipo_fras = 'flo' AND id_cita = '$cita' and cancelado = 0;";
+$sql_val_med_cap = "SELECT *, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos FROM rec_med_home WHERE tipo_fras like 'flo%' AND id_cita = '$cita' and cancelado = 0;";
         $res_val_frascos = $mysqli->query($sql_val_med_cap);
         $med_val = $res_val_frascos->num_rows;
 if($med_val == 0){

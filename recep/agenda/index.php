@@ -23,12 +23,11 @@ $despliega = 0;
 
 if(!empty($_POST)){
 
-    $id_medico = $_POST['medico'];
+    echo $id_medico = $_POST['medico'];
     $fecha = $_POST['fecha'];
     $despliega = 1;
 
-    $sql_cita_snagenda = "SELECT
-    cita.medico IdDr
+    $sql_cita_snagenda = "SELECT cita.medico IdDr
     , CAL.NumDiaSemana NumDiaSemana
     , cita.horario Horario
     , cita.fecha FechaAgenda
@@ -47,6 +46,8 @@ if(!empty($_POST)){
     INNER JOIN caja ON cita.id_cita = caja.id_cita
     WHERE cita.medico = $id_medico AND cita.fecha = '$fecha' AND confirma = 2 AND pagado  = 1 AND cita.id_agenda IS NULL;";
     
+    
+
     $res_cita_snagenda = $mysqli->query($sql_cita_snagenda);
     $val_res_cita_snagenda = $res_cita_snagenda->num_rows;
 

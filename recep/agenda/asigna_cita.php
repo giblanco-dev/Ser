@@ -40,8 +40,8 @@ if($val_ag == 1){
 
     if($val_cita == 0){
         
-        $sql_new_cita = "INSERT INTO cita(id_cita, id_paciente, medico, fecha, horario, registrado, user_registra, tipo, confirma,id_agenda)
-        VALUES (NULL, '$paciente', '$medico_cita', '$fecha_cita', '$horario_cita', CURRENT_TIMESTAMP, '$id_user', 0, 1,$id_agenda)";
+        $sql_new_cita = "INSERT INTO cita(id_cita, id_paciente, medico, fecha, horario, registrado, user_registra, tipo, confirma, consulta, id_agenda)
+        VALUES (NULL, '$paciente', '$medico_cita', '$fecha_cita', '$horario_cita', CURRENT_TIMESTAMP, '$id_user', 0, 1, 1,$id_agenda)";
     
                 if($mysqli -> query($sql_new_cita) === true){
                     header('Location: ../agenda?medico='.$medico.'&fecha='.$fecha_agenda);  
