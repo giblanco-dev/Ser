@@ -66,7 +66,7 @@ if(!empty($_POST)){
                         $detalle_citas = $cobros['Citas_Cobradas'];
                         $detalle_cobros = $cobros['Detalle_Cobros'];
                         $vales_registrados = $vales['no_vales'];
-                        $monto_vales = $vales['total_vales'];
+                        $monto_vales = $vales['total_vales']?:0;
                         $detalle_vales = $vales['Vales'];
 
                         $monto_corte = $cobrado - $monto_vales;
@@ -76,7 +76,8 @@ if(!empty($_POST)){
                         }else{
                             $mensaje_monto_error = "";
                         }
-
+                        //echo $monto_vales;
+                        //echo "<br>";
                         $guarda_corte = "INSERT INTO cortes_caja
                                         (fecha_corte, cajero_corte, user_cajero, cobros, cobrado, detalle_citas,
                                         detalle_cobros, vales_registrados, monto_vales, detalle_vales, monto_corte, contador_imp)
