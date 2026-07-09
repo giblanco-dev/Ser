@@ -57,7 +57,7 @@ if(!empty($_POST)){
             }
         
         }else{
-            $sql_save_historia = "UPDATE his_clinica_gen SET  fecha_captura = 'CURRENT_TIMESTAMP', hcg2 = '$hcg2', hcg3 = '$hcg3', hcg4 = '$hcg4', hcg5 = '$hcg5', 
+            $sql_save_historia = "UPDATE his_clinica_gen SET  fecha_captura = CURRENT_TIMESTAMP, hcg2 = '$hcg2', hcg3 = '$hcg3', hcg4 = '$hcg4', hcg5 = '$hcg5', 
             hcg6 = '$hcg6', hcg7 = '$hcg7', hcg8 = '$hcg8', hcg9 = '$hcg9', hcg10 = '$hcg10', hcg11 = '$hcg11', hcg12 = '$hcg12', hcg13 = '$hcg13', hcg14 = '$hcg14', 
             hcg15 = '$hcg15', hcg16 = '$hcg16', hcg17 = '$hcg17', hcg18 = '$hcg18', hcg19 = '$hcg19', hcg20 = '$hcg20', hcg21 = '$hcg21', hcg22 = '$hcg22', hcg23 = '$hcg23', 
             hcg24 = '$hcg24', hcg25 = '$hcg25', hcg26 = '$hcg26', hcg27 = '$hcg27', hcg28 = '$hcg28', hcg29 = '$hcg29', hcg30 = '$hcg30', hcg31 = '$hcg31', hcg32 = '$hcg32',

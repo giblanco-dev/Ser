@@ -20,7 +20,7 @@ if(!empty($_POST)){
     $a_materno = trim(ucwords(($_POST['a_materno'])));
     $genero = $_POST['genero'];
     $calle = ucwords(($_POST['calle']));
-    $num_domicilio = $_POST['num_domicilio'];
+    $num_domicilio = $_POST['num_domicilio'] ? $_POST['num_domicilio'] : 0;
     $colonia = ucwords(($_POST['colonia']));
     $cod_postal = $_POST['cod_postal'];
     $muni_alcaldia = ucwords(($_POST['muni_alcaldia']));
@@ -31,7 +31,11 @@ if(!empty($_POST)){
     $tel_oficina = $_POST['tel_oficina'];
     $ext_tel = $_POST['ext_tel'];
     $email = $_POST['email'];
-    $fecha_nacimiento = $_POST['fecha_nacimiento'];
+    if (isset($_POST['fecha_nacimiento']) && $_POST['fecha_nacimiento'] != '' && strtotime($_POST['fecha_nacimiento'])) {
+    $fecha_nacimiento = "'".$_POST['fecha_nacimiento']."'";
+} else {
+    $fecha_nacimiento = 'NULL';
+}
     $ocupacion = ucwords(($_POST['ocupacion']));
     $nombre_titular = ucwords(($_POST['nombre_titular']));
     $fecha_alta = $_POST['fecha_alta'];
@@ -47,7 +51,7 @@ if(!empty($_POST)){
             cod_postal, muni_alcaldia, estado, tel_recados, tel_casa, tel_movil, tel_oficina, ext_tel, email, fecha_nacimiento, ocupacion,
             nombre_titular, fecha_alta, usuario_captura) VALUES ( NULL, '$nombres', '$a_paterno','$a_materno',CURRENT_TIMESTAMP,'$genero',
         '$calle','$num_domicilio','$colonia','$cod_postal','$muni_alcaldia','$estado','$tel_recados','$tel_casa','$tel_movil','$tel_oficina',
-        '$ext_tel','$email','$fecha_nacimiento','$ocupacion','$nombre_titular','$fecha_alta','$usuario_captura');";
+        '$ext_tel','$email', $fecha_nacimiento,'$ocupacion','$nombre_titular','$fecha_alta','$usuario_captura');";
             
             if ($mysqli->query($sql_save_paciente) === TRUE) {
                 //echo '<script type="text/javascript" async="async">alert("El paciente registro correctamente");window.location.href="../"</script>';

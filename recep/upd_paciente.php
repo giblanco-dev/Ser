@@ -117,7 +117,7 @@ if($paciente_val == 1){
     </div>
     <div class="row">
     <div class=" col s3">
-          <input id="inputs_pac" type="date" name="fecha_nacimiento" class="validate" value="<?php echo $datos_paciente['fecha_nacimiento']; ?>">
+          <input id="inputs_pac" type="date" lang="es"  name="fecha_nacimiento" class="validate" value="<?php echo $datos_paciente['fecha_nacimiento']; ?>">
           <label for="inputs_pac">Fecha de Nacimiento</label>
         </div>
             <div class=" col s6">

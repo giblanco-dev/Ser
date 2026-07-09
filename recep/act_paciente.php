@@ -21,7 +21,7 @@ if(!empty($_POST)){
     $a_materno = ucwords(($_POST['a_materno']));
     $genero = $_POST['genero'];
     $calle = ucwords(($_POST['calle']));
-    $num_domicilio = $_POST['num_domicilio'];
+    $num_domicilio = $_POST['num_domicilio'] ? $_POST['num_domicilio'] : 0;
     $colonia = ucwords(($_POST['colonia']));
     $cod_postal = $_POST['cod_postal'];
     $muni_alcaldia = ucwords(($_POST['muni_alcaldia']));
@@ -32,7 +32,11 @@ if(!empty($_POST)){
     $tel_oficina = $_POST['tel_oficina'];
     $ext_tel = $_POST['ext_tel'];
     $email = $_POST['email'];
-    $fecha_nacimiento = $_POST['fecha_nacimiento'];
+    if (isset($_POST['fecha_nacimiento']) && $_POST['fecha_nacimiento'] != '' && strtotime($_POST['fecha_nacimiento'])) {
+                $fecha_nacimiento = "'".$_POST['fecha_nacimiento']."'";
+            } else {
+                $fecha_nacimiento = 'NULL';
+            }
     $ocupacion = ucwords(($_POST['ocupacion']));
     $nombre_titular = ucwords(($_POST['nombre_titular']));
     $usuario_captura = $_POST['usuario_captura'];
@@ -55,7 +59,7 @@ if(!empty($_POST)){
             tel_oficina = '$tel_oficina', 
             ext_tel = '$ext_tel', 
             email = '$email', 
-            fecha_nacimiento = '$fecha_nacimiento', 
+            fecha_nacimiento = $fecha_nacimiento, 
             ocupacion = '$ocupacion',
             nombre_titular = '$nombre_titular',  
             usuario_captura = '$usuario_captura' WHERE id_paciente = '$id_paciente';";
