@@ -1,3 +1,4 @@
 # Ignorar conexiones a BD
 /app/logic/conn.php
+/app/logic/conn_recovery.php
 /recep/config.php 

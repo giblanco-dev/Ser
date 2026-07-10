@@ -27,6 +27,10 @@ if($paciente_val == 1){
     echo "Hay un error";
 }
 
+$val_trat_ext = 0;
+$val_trat_gen = 0;
+$val_trat_flores = 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -54,7 +58,18 @@ if($paciente_val == 1){
     </style>
 </head>
 <body>
-<?php echo $nav_consulta;  ?>
+<header>
+ <div class="navbar-fixed">
+ <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="responsive-img" class="brand-logo"><img src="../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a onclick="window.close();"><i class="material-icons right">close</i>Cerrar Detalle</a></li>
+      </ul>
+    </div>
+  </nav>
+ </div>
+ </header>
 <div class="container">
 <div class="row center-align">
     <div class="col s12">
@@ -70,6 +85,8 @@ if($paciente_val == 1){
     <p style="text-transform: capitalize;">Nombre: <?php echo $datos_paciente['nombres']." ".$datos_paciente['a_paterno']." ".$datos_paciente['a_materno']; ?></p>
     <p>Fecha de Nacimiento: <?php echo $datos_paciente['fecha_nacimiento']; ?></p>
     <p>Género: <?php echo $datos_paciente['genero']; ?> </p>
+  
+
     <blockquote>Domicilio</blockquote>
     <p style="text-transform: capitalize;">Calle <?php echo $datos_paciente['calle']; ?>
     No. <?php echo $datos_paciente['num_domicilio']; ?>
@@ -86,6 +103,7 @@ if($paciente_val == 1){
     <blockquote>Otros</blockquote>
     <p style="text-transform: capitalize;">Ocupación: <?php echo $datos_paciente['ocupacion']; ?></p>
     <p style="text-transform: capitalize;">Titular: <?php echo $datos_paciente['nombre_titular']; ?></p>
+    
 </div>
 <div class="col s7">
     <blockquote>Detalle Cita</blockquote>
@@ -104,6 +122,7 @@ if($paciente_val == 1){
       <ul class="collection">
       <li class="collection-item"><b>Médico: </b><?php echo $datos_consulta['Medico']; ?></li>
       <li class="collection-item"><b>Nota de Evolución: </b><?php echo $datos_consulta['nota_evolucion']; ?></li>
+      
       <li class="collection-item"><b>Signos Vitales</b> <br>
                                     <b>T/A: </b> <?php echo $datos_consulta['ta'];?> mm Hg
                                   <b>TEMP: </b> <?php echo $datos_consulta['temp']; ?>°C
@@ -132,21 +151,28 @@ if($paciente_val == 1){
                 <tr>
                     <td><b>Terapia</b></td>
                     <td><b>Cantidad</b></td>
+                    <td><b></b></td>
                   </tr>
                 ';
         while($ter_reg = mysqli_fetch_assoc($res_tot_ter)){
             echo '<tr>
-                    <td>'.$ter_reg['terapia'].' <br><b>Indicaciones:</b> '.$ter_reg['indicaciones'].' </td>
+                    <td>'.$ter_reg['terapia'].'</td>
                     <td>'.$ter_reg['no_terapias'].'</td>';
-        }
-        echo '
-            </table><br>';
+                    
+                    if($ter_reg['cancelado']==0){
+                        echo '<td></td>
+                    </tr>';
+                    }else{
+                        echo '<td>Terapia Cancelada</td></tr>';
+                    }
+                    
+                    }
+                    echo '
+                    </table><br>';
+       
     }else{
         echo '<h5>No se registraron <b>terapias</b> de la receta de esta cita.</h5>';
     }
-
- 
-// ******************** Inicia totales de Sueros y Complementos *****************
 
     // ******************** Inicia totales de Sueros y Complementos *****************
 
@@ -190,9 +216,10 @@ if($val_sueros > 0){
 }else{
     echo '<p>No se registraron <b>sueros</b> de la receta de esta cita</p>';
 }
+
 // *********************** Inicia totales de Medicamentos Homeopaticos *********
 
-$sql_resu = "SELECT id_cita, tipo_fras, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado FROM resu_med_home
+$sql_resu = "SELECT id_cita, tipo_fras, tipo_dosis, cant_tratamientos ,tipo_trat_hom.des_tratamiento, tipo_trat_hom.costo, cancelado FROM resu_med_home
 INNER JOIN tipo_trat_hom ON id_tipo_trat = id_trat WHERE id_cita = '$id_cita'";
 $resumen = $mysqli->query($sql_resu);
 $val_resu = $resumen->num_rows;
@@ -207,19 +234,106 @@ if($val_resu > 0){
                 <tr>
                     <td><b>Tipo tratamiento</b></td>
                     <td><b>No. Tratamientos</b></td>
+                    <td><b>Dósis</b></td>
+                    <td></td>
                   </tr>
                 ';
 
         while($rows3 = mysqli_fetch_assoc($resumen)){
-            if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal";}
-            if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra";}
+            if($rows3['tipo_fras']== "gen"){$tipo_frasco = "Principal"; $val_trat_gen = 1;}
+            if($rows3['tipo_fras']== "ext"){$tipo_frasco = "Extra"; $val_trat_ext = 1;}
+            if($rows3['tipo_fras']== "flo"){$tipo_frasco = "Extra"; $val_trat_flores = 1;}
+            $sub_total_trat = $rows3['cant_tratamientos'] * $rows3['costo'];
             echo '<tr>
                     <td>'.$rows3['des_tratamiento'].'</td>
-                    <td>'.$rows3['cant_tratamientos'].'</td></tr>';
+                    <td>'.$rows3['cant_tratamientos'].'</td>
+                    <td>'.$rows3['tipo_dosis'].'</td>';
+
+                    if($rows3['cancelado'] == 0){
+                        echo '<td></td>
+                        </tr>';
+                    }else{
+                        echo '<td>Cancelado</td>
+                        </tr>';
                     }
+        }
         echo '
         </table><br>';
-}else{
+?>
+
+<h6>Detalle Frascos Tratamiento General</h6>
+            <?php if($val_trat_gen == 1){
+                $sql_det_gen = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
+                                FROM rec_med_home
+                                WHERE id_cita = '$id_cita' AND cancelado = 0 AND tipo_fras = 'gen'";
+                $res_det_gen = $mysqli->query($sql_det_gen);
+             ?>
+             <table>
+                 <thead>
+                     <tr>
+                         <th>Frasco</th>
+                         <th>Medicamentos Frasco</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <?php 
+                     while($row_det_gen = mysqli_fetch_assoc($res_det_gen)){
+                         echo"
+                         <tr>
+                         <td>".$row_det_gen['frasco']."</td>
+                         <td>".rtrim($row_det_gen['MedFrascos'],", ")."</td>
+                        </tr> 
+                         ";
+                     }
+                     ?>
+                 </tbody>
+             </table>
+             <br>
+            <?php   }else{
+                echo '<h6 style="color: red;">No hay registro de tratamiento</h6>';
+            }
+
+            if(($val_trat_ext + $val_trat_flores) >= 1){
+                $sql_det_ext = "SELECT frasco, tipo_fras, CONCAT(med1,', ',med2,', ',med3,', ',med4,', ',med5) MedFrascos
+                FROM rec_med_home
+                WHERE id_cita = '$id_cita' AND cancelado = 0 AND tipo_fras IN ('ext','flo')";
+                $res_det_ext = $mysqli->query($sql_det_ext);
+                ?>
+            <h6>Detalle Frascos Extra y Flores de Bach</h6>
+                <table>
+                <thead>
+                     <tr>
+                         <th>Frasco</th>
+                         <th>Medicamentos Frasco</th>
+                     </tr>
+                </thead>
+                <tbody>
+                     <?php 
+                     while($row_det_ext = mysqli_fetch_assoc($res_det_ext)){
+                         if($row_det_ext['tipo_fras'] == 'ext'){
+                            $t_frasco = "-Extra" ;
+                         }else{
+                            $t_frasco = "-Flor de Bach" ;
+                         }
+                         echo"
+                         <tr>
+                         <td>".$row_det_ext['frasco'].$t_frasco."</td>
+                         <td>".rtrim($row_det_ext['MedFrascos'],", ")."</td>
+                        </tr> 
+                         ";
+                     }
+                     ?>
+                 </tbody>
+                </table>
+
+            <?php   }else{
+                echo "<h6>No hay registro de frascos extra</h6>";
+            }
+
+            ?>
+
+
+<?php   }else{
     echo '<h5>No se registraron <b>medicamentos homeopáticos</b> de la receta de esta cita</h5>';
 }
 
@@ -239,6 +353,7 @@ $sum_orales = 0;
                 <tr>
                     <td><b>Medicamento Oral</b></td>
                     <td><b>Cantidad</b></td>
+                    <td></td>
                   </tr>
                 ';
         while($rows2 = mysqli_fetch_assoc($res_tot)){
@@ -246,6 +361,18 @@ $sum_orales = 0;
                     <td>'.$rows2['med_oral'].'</td>
                     <td>'.$rows2['cantidad_med'].'</td>
                     ';
+
+                  if($rows2['cancelado'] == 0){
+                    
+                    echo'<td></td>
+                        </tr>';
+                        
+                }else{
+                    echo'<td>Cancelado</td>
+                        </tr>';
+                        
+                    }
+                  
         }
         echo '
         </table>';
@@ -258,10 +385,7 @@ $sum_orales = 0;
     
 </div>
 </div>
-
 <div class="container">
-
-
 </div>
 
 <?php echo $footer_consulta;  ?>

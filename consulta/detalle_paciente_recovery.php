@@ -109,7 +109,7 @@ $result_sql_citas = $mysqli->query($sql_citas);
                     <td><?php echo date("d/m/Y", strtotime($citas_pac['fecha'])); ?></td>
                     <td><?php echo $citas_pac['medico_cita'];   ?></td>
                     <td><?php echo $citas_pac['descrip_cita']; ?></td>
-                    <td><a href="detalle_cita_recovery.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente; ?>">Ver detalle</a></td>
+                    <td><a href="detalle_consulta_recovery.php?c=<?php echo $citas_pac['id_cita']; ?>&p=<?php echo $id_paciente; ?>">Ver detalle</a></td>
                 </tr>
             <?php
             }
