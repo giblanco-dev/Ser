@@ -14,6 +14,7 @@ $nav_consulta = '
       <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><a href="index.php"><i class="material-icons right">home</i>Inicio</a></li>
       <li><a href="all_citas_medico.php"><i class="material-icons right">av_timer</i>Todas mis Consultas</a></li>
+      <li><a href="busca_paciente_recovery.php"><i class="material-icons right">people</i>Recovery</a></li>
       '.$menu_hist_clin.'
       <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
