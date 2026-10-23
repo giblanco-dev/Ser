@@ -31,6 +31,7 @@ if (!isset($_SESSION['id'])) {
     <div class="nav-wrapper">
       <a href="#" class="responsive-img" class="brand-logo"><img src="../static/img/logo.png" style="max-height: 150px; margin-left: 20px;"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="logic/open_session_inventarios.php" target ="_blank"><i class="material-icons right">store</i>Inventarios</a></li>
       <li><a href="../app/logic/logout.php"><i class="material-icons right">close</i>Cerrar Sistema</a></li>
       </ul>
     </div>
@@ -51,7 +52,7 @@ if (!isset($_SESSION['id'])) {
       </ul>
     </div>
     <div class="col s7">
-        <h3 style="color: #2d83a0; font-weight:bold;">Modulos del sistema</h3>
+        <h3 style="color: #2d83a0; font-weight:bold;">Modulos operativos del sistema</h3>
         <div class="row">
             <div class="col s6">
                 <div class="card cyan darken-4 hoverable center-align">
